@@ -32,16 +32,17 @@ CREATE TABLE Levels
 GO
 CREATE TABLE Courses
 (
-    CourseID INT PRIMARY KEY,
+    CourseID INT IDENTITY(1, 1) PRIMARY KEY,
     [CourseBannerImage] VARCHAR(420),
     [Title] NVARCHAR(69) NOT NULL,
     [CourseDescription] TEXT NOT NULL,
-    PublishDate DATE NOT NULL,
+    PublishDate DATE DEFAULT NULL,
     Lecturer NVARCHAR(69) NOT NULL,
+    Duration TIME NOT NULL,
     LevelID INT
         FOREIGN KEY REFERENCES dbo.Levels (LevelID),
     CategoryID INT
-        FOREIGN KEY REFERENCES dbo.Categories (CategoryID)
+        FOREIGN KEY REFERENCES dbo.Categories (CategoryID),
 );
 GO
 CREATE TABLE Chapters
