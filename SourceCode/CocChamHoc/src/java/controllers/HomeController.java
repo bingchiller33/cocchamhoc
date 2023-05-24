@@ -5,6 +5,8 @@
 
 package controllers;
 
+import dal.CategoryDAO;
+import dal.LevelDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +14,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -55,7 +60,15 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            CategoryDAO catDao = new CategoryDAO();
+            LevelDAO levelDao = new  LevelDAO();
+            request.setAttribute("categories", catDao.getAllCategories());
+            request.setAttribute("levels", levelDao.getAllLevels());
+            request.getRequestDispatcher("home/home.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     } 
 
     /** 

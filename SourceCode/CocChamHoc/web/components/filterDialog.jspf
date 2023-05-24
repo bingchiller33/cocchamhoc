@@ -1,0 +1,64 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<form onsubmit="submit(event)" class="filter-dialog">
+    <i class="fa-solid fa-filter"></i> <strong>Filters </strong>
+    <p class="filter-group-title">Category</p>
+    <ul class="filter-group">
+        <li>
+            <input class="d-none" type="radio" name="category" value="-1" id="cat-choice--1" onchange="selectFilter(event)" ${empty param.category || param.category == -1 ? "checked" : ""}/> 
+            <label class="filter-group-label" for="cat-choice--1">All</label>
+        </li>
+        <c:forEach var="item" items="${categories}">
+            <li>
+                <input class="d-none" type="radio" name="category" value="${item.id}" id="cat-choice-${item.id}" onchange="selectFilter(event)" ${param.category == item.id ? "checked" : ""}/> 
+                <label class="filter-group-label" for="cat-choice-${item.id}">${item.description}</label>
+            </li>
+        </c:forEach>
+    </ul>
+
+    <p class="filter-group-title">Level</p>       
+    <ul class="filter-group">
+        <li>
+            <input class="d-none" type="radio" name="level" value="-1" id="lv-choice--1" onchange="selectFilter(event)" ${empty param.level || param.level == -1 ? "checked" : ""}/> 
+            <label class="filter-group-label" for="lv-choice--1">All</label>
+        </li>
+        <c:forEach var="item" items="${levels}">
+            <li>
+                <input class="d-none" data-id="${item.id}" type="radio" name="level" value="${item.id}" id="lv-choice-${item.id}" onchange="selectFilter(event)"  ${param.level == item.id ? "checked" : ""} /> 
+                <label class="filter-group-label" data-id="${item.id}" for="lv-choice-${item.id}">${item.description}</label>
+            </li>
+        </c:forEach>
+    </ul>
+
+    <p class="filter-group-title">Duration</p>
+    <ul class="filter-group"> 
+        <li>
+            <input class="d-none" type="radio" name="duration" value="00-00-00" id="duration-choice-00-00-00" onchange="selectFilter(event)" ${empty param.duration || param.duration == "00-00-00" ? "checked" : ""}/> 
+            <label class="filter-group-label" for="duration-choice-00-00-00">All</label>
+        </li>
+        <li>
+            <input class="d-none" type="radio" name="duration" value="10-00-00" id="duration-choice-10-00-00" onchange="selectFilter(event)" ${param.duration == "10-00-00" ? "checked" : ""}/> 
+            <label class="filter-group-label" for="duration-choice-10-00-00">Less than 10 hours</label>
+        </li>
+        <li>
+            <input class="d-none" type="radio" name="duration" value="30-00-00" id="duration-choice-30-00-00" onchange="selectFilter(event)" ${param.duration == "30-00-00" ? "checked" : ""}/> 
+            <label class="filter-group-label" for="duration-choice-30-00-00">Less than 30 hours</label>
+        </li>
+        <li>
+            <input class="d-none" type="radio" name="duration" value="60-00-00" id="duration-choice-60-00-00" onchange="selectFilter(event)" ${param.duration == "60-00-00" ? "checked" : ""}/> 
+            <label class="filter-group-label" for="duration-choice-60-00-00">Less than 60 hours</label>
+        </li>
+    </ul>
+</form>
+<script>
+    function selectFilter(e) {
+        let target = e.target;
+        let name = target.getAttribute("name");
+        let value = target.getAttribute("value");
+
+        let searches = new URLSearchParams(location.search);
+        searches.set(name, value);
+        location.search = searches.toString();
+    }
+</script>

@@ -10,10 +10,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <%@include file="/components/headCommon.jspf" %>
+
     </head>
     <body>
         <%@include file="/components/header.jsp" %>
         <h1>Hello World!</h1>
+        <%@include file="/components/filterDialog.jspf" %>
         <%@include file="/components/footer.jsp" %>
 
     </body>
