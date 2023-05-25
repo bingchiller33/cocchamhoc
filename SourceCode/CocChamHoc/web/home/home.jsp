@@ -5,6 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.*" %>
+<%@page import="utils.*" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,8 +19,9 @@
     <body>
         <%@include file="/components/header.jsp" %>
         <h1>Hello World!</h1>
-        <%@include file="/components/filterDialog.jspf" %>
+        <%--<%@include file="/components/filterDialog.jspf" %>--%>
+        <%--<%@include file="/components/courseListingPagination.jspf" %>--%>
+        <%@include file="/components/courseFinder.jspf" %>
         <%@include file="/components/footer.jsp" %>
-
     </body>
 </html>

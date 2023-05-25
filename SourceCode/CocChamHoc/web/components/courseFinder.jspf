@@ -1,0 +1,15 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<%@include file="courseListingPagination.jspf" %>
+<%@include file="filterDialog.jspf" %>
+<script>
+    function selectFilter(e) {
+        let target = e.target;
+        let name = target.getAttribute("name");
+        let value = target.getAttribute("value");
+
+        let searches = new URLSearchParams(location.search);
+        searches.set(name, value);
+        location.search = searches.toString();
+    }
+</script>
