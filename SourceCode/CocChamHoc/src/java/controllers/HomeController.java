@@ -23,7 +23,7 @@ import model.Course;
  *
  * @author Yui
  */
-@WebServlet(name="HomeController", urlPatterns={"/search"})
+@WebServlet(name="HomeController", urlPatterns={"/home"})
 public class HomeController extends HttpServlet {
    
     /** 
@@ -61,42 +61,45 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-        int page = 0;
-        int pageSize = 5;
-        String search = request.getParameter("search");
-               if (search == null) {
-               search = "";
-}
-        String catagory = request.getParameter("cid");
-            if(catagory == null){
+        try {
+            int page = 0;
+            int pageSize = 10;
+            String search = request.getParameter("search");
+            request.setAttribute("search",search);
+            if (search == null) {
+                search = "";
+            }
+            String catagory = request.getParameter("category");
+            if (catagory == null) {
                 catagory = "-1";
             }
-        String level = request.getParameter("lid");
-             if(level == null){
-             level = "-1";
-        }  
-        String duration = request.getParameter("did");
-            if(duration == null){
-                duration = "00:00:00.00";
+            String level = request.getParameter("level");
+            if (level == null) {
+                level = "-1";
             }
-        int icatagory;
-        int ilevel;
-        icatagory = Integer.parseInt(catagory);
-        ilevel = Integer.parseInt(level);
-        CourseDAO dao = new CourseDAO();       
-        try {
-             List<Course> list = dao.searchCourses(search, icatagory, ilevel, duration, page, pageSize);
-             request.setAttribute("list",list);
-             request.getRequestDispatcher("home/home.jsp").forward(request, response);
+            String duration = request.getParameter("duration");
+             if(duration == null){
+                 duration = "00:00:00.00";
+              }
+            int icatagory;
+            int ilevel;
+            icatagory = Integer.parseInt(catagory);
+            ilevel = Integer.parseInt(level);
+            CourseDAO dao = new CourseDAO();
+
+            List<Course> list = dao.searchCourses(search, icatagory, ilevel, duration, page, pageSize);
+            request.setAttribute("list", list);
+//          request.getRequestDispatcher("home/home.jsp").forward(request, response);
+
+            CategoryDAO catDao = new CategoryDAO();
+            LevelDAO levelDao = new LevelDAO();
+            request.setAttribute("categories", catDao.getAllCategories());
+            request.setAttribute("levels", levelDao.getAllLevels());
+            request.getRequestDispatcher("home/home.jsp").forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         }
-            out.println(icatagory);
-        
-        
        
-                
     } 
 
     /** 

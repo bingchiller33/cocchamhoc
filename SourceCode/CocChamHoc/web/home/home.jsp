@@ -11,18 +11,12 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <%@include file="/components/headCommon.jspf" %>
     </head>
     <body>
         <%@include file="/components/header.jsp" %>
-        <c:forEach items="${list}" var="i">
-            <h1>${i.title}</h1>
-            <p>${i.imgUrl}</p>
-            <p>${i.description}</p>
-            <p>${i.publishDate}</p>
-            <p>${i.level}</p>
-            <p>
-        </c:forEach>
+        <%@include file="/components/filterDialog.jspf" %> 
+        <%@include file="/components/body.jspf" %>
         <%@include file="/components/footer.jsp" %>
-
     </body>
 </html>

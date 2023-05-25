@@ -7,3 +7,45 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     Author     : Yui
 */
 
+ * {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+}
+
+/* Filter section */
+.filter-dialog {
+    padding: 1rem;
+    border: 0.1rem solid #282938;
+    border-radius: 8px;
+}
+
+.filter-dialog ul {
+    list-style: none;
+    margin: 0;
+    padding-left: 16px;
+}
+
+.filter-group input[checked] + .filter-group-label {
+    opacity: 1;
+}
+
+.filter-group-title {
+    font-size: 18px;
+    line-height: 32px;
+    color: #2405F2;
+    margin: 0;
+    margin-top: 26px;
+}
+
+.filter-group-label {
+    font-size: 18px;
+    line-height: 32px;
+    color: #282938;
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.d-none {
+    display: none;
+}
