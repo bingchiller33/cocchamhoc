@@ -63,7 +63,7 @@ public class HomeController extends HttpServlet {
     throws ServletException, IOException {
         try {
             int page = 0;
-            int pageSize = 10;
+            int pageSize = 6;
             String search = request.getParameter("search");
             request.setAttribute("search",search);
             if (search == null) {

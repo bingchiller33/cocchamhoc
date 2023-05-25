@@ -1,0 +1,27 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : May 25, 2023, 11:00:41 PM
+    Author     : Phuoc
+*/
+.courselist{
+    margin-left: 200px;
+    margin-right: 200px;
+    display: grid;
+    grid-template-columns: repeat(3, 10fr); /* Tạo 3 cột bằng nhau */
+    grid-gap: 10px; /* Khoảng cách giữa các item */
+
+    
+}
+.courselist-item{
+    border: 1px solid #000000;
+    margin: 10px;
+    border-radius: 5%;
+    height: 400px;
+    width: 300px;
+}
+.item{
+    text-align: center;
+}
