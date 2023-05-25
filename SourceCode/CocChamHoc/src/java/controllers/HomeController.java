@@ -12,12 +12,18 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import dal.*;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.Course;
 
 /**
  *
  * @author Yui
  */
-@WebServlet(name="HomeController", urlPatterns={"/"})
+@WebServlet(name="HomeController", urlPatterns={"/search"})
 public class HomeController extends HttpServlet {
    
     /** 
@@ -55,7 +61,42 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        PrintWriter out = response.getWriter();
+        int page = 0;
+        int pageSize = 5;
+        String search = request.getParameter("search");
+               if (search == null) {
+               search = "";
+}
+        String catagory = request.getParameter("cid");
+            if(catagory == null){
+                catagory = "-1";
+            }
+        String level = request.getParameter("lid");
+             if(level == null){
+             level = "-1";
+        }  
+        String duration = request.getParameter("did");
+            if(duration == null){
+                duration = "00:00:00.00";
+            }
+        int icatagory;
+        int ilevel;
+        icatagory = Integer.parseInt(catagory);
+        ilevel = Integer.parseInt(level);
+        CourseDAO dao = new CourseDAO();       
+        try {
+             List<Course> list = dao.searchCourses(search, icatagory, ilevel, duration, page, pageSize);
+             request.setAttribute("list",list);
+             request.getRequestDispatcher("home/home.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            out.println(icatagory);
+        
+        
+       
+                
     } 
 
     /** 
@@ -68,7 +109,8 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        
+        
     }
 
     /** 

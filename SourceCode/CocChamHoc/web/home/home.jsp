@@ -4,6 +4,7 @@
     Author     : Yui
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,7 +14,14 @@
     </head>
     <body>
         <%@include file="/components/header.jsp" %>
-        <h1>Hello World!</h1>
+        <c:forEach items="${list}" var="i">
+            <h1>${i.title}</h1>
+            <p>${i.imgUrl}</p>
+            <p>${i.description}</p>
+            <p>${i.publishDate}</p>
+            <p>${i.level}</p>
+            <p>
+        </c:forEach>
         <%@include file="/components/footer.jsp" %>
 
     </body>
