@@ -32,15 +32,17 @@ CREATE TABLE Levels
 GO
 CREATE TABLE Courses
 (
-    CourseID INT PRIMARY KEY,
+    CourseID INT IDENTITY(1, 1) PRIMARY KEY,
+    [CourseBannerImage] VARCHAR(420),
     [Title] NVARCHAR(69) NOT NULL,
     [CourseDescription] TEXT NOT NULL,
-    PublishDate DATE NOT NULL,
+    PublishDate DATE DEFAULT NULL,
     Lecturer NVARCHAR(69) NOT NULL,
+    DurationInSeconds INT NOT NULL,
     LevelID INT
         FOREIGN KEY REFERENCES dbo.Levels (LevelID),
     CategoryID INT
-        FOREIGN KEY REFERENCES dbo.Categories (CategoryID)
+        FOREIGN KEY REFERENCES dbo.Categories (CategoryID),
 );
 GO
 CREATE TABLE Chapters
@@ -98,9 +100,10 @@ CREATE TABLE [Users]
     UserName NVARCHAR(420) NOT NULL,
     Email VARCHAR(420) NOT NULL,
     Password VARCHAR(69) NOT NULL,
+    IsAdmin BIT NOT NULL,
     DOB DATE,
     Gender BIT,
-    PhoneNumber VARCHAR(69)
+    PhoneNumber VARCHAR(69),
 );
 GO
 CREATE TABLE ExamPapers
