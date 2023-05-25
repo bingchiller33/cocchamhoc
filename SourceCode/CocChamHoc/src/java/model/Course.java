@@ -6,7 +6,6 @@ package model;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.time.Duration;
 
 /**
  *
@@ -110,6 +109,11 @@ public class Course {
 
     public void setDuration(Time duration) {
         this.duration = duration;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" + "id=" + id + ", title=" + title + ", description=" + description + ", imgUrl=" + imgUrl + ", publishDate=" + publishDate + ", duration=" + duration + ", lecturer=" + lecturer + ", level=" + level + ", category=" + category + '}';
     }
 
     

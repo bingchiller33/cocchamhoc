@@ -9,7 +9,6 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import model.Category;
-
 import model.Course;
 import model.Level;
 
@@ -31,8 +30,9 @@ public class CourseDAO extends MyDAO {
      * @return A list of Course objects that match the specified criteria.
      * @throws SQLException If an error occurs while executing the SQL query
      */
-    public List<Course> searchCourses(String searchQuery, int categoryId, int levelId, Time duration, int page, int pageSize) throws SQLException {
-        xSql = "select * from Courses c "
+    
+    public List<Course> searchCourses(String searchQuery, int categoryId, int levelId, String duration, int page, int pageSize) throws SQLException {
+        xSql =    "select * from Courses c "
                 + "inner join Categories cat on c.CategoryID = cat.CategoryID "
                 + "inner join Levels l on c.LevelID = l.LevelID "
                 + "where (N'' = ? or c.Title like ?) "
@@ -46,13 +46,13 @@ public class CourseDAO extends MyDAO {
         
         ps = con.prepareStatement(xSql);
         ps.setString(1, searchQuery);        
-        ps.setString(2, "%" + searchQuery + "%");
+        ps.setString(2, "%" +searchQuery+ "%");
         ps.setInt(3, categoryId);
         ps.setInt(4, categoryId);
         ps.setInt(5, levelId);
         ps.setInt(6, levelId);
-        ps.setTime(7, duration);
-        ps.setTime(8, duration);
+        ps.setString(7, duration);
+        ps.setString(8, duration);
         ps.setInt(9, offset);
         ps.setInt(10, pageSize);
         rs = ps.executeQuery();
@@ -68,5 +68,10 @@ public class CourseDAO extends MyDAO {
         
         return results;
     }
+//    public static void main(String[] args) throws SQLException {
+//    CourseDAO dao = new CourseDAO();
+//     
+//     System.out.println(dao.searchCourses("sql", -1, -1,"3:00:00", 0, 5));
+//    }
 }
 
