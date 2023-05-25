@@ -17,7 +17,7 @@ public class Course {
     private String description;
     private String imgUrl;
     private Date publishDate;
-    private Time duration;
+    private int durationInSeconds;
     private String lecturer;
     private Level level;
     private Category category;
@@ -25,7 +25,7 @@ public class Course {
     public Course() {
     }
 
-    public Course(int id, String title, String description, String imgUrl, Date publishDate, String lecturer, Level level, Category category, Time duration) {
+    public Course(int id, String title, String description, String imgUrl, Date publishDate, String lecturer, Level level, Category category, int durationInSeconds) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -34,7 +34,7 @@ public class Course {
         this.lecturer = lecturer;
         this.level = level;
         this.category = category;
-        this.duration = duration;
+        this.durationInSeconds = durationInSeconds;
     }
 
     
@@ -103,17 +103,17 @@ public class Course {
         this.category = category;
     }
 
-    public Time getDuration() {
-        return duration;
+    public int getDurationInSeconds() {
+        return durationInSeconds;
     }
 
-    public void setDuration(Time duration) {
-        this.duration = duration;
+    public void setDurationInSeconds(int durationInSeconds) {
+        this.durationInSeconds = durationInSeconds;
     }
 
     @Override
     public String toString() {
-        return "Course{" + "id=" + id + ", title=" + title + ", description=" + description + ", imgUrl=" + imgUrl + ", publishDate=" + publishDate + ", duration=" + duration + ", lecturer=" + lecturer + ", level=" + level + ", category=" + category + '}';
+        return "Course{" + "id=" + id + ", title=" + title + ", description=" + description + ", imgUrl=" + imgUrl + ", publishDate=" + publishDate + ", duration=" + durationInSeconds + ", lecturer=" + lecturer + ", level=" + level + ", category=" + category + '}';
     }
 
     

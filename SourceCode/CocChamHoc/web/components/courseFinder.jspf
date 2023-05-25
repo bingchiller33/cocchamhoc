@@ -1,37 +1,5 @@
 <%-- any content can be specified here e.g.: --%>
-<%@ page pageEncoding="UTF-8" %>
-<style>
-    .course-finder {
-        display: grid;
-        gap: 1rem;
-        grid-template: 
-            "rs     search" auto
-            "filter list" 1fr
-            "pagi   pagi" auto
-            / auto 1fr;
-    }
-    
-    .course-finder > .result-container {
-        grid-area: rs;
-        color: #282938
-    }
-    
-    .course-finder > .search-container {
-        grid-area: search;
-    }
-    
-    .course-finder > .filter-container {
-        grid-area: filter;
-    }
-    
-    .course-finder > .list-container {
-        grid-area: list;
-    }
-    
-    .course-finder > .pagi-container {
-        grid-area: pagi;
-    }
-</style>
+<%@page pageEncoding="UTF-8" %>
 <main class="course-finder">
     <div class="result-container">
         ${listCount} courses found!

@@ -38,7 +38,7 @@ CREATE TABLE Courses
     [CourseDescription] TEXT NOT NULL,
     PublishDate DATE DEFAULT NULL,
     Lecturer NVARCHAR(69) NOT NULL,
-    Duration TIME NOT NULL,
+    DurationInSeconds INT NOT NULL,
     LevelID INT
         FOREIGN KEY REFERENCES dbo.Levels (LevelID),
     CategoryID INT

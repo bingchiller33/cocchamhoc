@@ -45,4 +45,8 @@ public class PaginationUtils {
     public static boolean contains(List<Integer> a, int b) {
         return a.contains(b);
     }
+    
+    public static boolean includeDots(List<Integer> a, int pageCount, int b) {
+        return pageCount > a.size() && !a.contains(b);
+    }
 }

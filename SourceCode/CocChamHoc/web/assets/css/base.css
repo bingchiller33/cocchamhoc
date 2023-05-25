@@ -13,7 +13,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     font-weight: 500;
 }
 
-/* Filter section */
+/* filter section */
 .filter-dialog {
     padding: 1rem;
     padding-right: 8rem;
@@ -27,11 +27,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     padding-left: 16px;
 }
 
-.filter-group input[checked] + .filter-group-label {
+.filter-group input[checked] + label {
     opacity: 1;
 }
 
-.filter-group-title {
+.filter-dialog .filter-group-title {
     font-size: 18px;
     line-height: 32px;
     color: #2405F2;
@@ -39,7 +39,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     margin-top: 26px;
 }
 
-.filter-group-label {
+.filter-group label {
     font-size: 18px;
     line-height: 32px;
     color: #282938;
@@ -51,25 +51,59 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     display: none;
 }
 
-/* End filter section */
+/* end filter section */
 
-    /* Pagination section */
-    .course-pagination {
-        display: flex;
-        justify-content: flex-end;
-        gap: 1rem;
-        align-items: center;
-    }
+/* pagination section */
+.course-pagination {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    align-items: center;
+}
 
-    .course-pagination input[checked] + label {
-        background: #FCD980;
-        color: white;
-    }
+.course-pagination input[checked] + label {
+    background: #FCD980;
+    color: white;
+}
 
-    .course-pagination label {
-        padding: 0.5rem 1rem;
-        border-radius: 5px;
-        background: #F5F5F5;
-        cursor: pointer;
-    }
-    /* End pagination section */
+.course-pagination label {
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    background: #F5F5F5;
+    cursor: pointer;
+}
+/* end pagination section */
+
+
+/* course finder section */
+.course-finder {
+    display: grid;
+    gap: 1rem;
+    grid-template:
+        "rs     search" auto
+        "filter list" 1fr
+        "pagi   pagi" auto
+        / auto 1fr;
+}
+
+.course-finder > .result-container {
+    grid-area: rs;
+    color: #282938
+}
+
+.course-finder > .search-container {
+    grid-area: search;
+}
+
+.course-finder > .filter-container {
+    grid-area: filter;
+}
+
+.course-finder > .list-container {
+    grid-area: list;
+}
+
+.course-finder > .pagi-container {
+    grid-area: pagi;
+}
+/* end course finder section */

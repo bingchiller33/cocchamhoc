@@ -24,7 +24,7 @@ public class CourseDAO extends MyDAO {
                 + "where (N'' = ? or c.Title like ?) "
                 + "and (-1 = ? or c.CategoryID = ?) "
                 + "and (-1 = ? or c.LevelID = ?) "
-                + "and ('00:00:00.00' = ? or c.Duration < ?) ";
+                + "and (0 = ? or c.DurationInSeconds < ?) ";
                 
     
     /**
@@ -40,10 +40,10 @@ public class CourseDAO extends MyDAO {
      * @return A list of Course objects that match the specified criteria.
      * @throws SQLException If an error occurs while executing the SQL query
      */
-    public List<Course> searchCourses(String searchQuery, int categoryId, int levelId, String duration, int page, int pageSize) throws SQLException {
+    public List<Course> searchCourses(String searchQuery, int categoryId, int levelId, int durationInSeconds, int page, int pageSize) throws SQLException {
         xSql =  "select * " + searchCourseQuery 
                 + "order by c.CourseID "
-                + "offset ? rows fetch next ? rows only";;
+                + "offset ? rows fetch next ? rows only";
         
         int offset = page * pageSize;
         
@@ -54,8 +54,8 @@ public class CourseDAO extends MyDAO {
         ps.setInt(4, categoryId);
         ps.setInt(5, levelId);
         ps.setInt(6, levelId);
-        ps.setString(7, duration);
-        ps.setString(8, duration);
+        ps.setInt(7, durationInSeconds);
+        ps.setInt(8, durationInSeconds);
         ps.setInt(9, offset);
         ps.setInt(10, pageSize);
         rs = ps.executeQuery();
@@ -64,7 +64,7 @@ public class CourseDAO extends MyDAO {
         while(rs.next()) {
             Level level = new Level(rs.getInt("LevelID"), rs.getString("LevelDescription"));
             Category cat = new Category(rs.getInt("CategoryID"), rs.getString("CategoryDescription"));
-            Course c = new Course(rs.getInt("CourseID"), rs.getString("Title"), rs.getString("CourseDescription"), rs.getString("CourseBannerImage"), rs.getDate("PublishDate"), rs.getString("Lecturer"), level, cat, rs.getTime("Duration"));
+            Course c = new Course(rs.getInt("CourseID"), rs.getString("Title"), rs.getString("CourseDescription"), rs.getString("CourseBannerImage"), rs.getDate("PublishDate"), rs.getString("Lecturer"), level, cat, rs.getInt("DurationInSeconds"));
             results.add(c);
         }
         
@@ -72,11 +72,8 @@ public class CourseDAO extends MyDAO {
         return results;
     }
     
-    public int searchCoursesCount(String searchQuery, int categoryId, int levelId, String duration, int page, int pageSize) throws SQLException {
+    public int searchCoursesCount(String searchQuery, int categoryId, int levelId, int duration, int page, int pageSize) throws SQLException {
         xSql =  "select count(*) " + searchCourseQuery;
-        
-        int offset = page * pageSize;
-        
         ps = con.prepareStatement(xSql);
         ps.setString(1, searchQuery);        
         ps.setString(2, "%" +searchQuery+ "%");
@@ -84,8 +81,8 @@ public class CourseDAO extends MyDAO {
         ps.setInt(4, categoryId);
         ps.setInt(5, levelId);
         ps.setInt(6, levelId);
-        ps.setString(7, duration);
-        ps.setString(8, duration);
+        ps.setInt(7, duration);
+        ps.setInt(8, duration);
         rs = ps.executeQuery();
         
         rs.next();
