@@ -1,0 +1,18 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page pageEncoding="UTF-8" %>
+<h2>This is a list course</h2>
+<ul>
+    <c:forEach var="item" items="${list}">
+        <li>
+            <p>${item.id}</p>
+            <p>${item.title}</p>
+            <p>${item.description}</p>
+            <p>${item.publishDate}</p>
+            <p>${item.duration}</p>
+            <p>${item.lecturer}</p>
+            <p>${item.category.description}</p>
+
+        </li>
+    </c:forEach>
+</ul>

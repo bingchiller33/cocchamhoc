@@ -17,6 +17,16 @@ import model.Level;
  * @author Yui
  */
 public class CourseDAO extends MyDAO {
+    private static final String searchCourseQuery = 
+                  "from Courses c "
+                + "inner join Categories cat on c.CategoryID = cat.CategoryID "
+                + "inner join Levels l on c.LevelID = l.LevelID "
+                + "where (N'' = ? or c.Title like ?) "
+                + "and (-1 = ? or c.CategoryID = ?) "
+                + "and (-1 = ? or c.LevelID = ?) "
+                + "and ('00:00:00.00' = ? or c.Duration < ?) ";
+                
+    
     /**
      * This method searches for courses based on various criteria such as search
      * query, category ID, level ID, duration, page number, and page size. It 
@@ -30,17 +40,10 @@ public class CourseDAO extends MyDAO {
      * @return A list of Course objects that match the specified criteria.
      * @throws SQLException If an error occurs while executing the SQL query
      */
-    
     public List<Course> searchCourses(String searchQuery, int categoryId, int levelId, String duration, int page, int pageSize) throws SQLException {
-        xSql =    "select * from Courses c "
-                + "inner join Categories cat on c.CategoryID = cat.CategoryID "
-                + "inner join Levels l on c.LevelID = l.LevelID "
-                + "where (N'' = ? or c.Title like ?) "
-                + "and (-1 = ? or c.CategoryID = ?) "
-                + "and (-1 = ? or c.LevelID = ?) "
-                + "and ('00:00:00.00' = ? or c.Duration < ?) "
+        xSql =  "select * " + searchCourseQuery 
                 + "order by c.CourseID "
-                + "offset ? rows fetch next ? rows only";
+                + "offset ? rows fetch next ? rows only";;
         
         int offset = page * pageSize;
         
@@ -68,10 +71,25 @@ public class CourseDAO extends MyDAO {
         
         return results;
     }
-//    public static void main(String[] args) throws SQLException {
-//    CourseDAO dao = new CourseDAO();
-//     
-//     System.out.println(dao.searchCourses("sql", -1, -1,"3:00:00", 0, 5));
-//    }
+    
+    public int searchCoursesCount(String searchQuery, int categoryId, int levelId, String duration, int page, int pageSize) throws SQLException {
+        xSql =  "select count(*) " + searchCourseQuery;
+        
+        int offset = page * pageSize;
+        
+        ps = con.prepareStatement(xSql);
+        ps.setString(1, searchQuery);        
+        ps.setString(2, "%" +searchQuery+ "%");
+        ps.setInt(3, categoryId);
+        ps.setInt(4, categoryId);
+        ps.setInt(5, levelId);
+        ps.setInt(6, levelId);
+        ps.setString(7, duration);
+        ps.setString(8, duration);
+        rs = ps.executeQuery();
+        
+        rs.next();
+        return rs.getInt(1);
+    }
 }
 

@@ -16,6 +16,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 /* Filter section */
 .filter-dialog {
     padding: 1rem;
+    padding-right: 8rem;
     border: 0.1rem solid #282938;
     border-radius: 8px;
 }
@@ -51,3 +52,24 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 }
 
 /* End filter section */
+
+    /* Pagination section */
+    .course-pagination {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .course-pagination input[checked] + label {
+        background: #FCD980;
+        color: white;
+    }
+
+    .course-pagination label {
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        background: #F5F5F5;
+        cursor: pointer;
+    }
+    /* End pagination section */

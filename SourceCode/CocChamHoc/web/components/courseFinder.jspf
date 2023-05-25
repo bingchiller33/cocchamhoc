@@ -1,7 +1,58 @@
 <%-- any content can be specified here e.g.: --%>
 <%@ page pageEncoding="UTF-8" %>
-<%@include file="courseListingPagination.jspf" %>
-<%@include file="filterDialog.jspf" %>
+<style>
+    .course-finder {
+        display: grid;
+        gap: 1rem;
+        grid-template: 
+            "rs     search" auto
+            "filter list" 1fr
+            "pagi   pagi" auto
+            / auto 1fr;
+    }
+    
+    .course-finder > .result-container {
+        grid-area: rs;
+        color: #282938
+    }
+    
+    .course-finder > .search-container {
+        grid-area: search;
+    }
+    
+    .course-finder > .filter-container {
+        grid-area: filter;
+    }
+    
+    .course-finder > .list-container {
+        grid-area: list;
+    }
+    
+    .course-finder > .pagi-container {
+        grid-area: pagi;
+    }
+</style>
+<main class="course-finder">
+    <div class="result-container">
+        ${listCount} courses found!
+    </div>
+    
+    <div class="search-container">
+        This is a search bar
+    </div>
+    
+    <div class="filter-container">
+        <%@include file="filterDialog.jspf" %>
+    </div>
+    
+    <div class="list-container">
+        <%@include file="courseList.jspf" %>
+    </div>
+    
+    <div class="pagi-container">
+        <%@include file="courseListingPagination.jspf" %>
+    </div>
+</main>
 <script>
     function selectFilter(e) {
         let target = e.target;
