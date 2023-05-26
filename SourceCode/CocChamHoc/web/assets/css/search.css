@@ -1,14 +1,3 @@
-/*
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
-*/
-/* 
-    Created on : May 25, 2023, 10:00:03 PM
-    Author     : Phuoc
-*/
-/* From uiverse.io by @satyamchaudharydev */
-/* this button is inspired by -- whatsapp input */
-/* == type to see fully interactive and click the close buttom to remove the text  == */
 .search{
   display: flex;
   justify-content: center;
@@ -26,12 +15,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
  /*  when rotating changed icon color */
   --height: 40px;
  /*  height */
-  width: 400px;
+  width: 500px;
   padding-inline-end: 1em;
  /*  change this for padding in the end of input */
   background: var(--input-bg);
   position: relative;
-  border-radius: 40px;
+  border-radius: 10px;
   border: 1px solid #111;
   margin: 10px;
   
@@ -54,7 +43,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 /* style for both icons -- search,close */
 .form svg {
   /* display: block; */
-  color: #111;
+  color: #000000;
   transition: 0.3s cubic-bezier(.4,0,.2,1);
   position: absolute;
   height: 15px;
@@ -132,4 +121,3 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
   transform: scale(1);
   transition: 0s;
 }
-

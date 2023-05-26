@@ -1,12 +1,8 @@
 <%-- any content can be specified here e.g.: --%>
 <%@page pageEncoding="UTF-8" %>
 <main class="course-finder">
-    <div class="result-container">
-        ${listCount} courses found!
-    </div>
-    
     <div class="search-container">
-        This is a search bar
+        <%@include file="searchBar.jspf" %>
     </div>
     
     <div class="filter-container">
@@ -26,7 +22,9 @@
         let target = e.target;
         let name = target.getAttribute("name");
         let value = target.getAttribute("value");
-
+        applyFilter(name, value);
+    }
+    function applyFilter(name, value) {
         let searches = new URLSearchParams(location.search);
         searches.set(name, value);
         location.search = searches.toString();
