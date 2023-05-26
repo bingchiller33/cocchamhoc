@@ -30,6 +30,7 @@ public class SampleController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        //request.setAttribute("user", "BRUH");
         request.getRequestDispatcher("home/home.jsp").include(request, response);
     } 
 
