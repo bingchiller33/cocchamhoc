@@ -18,11 +18,11 @@
 
     </head>
     <body>
-        <%@include file="/components/header.jsp" %>
+        <%@include file="/components/header.jspf" %>
         <h1>Hello World!</h1>
         <%--<%@include file="/components/filterDialog.jspf" %>--%>
         <%--<%@include file="/components/courseListingPagination.jspf" %>--%>
         <%@include file="/components/courseFinder.jspf" %>
-        <%@include file="/components/footer.jsp" %>
+        <%@include file="/components/footer.jspf" %>
     </body>
 </html>

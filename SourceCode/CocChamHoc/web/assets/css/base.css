@@ -115,7 +115,6 @@ a{
 
 /* Course Listing Section*/
 .course-container{
-    max-width: 50%;
     margin-left: auto;
     padding: 0 25px;
 }
@@ -254,4 +253,8 @@ a{
 
 .course-finder > .list-container {
     grid-area: list;
+}
+
+.course-finder > .pagi-container {
+    grid-area: pagi;
 }
