@@ -4,13 +4,15 @@
         <servlet-name>NewServlet</servlet-name>
         <servlet-class>controllers.NewServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>register</servlet-name>
+        <servlet-class>controllers.RegisterController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
     </servlet-mapping>
-    
-    
-     <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.css</url-pattern>
     </servlet-mapping>
@@ -22,9 +24,10 @@
         <servlet-name>default</servlet-name>
         <url-pattern>*.png</url-pattern>
     </servlet-mapping>
-    
-    
-    
+    <servlet-mapping>
+        <servlet-name>register</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
