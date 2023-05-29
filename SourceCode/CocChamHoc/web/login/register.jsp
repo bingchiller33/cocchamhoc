@@ -14,7 +14,7 @@
         <title>Document</title>
         <link rel="stylesheet" href="../assets/css/logreg.css">
         <link rel="stylesheet" href="../assets/css/register.css">
-
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;500&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
 
@@ -22,8 +22,8 @@
         <div class="container">
             <div class="btn-back_home">
                 <p>
-                    <i class="fa-solid fa-house-chimney"></i>
-                    <a class="back_home-detail" href="../home/home.jsp">Homepage</a>
+                    
+                    <a class="back_home-detail" href="/"><i class="fa fa-arrow-left" aria-hidden="true"></i> Homepage</a>
                 </p>
             </div>
             <div class="container-form">
@@ -65,7 +65,7 @@
                         </div>
                         <button class="form-submit">Register</button>
                         <div class="logreg-link">
-                            <span>Already have an account? <a href="./login.jsp">Login</a></span>
+                            <span>Already have an account? <a href="login">Login</a></span>
                         </div>
                     </form>
                 </div>

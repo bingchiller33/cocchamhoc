@@ -1,5 +1,9 @@
+*{
+    font-family: Poppins, sans-serif;
+}
+
 .left_part {
-    background-image: url('../img/panel.jpg');
+    background-image: url(../img/register.jpg);
 }
 
 .eulabox {

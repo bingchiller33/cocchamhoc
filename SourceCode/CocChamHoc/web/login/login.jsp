@@ -13,14 +13,14 @@
         <title>JSP Page</title>
         <link rel="stylesheet" href="../assets/css/logreg.css">
         <link rel="stylesheet" href="../assets/css/login.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;500&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
     <body>
         <div class="container">
             <div class="btn-back_home">
                 <p>
-                    <i class="fa-solid fa-house-chimney"></i>
-                    <a class="back_home-detail" href="../home/home.jsp">Homepage</a>
+                    <a class="back_home-detail" href="home"><i class="fa fa-arrow-left" aria-hidden="true"></i> Homepage</a>
                 </p>
             </div>
             <div class="container-form">
@@ -55,7 +55,7 @@
                         </div>
                         <button id="form-submit" class="form-submit">Login</button>
                         <div class="logreg-link">
-                            <span>Don't have an account? <a href="../login/register.jsp">Register now</a></span>
+                            <span>Don't have an account? <a href="register">Register now</a></span>
                         </div>
                     </form>
                     <div class="spacing_bottom"></div>

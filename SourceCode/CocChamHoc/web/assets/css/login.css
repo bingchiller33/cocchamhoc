@@ -1,3 +1,6 @@
+*{
+    font-family: Poppins, sans-serif;
+}
 .spacing_bottom {
     padding-top: 20px;
 }
@@ -11,5 +14,5 @@
     color: #f33a58;
 }
 .left_part {
-    background-image: url('../img/working.jpg');
+    background-image: url(../img/login.jpg);
 }

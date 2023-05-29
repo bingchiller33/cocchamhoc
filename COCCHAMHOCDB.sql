@@ -157,3 +157,4 @@ CREATE TABLE Ratings
                     CourseID
                 )
 );
+SELECT * FROM dbo.Courses
