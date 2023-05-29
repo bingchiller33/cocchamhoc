@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login</title>
+        <title>JSP Page</title>
         <link rel="stylesheet" href="../assets/css/logreg.css">
         <link rel="stylesheet" href="../assets/css/login.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -20,14 +20,14 @@
             <div class="btn-back_home">
                 <p>
                     <i class="fa-solid fa-house-chimney"></i>
-                    <a class="back_home-detail" href="#">Homepage</a>
+                    <a class="back_home-detail" href="../home/home.jsp">Homepage</a>
                 </p>
             </div>
             <div class="container-form">
                 <div class="left-part_space"></div>
                 <div class="left_part">
                     <div class="left-heading">
-                        <span>One Step Closter To your dream</span>
+                        <span>One Step Closer To your dream</span>
                     </div>
                     <div class="left-des">
                         <span>A free E-Learning service that is ready to help you become an expert</span>
@@ -41,11 +41,11 @@
                             <p class="right-desc">Fill your info</p>
                         </div>
                         <div class="form-group">
-                            <input id="email" name="email" value="" type="email" placeholder="Email" class="form-control">
+                            <input id="email" name="email" value="" type="text" placeholder="Email" class="form-control">
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
-                            <input id="password" name="password" value="" type="password" placeholder="Password" class="form-control">
+                            <input id="password" name="password" value="" type="text" placeholder="Password" class="form-control">
                             <span class="form-message"></span>
                         </div>
                         <span class="validate-message">${validate}</span>
@@ -55,7 +55,7 @@
                         </div>
                         <button id="form-submit" class="form-submit">Login</button>
                         <div class="logreg-link">
-                            <span>Don't have an account? <a href="./register.jsp">Register now</a></span>
+                            <span>Don't have an account? <a href="../login/register.jsp">Register now</a></span>
                         </div>
                     </form>
                     <div class="spacing_bottom"></div>
@@ -63,7 +63,7 @@
                 <div class="right-part_space"></div>
             </div>
         </div>
-        <script src="../assets/js/login.js"></script>
+        <script src="./login.js"></script>
         <script>
             Validator({
                 form: "#form-1",
@@ -72,7 +72,7 @@
                 rules: [
                     Validator.isEmail("#email"),
                     Validator.isRequired("#email"),
-                    Validator.isRequired("#password")
+                    Validator.isMinlength("#password", 6),
                 ]
             });
         </script>

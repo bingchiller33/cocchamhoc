@@ -1,0 +1,12 @@
+.left_part {
+    background-image: url('../img/panel.jpg');
+}
+
+.eulabox {
+    margin: 0 0 8px 78px;
+}
+
+.error_msg {
+    margin: 0 0 8px 78px;
+    color: #f33a58;
+}

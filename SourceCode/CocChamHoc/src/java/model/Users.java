@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.security.MessageDigest;
 import java.sql.Date;
 
 /**
@@ -96,6 +97,42 @@ public class Users {
 
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
+    }
+    
+    public String toMD5(String password) {
+        String salt = "emwkqnahd:;wmdLDk";
+        String result = null;
+
+        // Concatenate the password with a salt value
+        password = password + salt;
+
+        try {
+            // Convert the password string to bytes using UTF-8 encoding
+            byte[] dataBytes = password.getBytes("UTF-8");
+
+            // Create an instance of MessageDigest with MD5 algorithm
+            MessageDigest md = MessageDigest.getInstance("MD5");
+
+            // Calculate the hash of the byte array
+            byte[] hashBytes = md.digest(dataBytes);
+
+            // Convert the MD5 bytes to a hexadecimal representation
+            StringBuilder sb = new StringBuilder();
+            for (byte hashByte : hashBytes) {
+                sb.append(String.format("%02x", hashByte));
+            }
+
+            // Store the MD5 hash value as a string
+            result = sb.toString();
+
+            // Return the MD5 hash value
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Return null if an exception occurs
+        return result;
     }
     
 }
