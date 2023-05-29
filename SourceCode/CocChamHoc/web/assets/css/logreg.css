@@ -21,11 +21,11 @@ body {
 
 .left_part {
     width: 55%;
-    /*background-image: url('../img/working.jpg');*/
-    background-color: black;
+    /*background-color: black;*/
     background-size: cover;
     background-repeat: no-repeat;
-    
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
 }
 
 .left-heading {
@@ -52,6 +52,9 @@ body {
     color: white;
     width: 45%;
     background: #1C1E53;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    overflow: hidden;
 }
 
 .right-head {
@@ -153,3 +156,4 @@ body {
 .left-part_space {
     margin-left: 10%;
 }
+

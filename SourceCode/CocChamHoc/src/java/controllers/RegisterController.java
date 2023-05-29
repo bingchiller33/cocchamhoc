@@ -11,7 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.User;
+import model.Users;
 
 /**
  *
@@ -32,21 +32,23 @@ public class RegisterController extends HttpServlet {
         String url = "";
         String error = "";
         UserDAO dao = new UserDAO();
+        Users fun = new Users();
         if (dao.usernameCheck(email)) {
-            error += "Email existed!";
+            error += "The email you provided is already registered!";
+            request.getSession().setAttribute("Email_DUP", error);
         }
 
-        if (password.equals(repassword)) {
-            error += "Mật khẩu không khớp <br/>.";
-        }
+        password = fun.toMD5(password);
 
         if (error.length() > 0) {
             url = "/login/register.jsp";
         } else {
-            User user = new User(0, fullname, email, password, null, true, "0", true);
+            Users user = new Users(0, fullname, email, password, false, null, false, null);
             dao.insertUser(user);
-            url = "/success.jsp";
+            url = "/login/login.jsp";
         }
+        
+        
         RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
         rd.forward(request, response);
     }
