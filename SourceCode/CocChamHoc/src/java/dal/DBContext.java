@@ -13,9 +13,9 @@ public class DBContext {
     {
         try {
             //Change the username password and url to connect your own database
-            String username = "sa";
-            String password = "sa";
-            String url = "jdbc:sqlserver://localhost:1433;databaseName=COC_CHAM_HOC";
+            String username = System.getenv("CSUSERNAME");
+            String password = System.getenv("CSPASSWORD");
+            String url = System.getenv("CS");
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             Properties properties = new Properties();
             properties.setProperty("user", username);
