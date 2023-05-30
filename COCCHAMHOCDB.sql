@@ -50,7 +50,7 @@ CREATE TABLE Chapters
 	ChapterID INT IDENTITY(1,1) PRIMARY KEY,
     ChapterNumber INT UNIQUE NOT NULL,
     CourseID INT
-        FOREIGN KEY REFERENCES dbo.Courses (CourseID),
+        FOREIGN KEY REFERENCES dbo.Courses (CourseID) ON DELETE CASCADE,
     ChapterName NVARCHAR(69) NOT NULL,
 );
 GO
@@ -58,7 +58,7 @@ CREATE TABLE Lessons
 (
     LessonNumber INT NOT NULL,
     ChapterID INT
-        FOREIGN KEY REFERENCES dbo.Chapters (ChapterID),
+        FOREIGN KEY REFERENCES dbo.Chapters (ChapterID) ON DELETE CASCADE,
     LessonName NVARCHAR(69) NOT NULL,
     LessonVideo VARCHAR(512) NOT NULL,
     LessonDescription TEXT,
@@ -73,7 +73,7 @@ CREATE TABLE Exams
     ExamID INT IDENTITY(1, 1) PRIMARY KEY,
 	ExamName NVARCHAR(420),
     CourseID INT
-        FOREIGN KEY REFERENCES dbo.Courses (CourseID),
+        FOREIGN KEY REFERENCES dbo.Courses (CourseID) ON DELETE CASCADE,
     Duration TIME NOT NULL,
 );
 GO
@@ -82,14 +82,14 @@ CREATE TABLE Questions
     QuestionID INT IDENTITY(1, 1) PRIMARY KEY,
     QuestionDetail NVARCHAR(420) NOT NULL,
     ExamID INT
-        FOREIGN KEY REFERENCES dbo.Exams (ExamID)
+        FOREIGN KEY REFERENCES dbo.Exams (ExamID) ON DELETE CASCADE
 );
 GO
 CREATE TABLE Choices
 (
     ChoiceID INT IDENTITY(1, 1) PRIMARY KEY,
     QuestionID INT
-        FOREIGN KEY REFERENCES dbo.Questions (QuestionID),
+        FOREIGN KEY REFERENCES dbo.Questions (QuestionID) ON DELETE CASCADE,
     IsTrueAnswer BIT
         DEFAULT 0,
 );
@@ -110,9 +110,9 @@ CREATE TABLE ExamPapers
 (
     PaperID INT IDENTITY(1, 1) PRIMARY KEY,
     UserID INT
-        FOREIGN KEY REFERENCES dbo.[Users] (UserID),
+        FOREIGN KEY REFERENCES dbo.[Users] (UserID) ON DELETE CASCADE,
     ExamID INT
-        FOREIGN KEY REFERENCES dbo.Exams (ExamID),
+        FOREIGN KEY REFERENCES dbo.Exams (ExamID) ON DELETE CASCADE,
     TimeStart DATETIME
         DEFAULT GETDATE(),
     TimeEnd DATETIME,
@@ -123,9 +123,9 @@ CREATE TABLE UserAnswers
 (
     AnswerID INT IDENTITY(1, 1),
     PaperID INT
-        FOREIGN KEY REFERENCES dbo.ExamPapers (PaperID),
+        FOREIGN KEY REFERENCES dbo.ExamPapers (PaperID) ON DELETE CASCADE,
     ChoiceID INT
-		FOREIGN KEY REFERENCES dbo.Choices(ChoiceID),
+		FOREIGN KEY REFERENCES dbo.Choices(ChoiceID) ON DELETE CASCADE,
     PRIMARY KEY (
                     AnswerID,
                     ChoiceID
@@ -135,17 +135,17 @@ GO
 CREATE TABLE Certificates
 (
     UserID INT
-        FOREIGN KEY REFERENCES dbo.Users (UserID),
+        FOREIGN KEY REFERENCES dbo.Users (UserID) ON DELETE CASCADE,
     CourseID INT
-        FOREIGN KEY REFERENCES dbo.Courses (CourseID),
+        FOREIGN KEY REFERENCES dbo.Courses (CourseID) ON DELETE CASCADE,
     IssueDate DATE NOT NULL,
 );
 CREATE TABLE Ratings
 (
     UserID INT
-        FOREIGN KEY REFERENCES dbo.Users (UserID),
+        FOREIGN KEY REFERENCES dbo.Users (UserID) ON DELETE CASCADE,
     CourseID INT
-        FOREIGN KEY REFERENCES dbo.Courses (CourseID),
+        FOREIGN KEY REFERENCES dbo.Courses (CourseID) ON DELETE CASCADE,
     Rating INT CHECK (Rating >= 1
                       AND Rating <= 5
                      ),
