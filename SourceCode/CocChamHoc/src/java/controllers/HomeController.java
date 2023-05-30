@@ -82,7 +82,7 @@ public class HomeController extends HttpServlet {
         LevelDAO levelDao = new LevelDAO();
         try {
             List<Course> list = courseDao.searchCourses(search, category, level, duration, page, pageSize);
-            int listCount = courseDao.searchCoursesCount(search, category, level, duration, page, pageSize);
+            int listCount = courseDao.searchCoursesCount(search, category, level, duration);
             int pageCount = (int) Math.ceil(listCount / (float) pageSize);
             
             request.setAttribute("list", list);
