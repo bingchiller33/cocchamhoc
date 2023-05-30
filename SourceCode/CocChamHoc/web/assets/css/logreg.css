@@ -10,7 +10,6 @@
 }
 
 .container-form {
-    width: 1600px;
     display: flex;
     justify-content: center;
 }
@@ -45,7 +44,7 @@
 
 .right_part {
     color: white;
-    width: 45%;
+    width: 50%;
     background: #1C1E53;
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
@@ -173,11 +172,8 @@ body {
 
 .left_part {
     width: 55%;
-    /*background-color: black;*/
     background-size: cover;
     background-repeat: no-repeat;
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
 }
 
 .left-heading {
@@ -204,9 +200,6 @@ body {
     color: white;
     width: 45%;
     background: #1C1E53;
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-    overflow: hidden;
 }
 
 .right-head {
@@ -229,13 +222,14 @@ body {
 }
 
 .form-group {
-    padding-left: 80px;
+    padding-left: 40px;
     height: 65px;
     margin: 18px 0;
 }
 
 .form-remember {
-    padding-left: 80px;
+    padding-left: 40px;
+    margin-bottom: 20px;
     color: rgb(146, 143, 143);
     height: 26px;
 }
@@ -264,12 +258,12 @@ body {
 .form-submit {
     width: 385px;
     height: 50px;
-    border-radius: 8px;
-    margin-left: 80px;
+    border-radius: 4px;
+    margin-left: 40px;
     background: rgb(252, 217, 131);
     border: 1px solid wheat;
     color: #000;
-    font-family: 'Pfoppins';
+    font-family: 'Poppins';
     font-style: normal;
     font-weight: 700;
     font-size: 22px;
@@ -281,7 +275,7 @@ body {
 }
 
 .logreg-link {
-    margin: 34px 0 38px 180px;
+    margin: 34px 0 20px 40px;
 }
 
 .logreg-link a {
@@ -302,10 +296,10 @@ body {
 }
 
 .right-part_space {
-    margin-right: 10%;
+    margin-right: 5%;
 }
 
 .left-part_space {
-    margin-left: 10%;
+    margin-left: 5%;
 }
 
