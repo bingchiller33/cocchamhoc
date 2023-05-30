@@ -24,7 +24,7 @@ public class LoginController extends HttpServlet {
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("login/login.jsp").forward(req, resp);
+        req.getRequestDispatcher("/login/login.jsp").forward(req, resp);
     }
     
     @Override
@@ -46,14 +46,14 @@ public class LoginController extends HttpServlet {
                 response.addCookie(cPassword);
             }
             if (userDAO.checkAdmin(email, userDAO.toMD5(password))){
-                response.sendRedirect("admin.jsp");
+                response.sendRedirect("/admin");
                 return;
             }
             request.getSession().setAttribute("validate", "");
-            response.sendRedirect("index.html");
+            response.sendRedirect("/");
         }else {
             request.getSession().setAttribute("validate", validate);
-            response.sendRedirect("./login/login.jsp");
+            response.sendRedirect("/login/login.jsp");
         }
     }
 }

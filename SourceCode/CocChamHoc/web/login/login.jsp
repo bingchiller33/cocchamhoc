@@ -45,7 +45,7 @@
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
-                            <input id="password" name="password" value="" type="text" placeholder="Password" class="form-control">
+                            <input id="password" name="password" value="" type="password" placeholder="Password" class="form-control">
                             <span class="form-message"></span>
                         </div>
                         <span class="validate-message">${validate}</span>
