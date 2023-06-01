@@ -258,3 +258,8 @@ a{
 .course-finder > .pagi-container {
     grid-area: pagi;
 }
+
+
+button {
+    cursor: pointer;
+}
