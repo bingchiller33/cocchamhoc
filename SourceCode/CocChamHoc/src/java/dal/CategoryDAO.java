@@ -35,5 +35,4 @@ public class CategoryDAO extends MyDAO {
 
         return categories;
     }
-        
 }
