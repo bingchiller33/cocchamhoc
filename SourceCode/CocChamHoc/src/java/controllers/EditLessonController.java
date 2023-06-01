@@ -84,7 +84,7 @@ public class EditLessonController extends HttpServlet {
 
             request.getRequestDispatcher("/courseEditor/editLesson.jsp").include(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(TestCourseNav.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditLessonController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

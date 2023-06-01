@@ -24,11 +24,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     margin: 1.5rem 0.25rem;
 }
 
-.admin-course-nav .course-nav-header {
+/*.admin-course-nav .course-nav-header {
     margin-left: 0.5rem;
     margin-top: 0.5rem;
     color: #2405f2;
-}
+}*/
 
 .admin-course-nav .course-nav-header * {
     color: #2405f2;

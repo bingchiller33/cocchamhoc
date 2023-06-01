@@ -17,43 +17,55 @@
         <%@include file="/components/headCommon.jspf" %>
     </head>
     <body>
-        <%@include file="/components/headerEditCourse.jspf" %>
-        <div class="edit-lesson-container">
-            <%@include file="/components/editCourseNavbar.jspf" %>
-            <div class="content-pane">
-                <main>
-                    <h1 class="m-4">
-                        Edit Lesson
-                    </h1>
-                    <form method="post">
-                        <input type="hidden" name="courseId" value="${courseId}"/>
-                        <input type="hidden" name="chapterId" value="${chapterId}"/>
-                        <input type="hidden" name="lessonNumber" value="${lessonNumber}"/>
-                        <div class="fields">
-                            <label for="lesson-name">Name</label>
-                            <input type="text" id="lesson-name" name="lessonName" value="${lesson.name}" required/>
-                            <label for="lesson-prev">Previous Lesson</label>
-                            <select id="lesson-prev" name="lessonPrev" required>
-                                <option value="0">None (First lesson in this chapter)</option>
-                                <c:forEach var="item" items="${lessons}">
-                                    <option value="${item.lessonNumber}" ${prev.lessonNumber == item.lessonNumber ? "selected" : ""}>${item.lessonNumber}: ${item.name}</option>
-                                </c:forEach>
-                            </select>
-                            <label for="lesson-vid">Video URL</label>
-                            <input type="text" id="lesson-vid" name="lessonVid" value="${lesson.video}"  required/>
-                            <label for="lesson-desc">Description</label>
-                            <textarea height="300px" id="lesson-desc" name="lessonDesc">${lesson.description}</textarea>
-                        </div>
-                        <div class="action-container">
-                            <input type="submit" name="action" value="Delete" class="btn-del"/>
-                            <input type="submit" name="action" value="Save" class="btn-save"/>
-                        </div>
-
-                    </form>
-                </main>
-
+        <div class="course-editor-frame">
+            <div class="course-editor-header">
+                <%@include file="/components/headerEditCourse.jspf" %>
             </div>
+            <div id="course-editor-nav" class="course-editor-nav">
+                <%@include file="/components/editCourseNavbar.jspf" %>
+            </div>
+            <div class="course-editor-title-bar">
+                <button onclick="collapseEvent(this)" data-target="course-editor-nav"><i class="fa-solid fa-bars"></i></button>
+                <h1 class="editor-default-title">
+                    Edit Lesson
+                </h1>
+            </div>
+            <main class="course-editor-main">
+                <form method="post">
+                    <input type="hidden" name="courseId" value="${courseId}"/>
+                    <input type="hidden" name="chapterId" value="${chapterId}"/>
+                    <input type="hidden" name="lessonNumber" value="${lessonNumber}"/>
+                    <div class="field-list">
+                        <label for="lesson-name">Name</label>
+                        <input type="text" id="lesson-name" name="lessonName" value="${lesson.name}" required/>
+                        <label for="lesson-prev">Previous Lesson</label>
+                        <select id="lesson-prev" name="lessonPrev" required>
+                            <option value="0">None (First lesson in this chapter)</option>
+                            <c:forEach var="item" items="${lessons}">
+                                <option value="${item.lessonNumber}" ${prev.lessonNumber == item.lessonNumber ? "selected" : ""}>${item.lessonNumber}: ${item.name}</option>
+                            </c:forEach>
+                        </select>
+                        <label for="lesson-vid">Video URL</label>
+                        <input type="text" id="lesson-vid" name="lessonVid" value="${lesson.video}"  required/>
+                        <label for="lesson-desc">Description</label>
+                        <textarea height="300px" id="lesson-desc" name="lessonDesc">${lesson.description}</textarea>
+                    </div>
+                    <div class="action-container">
+                        <input type="submit" name="action" value="Delete" class="btn-del"/>
+                        <input type="submit" name="action" value="Save" class="btn-save"/>
+                    </div>
+                </form>
+            </main>
         </div>
-        <%@include file="/components/footer.jspf" %>
+        <style>
+            body {
+                background: #F4F6FC;
+            }
+            
+            .course-editor-main {
+                padding: 2rem;
+            }
+        </style>
+        <script src="/assets/js/base.js"></script>
     </body>
 </html>

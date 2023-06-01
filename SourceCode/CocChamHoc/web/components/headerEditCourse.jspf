@@ -28,6 +28,8 @@
     .course-title-container {
         background: #1C1E53;
         color: white;
+        max-width: 35vw;
+        overflow: hidden;
     }
 
     .back-btn {
