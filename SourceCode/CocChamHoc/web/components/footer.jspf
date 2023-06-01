@@ -1,0 +1,46 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<div class="footer">
+    <div class="footer-container">
+        <div class="row">
+            <div class="footer-col-1">
+                <p class="bold">[COC CHAM HOC]</p>
+                <p>SUCCESS WITH COC CHAM HOC</p>
+            </div>
+            <div class="footer-col-2">
+                <p class="normal">Social Media</p>
+                <p>Instagram</p>
+                <p>Twitter</p>
+                <p>LinkedIn</p>
+            </div>
+            <div class="footer-col-3">
+                <p class="normal">Email</p>
+                <p>cocchamhoc@gmail.com</p>
+                <p class="normal">Telephone</p>
+                <p>+699 642 002 </p>
+            </div>
+            <div class="footer-col-4">
+                <p class="normal">Support</p>
+                <p>About Us</p>
+                <p>Provision</p>
+                <p>Privacy Policy</p>
+            </div>
+        </div>
+    </div>
+    <div class="footer-nav">
+        <div class="row">
+            <div class="col-3">
+                © Copyright EDUFREE 2021 - 2022
+            </div>
+            <div class="col-3">
+                <nav class="nav-footer">
+                    <ul>
+                        <li><a href="home">HOME</a></li>
+                        <li><a href="">ABOUT US</a></li>
+                        <li><a href="">COURSE</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
