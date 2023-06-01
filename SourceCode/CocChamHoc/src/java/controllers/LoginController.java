@@ -22,12 +22,16 @@ import utils.EncryptionUtils;
  */
 @WebServlet(name = "LoginController", urlPatterns = {"/login"})
 public class LoginController extends HttpServlet {
-    
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/login/login.jsp").forward(req, resp);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/login/login.jsp").forward(request, response);
+        boolean inValid = request.getSession().getAttribute("validate").equals("");
+        if (!inValid) {
+            request.getSession().setAttribute("validate", "");
+        }
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -47,13 +51,13 @@ public class LoginController extends HttpServlet {
                 response.addCookie(cEmail);
                 response.addCookie(cPassword);
             }
-            if (userDAO.checkAdmin(email, eu.toMD5(password))){
+            if (userDAO.checkAdmin(email, eu.toMD5(password))) {
                 response.sendRedirect("/admin");
                 return;
             }
             request.getSession().setAttribute("validate", "");
             response.sendRedirect("/");
-        }else {
+        } else {
             request.getSession().setAttribute("validate", validate);
             response.sendRedirect("/login");
         }
