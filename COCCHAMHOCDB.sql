@@ -105,6 +105,13 @@ CREATE TABLE [Users]
     Gender BIT,
     PhoneNumber VARCHAR(69),
 );
+CREATE TABLE [UsersEnroll]
+(
+	UserId INT FOREIGN KEY REFERENCES dbo.Users(UserID),
+	CourseID INT FOREIGN KEY REFERENCES dbo.Courses(CourseID),
+	Status VARCHAR(100) CHECK(Status IN('Learning', 'Complete')) DEFAULT 'Learning',
+	PRIMARY KEY (UserId, CourseID)
+)
 GO
 CREATE TABLE ExamPapers
 (
@@ -157,3 +164,4 @@ CREATE TABLE Ratings
                     CourseID
                 )
 );
+GO

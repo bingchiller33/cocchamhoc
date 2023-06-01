@@ -15,14 +15,14 @@
         <span>...</span>
     </c:if>
     <c:forEach var="item" items="${pages}">
-        <input class="d-none" type="radio" name="page" value="${item}" id="pagination-choice-${item}" onchange="selectFilter(event)" ${page == item ? "checked" : ""}/> 
+        <input class="d-none" type="radio" name="page" value="${item}" id="pagination-choice-${item}" onclick="selectFilter(event)" ${page == item ? "checked" : ""}/> 
         <label for="pagination-choice-${item}">${item}</label>
     </c:forEach>
     <c:if test="${PaginationUtils.includeDots(pages, pageCount, pageCount - 1)}">
         <span>...</span>
     </c:if>
     <c:if test="${!PaginationUtils.contains(pages, pageCount)}">
-        <input class="d-none" type="radio" name="page" value="${pageCount}" id="pagination-choice-${pageCount}" onchange="selectFilter(event)" ${page == pageCount ? "checked" : ""}/> 
+        <input class="d-none" type="radio" name="page" value="${pageCount}" id="pagination-choice-${pageCount}" onclick="selectFilter(event)" ${page == pageCount ? "checked" : ""}/> 
         <label for="pagination-choice-${pageCount}">${pageCount}</label>
     </c:if>
 </form>

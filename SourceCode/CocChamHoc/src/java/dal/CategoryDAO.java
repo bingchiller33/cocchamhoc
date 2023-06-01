@@ -35,5 +35,21 @@ public class CategoryDAO extends MyDAO {
 
         return categories;
     }
-        
+
+    public void createCategory(String description) {
+        xSql = "INSERT INTO dbo.Categories\n"
+                + "(\n"
+                + "    CategoryDescription\n"
+                + ")\n"
+                + "VALUES\n"
+                + "(? - CategoryDescription - nvarchar(69)\n"
+                + "    )";
+        try {
+            ps = con.prepareStatement(xSql);
+            ps.setString(1, description);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }
 }
