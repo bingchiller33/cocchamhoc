@@ -1,0 +1,18 @@
+*{
+    font-family: Poppins, sans-serif;
+}
+.spacing_bottom {
+    padding-top: 20px;
+}
+
+.spacing_top {
+    padding-top: 20px;
+}
+
+.validate-message {
+    margin-left: 80px;
+    color: #f33a58;
+}
+.left_part {
+    background-image: url(../img/login.jpg);
+}

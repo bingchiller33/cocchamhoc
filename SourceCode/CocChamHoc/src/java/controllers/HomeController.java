@@ -66,7 +66,7 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int pageSize = 2;
+        int pageSize = 12;
         int page = ParseUtils.parseIntWithDefault(request.getParameter("page"), 1) - 1;
         int category = ParseUtils.parseIntWithDefault(request.getParameter("category"), -1);
         int level = ParseUtils.parseIntWithDefault(request.getParameter("level"), -1);
