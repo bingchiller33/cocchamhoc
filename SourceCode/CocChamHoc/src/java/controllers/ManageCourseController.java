@@ -85,46 +85,46 @@ public class ManageCourseController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String name = request.getParameter("courseName");
-        if (name == null || name.isEmpty()) {
-            //
-        }
-
-        int categoryId = ParseUtils.parseIntWithDefault(request.getParameter("categoryId"), -1);
-        if (categoryId == -1) {
-            // 
-        }
-        
-        int levelId = ParseUtils.parseIntWithDefault(request.getParameter("levelId"), -1);
-        if (levelId == -1) {
-            //
-        }
-        
-        String lecturer = request.getParameter("lecturer");
-        if (lecturer == null || lecturer.isEmpty()) {
-            //
-        }
-
-        String bannerImage = request.getParameter("bannerImage");
-        String description = request.getParameter("description");
-
-        Date publishDate = Date.valueOf(request.getParameter("publishDate"));
-        int duration = TimeUtils.timeToInt(request.getParameter("duration"));
-
-        // try - catch
-        CourseDAO courseDao = new CourseDAO();
-        courseDao.createCourse(bannerImage, name, description, publishDate, lecturer, duration, levelId, categoryId);
-        
-        // return to admin site
-        CategoryDAO cd = new CategoryDAO();
-        LevelDAO ld = new LevelDAO();
-        try {
-            request.setAttribute("categoryData", cd.getAllCategories());
-            request.setAttribute("levelData", ld.getAllLevels());
-        } catch (SQLException ex) {
-            Logger.getLogger(ManageCourseController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        request.getRequestDispatcher("/admin/course.jsp").forward(request, response);
+//        String name = request.getParameter("courseName");
+//        if (name == null || name.isEmpty()) {
+//            //
+//        }
+//
+//        int categoryId = ParseUtils.parseIntWithDefault(request.getParameter("categoryId"), -1);
+//        if (categoryId == -1) {
+//            // 
+//        }
+//        
+//        int levelId = ParseUtils.parseIntWithDefault(request.getParameter("levelId"), -1);
+//        if (levelId == -1) {
+//            //
+//        }
+//        
+//        String lecturer = request.getParameter("lecturer");
+//        if (lecturer == null || lecturer.isEmpty()) {
+//            //
+//        }
+//
+//        String bannerImage = request.getParameter("bannerImage");
+//        String description = request.getParameter("description");
+//
+//        Date publishDate = Date.valueOf(request.getParameter("publishDate"));
+//        int duration = TimeUtils.timeToInt(request.getParameter("duration"));
+//
+//        // try - catch
+//        CourseDAO courseDao = new CourseDAO();
+//        courseDao.createCourse(bannerImage, name, description, publishDate, lecturer, duration, levelId, categoryId);
+//        
+//        // return to admin site
+//        CategoryDAO cd = new CategoryDAO();
+//        LevelDAO ld = new LevelDAO();
+//        try {
+//            request.setAttribute("categoryData", cd.getAllCategories());
+//            request.setAttribute("levelData", ld.getAllLevels());
+//        } catch (SQLException ex) {
+//            Logger.getLogger(ManageCourseController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        request.getRequestDispatcher("/admin/course.jsp").forward(request, response);
     }
 
     /** 
