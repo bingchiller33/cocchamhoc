@@ -45,8 +45,8 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <a href="/admin/edit-course">Edit</a>
-                                        <a href="#">Delete</a>
+                                        <a href="/admin/edit-course?courseId=${i.id}">Edit</a>
+                                        <a href="/admin/edit-course?courseId=${i.id}&action=Delete">Delete</a>
                                     </td>
                                 </tr>
                             </c:forEach>

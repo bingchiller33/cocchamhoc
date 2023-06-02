@@ -91,7 +91,20 @@ public class EditCourseController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String action = request.getParameter("action");
+        if (action == null) {
+            processRequest(request, response);
+            return;
+        }
+
+        switch (action) {
+            case "Save":
+                processSave(request, response);
+                break;
+            case "Delete":
+                processDelete(request, response);
+                break;
+        }
     }
 
     /**
@@ -159,7 +172,7 @@ public class EditCourseController extends HttpServlet {
                 courseDAO.deleteCourse(courseId);
             }
 
-            response.sendRedirect("/admin/courses");
+            response.sendRedirect("/admin");
         } catch (SQLException ex) {
             Logger.getLogger(EditCourseController.class.getName()).log(Level.SEVERE, null, ex);
         }

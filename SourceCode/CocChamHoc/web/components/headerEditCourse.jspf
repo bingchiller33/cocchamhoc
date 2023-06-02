@@ -4,7 +4,7 @@
 <div class="header-container">
     <div class="navbar">
         <div class="course-title-container bold">
-            <a href="/admin/courses" class="back-btn"> <i class="fa-solid fa-chevron-left"></i> Back to courses</a>
+            <a href="/admin" class="back-btn"> <i class="fa-solid fa-chevron-left"></i> Back to courses</a>
             <p class="course-title">${course.title}</p>
         </div>
         <nav class="nav-header">
