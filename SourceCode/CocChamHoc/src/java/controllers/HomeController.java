@@ -66,7 +66,7 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int pageSize = 2;
+        int pageSize = 12;
         int page = ParseUtils.parseIntWithDefault(request.getParameter("page"), 1) - 1;
         int category = ParseUtils.parseIntWithDefault(request.getParameter("category"), -1);
         int level = ParseUtils.parseIntWithDefault(request.getParameter("level"), -1);
@@ -82,7 +82,7 @@ public class HomeController extends HttpServlet {
         LevelDAO levelDao = new LevelDAO();
         try {
             List<Course> list = courseDao.searchCourses(search, category, level, duration, page, pageSize);
-            int listCount = courseDao.searchCoursesCount(search, category, level, duration, page, pageSize);
+            int listCount = courseDao.searchCoursesCount(search, category, level, duration);
             int pageCount = (int) Math.ceil(listCount / (float) pageSize);
             
             request.setAttribute("list", list);
