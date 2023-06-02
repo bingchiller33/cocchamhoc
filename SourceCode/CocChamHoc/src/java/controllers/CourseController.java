@@ -8,15 +8,17 @@ package controllers;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Yui
+ * @author Viet
  */
-public class NewServlet extends HttpServlet {
+@WebServlet(name="CourseController", urlPatterns={"/course"})
+public class CourseController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -33,10 +35,10 @@ public class NewServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet NewServlet</title>");  
+            out.println("<title>Servlet CourseController</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet NewServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet CourseController at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }

@@ -72,6 +72,24 @@ public class CourseDAO extends MyDAO {
 
         return results;
     }
+    
+    public ArrayList<Course> getCourse(){
+        ArrayList<Course> list = new ArrayList<>();
+        xSql = "SELECT * FROM dbo.Courses JOIN dbo.Levels ON Levels.LevelID = Courses.LevelID JOIN dbo.Categories ON Categories.CategoryID = Courses.CategoryID";
+        try {
+            ps = con.prepareStatement(xSql);
+            rs = ps.executeQuery();
+            while(rs.next()) {
+                Level level = new Level(rs.getInt("LevelID"), rs.getString("LevelDescription"));
+                Category cat = new Category(rs.getInt("CategoryID"), rs.getString("CategoryDescription"));
+                Course c = new Course(rs.getInt("CourseID"), rs.getString("Title"), rs.getString("CourseDescription"), rs.getString("CourseBannerImage"), rs.getDate("PublishDate"), rs.getString("Lecturer"), level, cat, rs.getInt("DurationInSeconds"));
+                list.add(c);
+            }
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+        return list;
+    }
 
     /**
      * This method get the count of Searches the count of courses based on the

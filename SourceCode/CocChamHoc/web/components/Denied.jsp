@@ -1,7 +1,7 @@
 <%-- 
-    Document   : coursedetail
-    Created on : May 20, 2023, 5:47:27 PM
-    Author     : Yui
+    Document   : Denied
+    Created on : Jun 2, 2023, 2:12:16 AM
+    Author     : Viet
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,6 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Access Denied</h1>
+        <a href="home">Go BACK TO HOMEPAGE</a>
     </body>
 </html>

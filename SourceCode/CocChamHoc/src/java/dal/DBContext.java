@@ -24,9 +24,7 @@ public class DBContext {
             properties.setProperty("user", username);
             properties.setProperty("password", password);
             properties.setProperty("sendTimeAsDatetime", "false"); // Set sendTimeAsDatetime to false
-            
             connection = DriverManager.getConnection(url, properties);
-            
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
         }

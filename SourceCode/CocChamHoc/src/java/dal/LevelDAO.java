@@ -85,5 +85,4 @@ public class LevelDAO extends MyDAO {
         
         return level;
     }
-
 }
