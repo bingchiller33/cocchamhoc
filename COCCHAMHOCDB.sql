@@ -125,7 +125,7 @@ CREATE TABLE UserAnswers
     PaperID INT
         FOREIGN KEY REFERENCES dbo.ExamPapers (PaperID) ON DELETE CASCADE,
     ChoiceID INT
-		FOREIGN KEY REFERENCES dbo.Choices(ChoiceID) ON DELETE CASCADE,
+		FOREIGN KEY REFERENCES dbo.Choices(ChoiceID),
     PRIMARY KEY (
                     AnswerID,
                     ChoiceID
@@ -183,3 +183,44 @@ VALUES
 ('https://example.com/image13.jpg', N'Thiết kế sản phẩm với Sketch', N'Khóa học giới thiệu về Sketch và cách sử dụng công cụ này để thiết kế sản phẩm.', '2024-01-01', N'Vũ Văn M', 27000, 2, 2),
 ('https://example.com/image14.jpg', N'Thiết kế Web với Figma', N'Tìm hiểu về cách thiết kế giao diện web chuyên nghiệp với Figma.', '2024-02-01', N'Phạm Thị N', 26000, 2, 2),
 ('https://example.com/image15.jpg', N'Thiết kế đồ họa với Adobe Illustrator', N'Khóa học này giúp bạn nắm vững kiến thức cơ bản về thiết kế đồ họa với Adobe Illustrator.', '2024-03-01', N'Đặng Văn O', 32000, 1, 2);
+
+
+INSERT INTO Chapters (ChapterNumber, CourseID, ChapterName)
+VALUES (1, 1, N'Cú pháp Python');
+INSERT INTO Chapters (ChapterNumber, CourseID, ChapterName)
+VALUES (2, 1, N'Các kiểu dữ liệu cơ bản');
+INSERT INTO Chapters (ChapterNumber, CourseID, ChapterName)
+VALUES (3, 1, N'Cấu trúc điều kiện');
+
+INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
+VALUES (1, 1, N'Giới thiệu về Python', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này giới thiệu về Python và tầm quan trọng của việc học lập trình Python.');
+INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
+VALUES (2, 1, N'Cài đặt môi trường Python', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này hướng dẫn cách cài đặt môi trường Python trên máy tính của bạn.');
+INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
+VALUES (3, 1, N'Cú pháp căn bản', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này giới thiệu về cú pháp căn bản của Python, bao gồm khai báo biến, các toán tử cơ bản, và cấu trúc điều kiện.');
+INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
+VALUES (4, 1, N'Cấu trúc điều kiện', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này tập trung vào cấu trúc điều kiện trong Python, bao gồm câu lệnh if-else và câu lệnh switch-case.');
+INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
+VALUES (5, 1, N'Vòng lặp', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này giới thiệu về vòng lặp trong Python, bao gồm vòng lặp while và vòng lặp for.');
+
+INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
+VALUES (1, 2, N'Kiểu số nguyên', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này giới thiệu về kiểu dữ liệu số nguyên trong Python và các phép toán số học liên quan.');
+INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
+VALUES (2, 2, N'Kiểu số thực', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này tập trung vào kiểu dữ liệu số thực trong Python và các phép toán liên quan.');
+INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
+VALUES (3, 2, N'Kiểu chuỗi', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này giới thiệu về kiểu dữ liệu chuỗi trong Python và các phép toán và phương thức liên quan.');
+INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
+VALUES (4, 2, N'Kiểu boolean', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này tập trung vào kiểu dữ liệu boolean trong Python và các phép toán logic liên quan.');
+INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
+VALUES (5, 2, N'Kiểu danh sách', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này giới thiệu về kiểu dữ liệu danh sách trong Python và các phép toán và phương thức liên quan.');
+
+INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
+VALUES (1, 3, N'Câu lệnh if', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này giới thiệu về câu lệnh if trong Python và cách sử dụng nó để kiểm tra điều kiện và thực hiện các hành động tương ứng.');
+INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
+VALUES (2, 3, N'Câu lệnh if-else', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này tập trung vào câu lệnh if-else trong Python và cách sử dụng nó để lựa chọn giữa hai hành động khác nhau dựa trên một điều kiện.');
+INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
+VALUES (3, 3, N'Câu lệnh if-elif-else', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này giới thiệu về câu lệnh if-elif-else trong Python và cách sử dụng nó để kiểm tra nhiều điều kiện và lựa chọn hành động tương ứng.');
+INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
+VALUES (4, 3, N'Câu lệnh switch-case', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này tập trung vào cách thực hiện cấu trúc điều kiện switch-case trong Python và cách sử dụng nó để lựa chọn giữa các trường hợp khác nhau dựa trên giá trị của một biểu thức.');
+INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
+VALUES (5, 3, N'Câu lệnh nested if', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này giới thiệu về câu lệnh nested if trong Python và cách sử dụng nó để xử lý các trường hợp phức tạp hơn trong cấu trúc điều kiện.');

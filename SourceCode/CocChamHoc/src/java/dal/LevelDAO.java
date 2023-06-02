@@ -4,9 +4,11 @@
  */
 package dal;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.Category;
 import model.Level;
 
 /**
@@ -36,6 +38,52 @@ public class LevelDAO extends MyDAO {
         }
 
         return levels;
+    }
+    
+    
+     public void createLevel(String description) throws SQLException {
+        xSql = "INSERT INTO Levels(LevelDescription) values(?)";
+        ps = con.prepareStatement(xSql);
+        ps.setString(1, description);
+        ps.execute();
+    }
+
+    public Level getDefaultLevel() throws SQLException {
+        xSql = "select * from Levels "
+                + "order by LevelId asc "
+                + "offset 0 row "
+                + "fetch next 1 row only";
+
+        ps = con.prepareStatement(xSql);
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+            return fromResultSet(rs);
+        } else {
+            createLevel("default");
+            return getDefaultLevel();
+        }
+    }
+    
+    public Level fromDescription(String desc) throws SQLException {
+        xSql = "select * from Levels where LevelDescription = ?";
+        ps = con.prepareStatement(xSql);
+        ps.setString(1, desc);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            return fromResultSet(rs);
+        } else {
+            createLevel(desc);
+            return fromDescription(desc);
+        }
+    }
+
+    private Level fromResultSet(ResultSet rs) throws SQLException {
+        int levelId = rs.getInt("LevelId");
+        String description = rs.getString("LevelDescription");
+        Level level = new Level(levelId, description);
+        
+        return level;
     }
 
 }

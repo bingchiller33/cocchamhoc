@@ -257,3 +257,12 @@ a{
 .course-finder > .pagi-container {
     grid-area: pagi;
 }
+
+
+button, input[type="submit"] {
+    cursor: pointer;
+}
+
+.collapsed {
+    display: none;
+}
