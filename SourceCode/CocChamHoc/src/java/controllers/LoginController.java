@@ -53,7 +53,7 @@ public class LoginController extends HttpServlet {
             response.sendRedirect("/");
         }else {
             request.getSession().setAttribute("validate", validate);
-            response.sendRedirect("/login/login.jsp");
+            response.sendRedirect("/login");
         }
     }
 }
