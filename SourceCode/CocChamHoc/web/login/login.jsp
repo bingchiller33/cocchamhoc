@@ -11,8 +11,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>JSP Page</title>
-        <link rel="stylesheet" href="../assets/css/logreg.css">
         <link rel="stylesheet" href="../assets/css/login.css">
+        <link rel="stylesheet" href="../assets/css/logreg.css">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;500&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
@@ -63,7 +63,7 @@
                 <div class="right-part_space"></div>
             </div>
         </div>
-        <script src="./login.js"></script>
+        <script src="../assets/js/login.js"></script>
         <script>
             Validator({
                 form: "#form-1",
@@ -72,7 +72,7 @@
                 rules: [
                     Validator.isEmail("#email"),
                     Validator.isRequired("#email"),
-                    Validator.isMinlength("#password", 6),
+                    Validator.isRequired("#password")
                 ]
             });
         </script>

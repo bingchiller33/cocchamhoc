@@ -24,6 +24,7 @@ public class RegisterController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getSession().setAttribute("validate", "");
         req.getRequestDispatcher("/login/register.jsp").forward(req, resp);
     }
     

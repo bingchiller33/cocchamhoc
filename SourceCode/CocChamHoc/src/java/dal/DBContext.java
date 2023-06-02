@@ -13,9 +13,12 @@ public class DBContext {
     {
         try {
             //Change the username password and url to connect your own database
+            // We get these information from environment variable so that it 
+            // can be changed without recompiling our code
             String username = System.getenv("CSUSERNAME");
             String password = System.getenv("CSPASSWORD");
             String url = System.getenv("CS");
+            
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             Properties properties = new Properties();
             properties.setProperty("user", username);

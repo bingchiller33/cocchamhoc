@@ -1,0 +1,62 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Jun 1, 2023, 3:26:35 PM
+    Author     : Yui
+*/
+
+.admin-course-nav-container {
+    /*extra styling*/
+}
+
+.admin-course-nav-container .course-title {
+    font-size: 22px;
+}
+
+.admin-course-nav  {
+    padding: 1rem;
+}
+
+.admin-course-nav .hsep {
+    border-top: 1px solid black;
+    margin: 1.5rem 0.25rem;
+}
+
+/*.admin-course-nav .course-nav-header {
+    margin-left: 0.5rem;
+    margin-top: 0.5rem;
+    color: #2405f2;
+}*/
+
+.admin-course-nav .course-nav-header * {
+    color: #2405f2;
+}
+
+.admin-course-nav .nav-item {
+    margin-left: 1rem;
+    padding: 0.5rem;
+}
+
+.admin-course-nav .nav-item-headerless {
+    margin-left: 1.5rem;
+}
+
+.admin-course-nav .nav-item * {
+    color: black;
+}
+
+.admin-course-nav .nav-item-flex {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+}
+
+.admin-course-nav .nav-item-flex i {
+    margin-top: 4px;
+}
+
+.admin-course-nav .o-1 {
+    opacity: 1;
+}

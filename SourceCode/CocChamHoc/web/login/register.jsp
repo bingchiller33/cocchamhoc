@@ -22,7 +22,7 @@
         <div class="container">
             <div class="btn-back_home">
                 <p>
-                    
+
                     <a class="back_home-detail" href="/"><i class="fa fa-arrow-left" aria-hidden="true"></i> Homepage</a>
                 </p>
             </div>
@@ -51,7 +51,7 @@
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group"> 
-                            <input type="password" id="password" name="password" class="form-control" placeholde="Password" >
+                            <input type="password" id="password" name="password" class="form-control" placeholder="Password" >
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group"> 

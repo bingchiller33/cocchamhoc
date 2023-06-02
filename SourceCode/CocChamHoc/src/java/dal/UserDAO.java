@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package dal;
-        
+
 import dal.MyDAO;
 import model.Users;
 import java.security.MessageDigest;
@@ -16,7 +16,7 @@ import java.util.List;
  * @author LAPTOP
  */
 public class UserDAO extends MyDAO {
-    
+
     public int insertUser(Users t) {
         int result = 0;
         try {
@@ -41,42 +41,7 @@ public class UserDAO extends MyDAO {
         return result;
     }
 
-    public String toMD5(String password) {
-        String salt = "emwkqnahd:;wmdLDk";
-        String result = null;
 
-        // Concatenate the password with a salt value
-        password = password + salt;
-
-        try {
-            // Convert the password string to bytes using UTF-8 encoding
-            byte[] dataBytes = password.getBytes("UTF-8");
-
-            // Create an instance of MessageDigest with MD5 algorithm
-            MessageDigest md = MessageDigest.getInstance("MD5");
-
-            // Calculate the hash of the byte array
-            byte[] hashBytes = md.digest(dataBytes);
-
-            // Convert the MD5 bytes to a hexadecimal representation
-            StringBuilder sb = new StringBuilder();
-            for (byte hashByte : hashBytes) {
-                sb.append(String.format("%02x", hashByte));
-            }
-
-            // Store the MD5 hash value as a string
-            result = sb.toString();
-
-            // Return the MD5 hash value
-            return result;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // Return null if an exception occurs
-        return result;
-    }
-    
     public boolean usernameCheck(String email) {
         boolean ketQua = false;
         try {
@@ -97,6 +62,7 @@ public class UserDAO extends MyDAO {
         }
         return ketQua;
     }
+
     public List<Users> checkUser(String email, String passWord) {
         List<Users> t = new ArrayList<>();
         xSql = "select * from Users where Email = ? and [Password] = ?";
@@ -146,9 +112,11 @@ public class UserDAO extends MyDAO {
                         rs.getString(8))
                 );
             }
-            for (int i = 0; i < t.size(); i++) {
-                if(t.get(i).isIsAdmin()){
-                    return true;
+            if (!t.isEmpty()) {
+                for (int i = 0; i < t.size(); i++) {
+                    if (t.get(i).isIsAdmin()) {
+                        return true;
+                    }
                 }
             }
             ps.execute();

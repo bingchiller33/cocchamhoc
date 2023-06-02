@@ -28,8 +28,7 @@ function Validator(options) {
         // lặp qua từng rule và ktra
         for (var i = 0; i < rules.length; ++i) {
             errorMessage = rules[i](inputElement.value);
-            if (errorMessage)
-                break;
+            if (errorMessage) break;
         }
 
         if (errorMessage) {
@@ -77,7 +76,7 @@ function Validator(options) {
                     formElement.submit();
                 }
             }
-        }
+        };
         // xử lý lặp quá mỗi rule và xử lý (lắng nghe sự kiên blur)
         options.rules.forEach(function (rule) {
 
@@ -94,13 +93,13 @@ function Validator(options) {
                 // Xử lý trường hợp blur khỏi input
                 inputElement.onblur = function () {
                     validate(inputElement, rule);
-                }
+                };
                 // Xử lý mỗi khi người dùng nhập vào input
                 inputElement.oninput = function () {
                     var errorElement = getParentElement(inputElement, options.formGroupSelector).querySelector(options.querySelector);
                     errorElement.innerText = '';
                     getParentElement(inputElement, options.formGroupSelector).classList.remove('invalid');
-                }
+                };
             });
         });
     }
@@ -113,24 +112,16 @@ Validator.isRequired = function (selector, msg) {
         selector: selector,
         test: function (value) {
             return value ? undefined : msg ||
-                    'Vui lòng nhập lại trường này';
+                'Please enter this field!';
         }
     };
-}
+};
 Validator.isEmail = function (selector, msg) {
     return {
         selector: selector,
         test: function (value) {
-            var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-            return regex.test(value) ? undefined : msg || 'Trường này phải là email';
+            var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            return regex.test(value) ? undefined : msg || 'Email required to enter!';
         }
     };
-}
-Validator.isMinlength = function (selector, min, msg) {
-    return {
-        selector: selector,
-        test: function (value) {
-            return value.length >= 6 ? undefined : msg || `Yêu cầu mật khẩu tối thiểu dài ${min} kí tự`;
-        }
-    };
-}
+};
