@@ -85,21 +85,4 @@ public class LevelDAO extends MyDAO {
         
         return level;
     }
-
-    public void createLevel(String level) {
-        xSql = "INSERT INTO dbo.Levels\n"
-                + "(\n"
-                + "    LevelDescription\n"
-                + ")\n"
-                + "VALUES\n"
-                + "(? -- LevelDescription - nvarchar(69)\n"
-                + "    )";
-        try {
-            ps = con.prepareStatement(xSql);
-            ps.setString(1, level);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println(e);
-        }
-    }
 }
