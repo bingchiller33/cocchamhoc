@@ -117,7 +117,7 @@ body {
     background: rgb(252, 217, 131);
     border: 1px solid wheat;
     color: #000;
-    font-family: 'Pfoppins';
+    font-family: 'Poppins';
     font-style: normal;
     font-weight: 700;
     font-size: 22px;
@@ -138,6 +138,15 @@ body {
 }
 
 .logreg-link a:hover {
+    text-decoration: underline;
+}
+
+.eulabox a {
+    color: #ffff76;
+    text-decoration: none;
+}
+
+.eulabox a:hover {
     text-decoration: underline;
 }
 
@@ -414,4 +423,5 @@ body {
 }
 
 
-@media (min-width: 1400px) {}
+@media (min-width: 1400px) {
+}
