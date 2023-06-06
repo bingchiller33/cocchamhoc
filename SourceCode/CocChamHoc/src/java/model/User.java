@@ -11,25 +11,25 @@ import java.sql.Date;
  *
  * @author LAPTOP
  */
-public class Users {
+public class User {
     private int     userID;
     private String  fullName;
     private String  email;
     private String  password;
-    private boolean isAdmin;
+    private int role;
     private Date    dob;
     private boolean gender;
     private String  phoneNumber;
 
-    public Users() {
+    public User() {
     }
 
-    public Users(int userID, String fullName, String email, String password, boolean isAdmin, Date dob, boolean gender, String phoneNumber) {
+    public User(int userID, String fullName, String email, String password, int role, Date dob, boolean gender, String phoneNumber) {
         this.userID = userID;
         this.fullName = fullName;
         this.email = email;
         this.password = password;
-        this.isAdmin = isAdmin;
+        this.role = role;
         this.dob = dob;
         this.gender = gender;
         this.phoneNumber = phoneNumber;
@@ -91,13 +91,14 @@ public class Users {
         this.phoneNumber = phoneNumber;
     }
 
-    public boolean isIsAdmin() {
-        return isAdmin;
+    public int getRole() {
+        return role;
     }
 
-    public void setIsAdmin(boolean isAdmin) {
-        this.isAdmin = isAdmin;
+    public void setRole(int role) {
+        this.role = role;
     }
+    
     
     public String toMD5(String password) {
         String salt = "emwkqnahd:;wmdLDk";

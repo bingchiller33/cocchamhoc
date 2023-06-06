@@ -5,6 +5,8 @@
 
 package controllers;
 
+import dal.CourseDAO;
+import dal.UserEnrollDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +14,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
+import model.User;
 
 /**
  *
@@ -55,7 +59,23 @@ public class CourseController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        int courseID = Integer.parseInt(request.getParameter("id"));
+        CourseDAO cd = new CourseDAO();
+        UserEnrollDAO ued = new UserEnrollDAO();
+        User user = (User)request.getSession().getAttribute("user");
+        try{
+        request.setAttribute("courseData", cd.getCourseById(courseID));
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        if(user == null){
+            request.setAttribute("isEnroll", false);
+        }
+        else
+            request.setAttribute("isEnroll", ued.isEnroll(user.getUserID(), courseID));
+        request.setAttribute("courseID", courseID);
+        request.getRequestDispatcher("/courseDetail/courseDetail.jsp").forward(request, response);
     } 
 
     /** 
