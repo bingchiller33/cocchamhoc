@@ -5,7 +5,6 @@
 
 package controllers;
 
-import dal.CourseDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,15 +12,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import model.Course;
 
 /**
  *
  * @author Viet
  */
-@WebServlet(name="AdminController", urlPatterns={"/admin"})
-public class AdminController extends HttpServlet {
+@WebServlet(name="LogoutController", urlPatterns={"/logout"})
+public class LogoutController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -32,19 +29,8 @@ public class AdminController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AdminController</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AdminController at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        request.getSession().invalidate();
+        response.sendRedirect("/");
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -58,10 +44,7 @@ public class AdminController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        CourseDAO cd = new CourseDAO();
-        List<Course> courseData = cd.getCourse();
-        request.setAttribute("courseData", courseData);
-        request.getRequestDispatcher("admin/admin.jsp").forward(request, response);
+        processRequest(request, response);
     } 
 
     /** 
@@ -74,9 +57,9 @@ public class AdminController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        //Unused Method
+        processRequest(request, response);
     }
-    
+
     /** 
      * Returns a short description of the servlet.
      * @return a String containing servlet description

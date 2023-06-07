@@ -4,7 +4,7 @@
  */
 package controllers;
 
-import model.Users;
+import model.User;
 import dal.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -13,6 +13,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
 import java.util.List;
 import utils.EncryptionUtils;
 
@@ -41,8 +42,13 @@ public class LoginController extends HttpServlet {
         String validate = "Email or password is incorrect.";
         UserDAO userDAO = new UserDAO();
         EncryptionUtils eu = new EncryptionUtils();
-        List<Users> isUser = userDAO.checkUser(email, eu.toMD5(password));
+        List<User> isUser = userDAO.checkUser(email, eu.toMD5(password));
         if (!isUser.isEmpty()) {
+            try {
+                request.getSession().setAttribute("user", userDAO.getUser(email, eu.toMD5(password)));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             if (remember.equals("on")) {
                 Cookie cEmail = new Cookie("email", email);
                 Cookie cPassword = new Cookie("password", password);

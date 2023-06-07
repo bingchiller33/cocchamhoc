@@ -5,8 +5,9 @@
 package dal;
 
 import dal.MyDAO;
-import model.Users;
+import model.User;
 import java.security.MessageDigest;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,17 +18,16 @@ import java.util.List;
  */
 public class UserDAO extends MyDAO {
 
-    public int insertUser(Users t) {
+    public int insertUser(User t) {
         int result = 0;
         try {
-            String xSql = "INSERT INTO Users (UserName, Email, Password, IsAdmin, DOB, Gender, PhoneNumber) "
+            String xSql = "INSERT INTO Users (UserName, Email, Password, Role, DOB, Gender, PhoneNumber) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?);";
             ps = con.prepareStatement(xSql);
-//            ps.setInt(1, t.getId());
             ps.setString(1, t.getFullName());
             ps.setString(2, t.getEmail());
             ps.setString(3, t.getPassword());
-            ps.setBoolean(4, t.isIsAdmin());
+            ps.setInt(4, t.getRole());
             ps.setDate(5, t.getDob());
             ps.setBoolean(6, t.isGender());
             ps.setString(7, t.getPhoneNumber());
@@ -48,8 +48,6 @@ public class UserDAO extends MyDAO {
             String sql = "SELECT * FROM Users WHERE Email=?";
             ps = con.prepareStatement(sql);
             ps.setString(1, email);
-
-            System.out.println(sql);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -63,22 +61,21 @@ public class UserDAO extends MyDAO {
         return ketQua;
     }
 
-    public List<Users> checkUser(String email, String passWord) {
-        List<Users> t = new ArrayList<>();
+    public List<User> checkUser(String email, String passWord) {
+        List<User> t = new ArrayList<>();
         xSql = "select * from Users where Email = ? and [Password] = ?";
-        System.out.println(email);
         try {
             ps = con.prepareStatement(xSql);
             ps.setString(1, email);
             ps.setString(2, passWord);
             rs = ps.executeQuery();
             while (rs.next()) {
-                t.add(new Users(
+                t.add(new User(
                         rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
                         rs.getString(4),
-                        rs.getBoolean(5),
+                        rs.getInt(5),
                         rs.getDate(6),
                         rs.getBoolean(7),
                         rs.getString(8))
@@ -93,7 +90,7 @@ public class UserDAO extends MyDAO {
     }
 
     public boolean checkAdmin(String email, String passWord) {
-        List<Users> t = new ArrayList<>();
+        List<User> t = new ArrayList<>();
         xSql = "select * from Users where Email = ? and [Password] = ?";
         try {
             ps = con.prepareStatement(xSql);
@@ -101,12 +98,12 @@ public class UserDAO extends MyDAO {
             ps.setString(2, passWord);
             rs = ps.executeQuery();
             while (rs.next()) {
-                t.add(new Users(
+                t.add(new User(
                         rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
                         rs.getString(4),
-                        rs.getBoolean(5),
+                        rs.getInt(5),
                         rs.getDate(6),
                         rs.getBoolean(7),
                         rs.getString(8))
@@ -114,7 +111,7 @@ public class UserDAO extends MyDAO {
             }
             if (!t.isEmpty()) {
                 for (int i = 0; i < t.size(); i++) {
-                    if (t.get(i).isIsAdmin()) {
+                    if (t.get(i).getRole() == 3) {
                         return true;
                     }
                 }
@@ -126,5 +123,21 @@ public class UserDAO extends MyDAO {
         }
         return false;
     }
-
+    
+    public User fromResultSet(ResultSet rs) throws SQLException{
+        return new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getDate(6), rs.getBoolean(7), rs.getString(8));
+    }
+    
+    public User getUser(String email, String pass) throws SQLException{
+        xSql = "select * from Users where Email = ? and [Password] = ?";
+        ps = con.prepareStatement(xSql);
+        ps.setString(1, email);
+        ps.setString(2, pass);
+        rs = ps.executeQuery();
+        if(rs.next()){
+            return fromResultSet(rs);
+        }
+        return null;
+    }
+    
 }

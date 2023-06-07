@@ -15,6 +15,10 @@ import jakarta.servlet.FilterConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.User;
 
 /**
  *
@@ -30,6 +34,7 @@ public class AdminFilter implements Filter {
     private FilterConfig filterConfig = null;
 
     public AdminFilter() {
+        //Default function
     } 
 
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
@@ -100,7 +105,16 @@ public class AdminFilter implements Filter {
 	if (debug) log("AdminFilter:doFilter()");
 
 	doBeforeProcessing(request, response);
-	
+        
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpSession session = req.getSession();
+        User user = (User)session.getAttribute("user");
+        if(user == null || user.getRole() == 1){
+            req.getRequestDispatcher("/components/Denied.jsp").forward(request, response);
+        }
+        else 
+            req.getRequestDispatcher("/admin").forward(request, response);
+        
 	Throwable problem = null;
 	try {
 	    chain.doFilter(request, response);
@@ -144,8 +158,8 @@ public class AdminFilter implements Filter {
      * Destroy method for this filter 
      */
     public void destroy() { 
+        //Default destroy method
     }
-
     /**
      * Init method for this filter 
      */
