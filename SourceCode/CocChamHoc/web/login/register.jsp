@@ -11,7 +11,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>Register</title>
         <link rel="stylesheet" href="../assets/css/logreg.css">
         <link rel="stylesheet" href="../assets/css/register.css">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;500&display=swap" rel="stylesheet">
@@ -22,7 +22,6 @@
         <div class="container">
             <div class="btn-back_home">
                 <p>
-
                     <a class="back_home-detail" href="/"><i class="fa fa-arrow-left" aria-hidden="true"></i> Homepage</a>
                 </p>
             </div>
@@ -40,7 +39,7 @@
                     <form action="../register" method="POST" id="form-1">
                         <div class="right-head">
                             <h3 class="right-title">Register</h3>
-                            <p class="right-desc">Fill your info</p>
+                            <p class="right-desc">Create your account now! It's free and only took a minute!</p>
                         </div>
                         <div class="form-group"> 
                             <input id="fullname" name="fullname" type="text" placeholder="Your Name" class="form-control">
@@ -60,8 +59,8 @@
                         </div>
                         <span class="error_msg">${Email_DUP}</span>
                         <div class="eulabox">
-                            <input type="checkbox" id="accept-eula" name="checkbox">
-                            <label for="accept-eula">I accept the End User License Agreement (EULA)</label>
+                            <input type="checkbox" id="accept-eula" name="checkbox" required>
+                            <label for="accept-eula">I agree to COC <a href="../home">Terms of use</a></label>
                         </div>
                         <button class="form-submit">Register</button>
                         <div class="logreg-link">

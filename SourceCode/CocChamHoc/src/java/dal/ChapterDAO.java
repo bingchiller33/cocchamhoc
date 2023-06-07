@@ -110,7 +110,7 @@ public class ChapterDAO extends MyDAO {
       xSql = "delete Chapters where ChapterNumber = ? and CourseID = ?";
       ps = con.prepareStatement(xSql);
       ps.setInt(1, chapterNumber);
-      ps.setInt(2,courseId);
+      ps.setInt(2, courseId);
       ps.execute();
    }
    

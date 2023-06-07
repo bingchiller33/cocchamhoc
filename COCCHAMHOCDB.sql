@@ -100,7 +100,7 @@ CREATE TABLE [Users]
     UserName NVARCHAR(420) NOT NULL,
     Email VARCHAR(420) NOT NULL,
     Password VARCHAR(69) NOT NULL,
-    IsAdmin BIT NOT NULL,
+    Role INT CHECK(Role IN (1, 2, 3)) NOT NULL,    /*1: User      2: Lecturer      3: Admin*/
     DOB DATE,
     Gender BIT,
     PhoneNumber VARCHAR(69),
@@ -109,7 +109,7 @@ CREATE TABLE [UsersEnroll]
 (
 	UserId INT FOREIGN KEY REFERENCES dbo.Users(UserID),
 	CourseID INT FOREIGN KEY REFERENCES dbo.Courses(CourseID),
-	Status VARCHAR(100) CHECK(Status IN('Learning', 'Complete')) DEFAULT 'Learning',
+	Status VARCHAR(100)  CHECK(Status IN('Learning', 'Complete')) DEFAULT 'Learning',
 	PRIMARY KEY (UserId, CourseID)
 )
 GO
@@ -231,3 +231,5 @@ INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDes
 VALUES (4, 3, N'Câu lệnh switch-case', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này tập trung vào cách thực hiện cấu trúc điều kiện switch-case trong Python và cách sử dụng nó để lựa chọn giữa các trường hợp khác nhau dựa trên giá trị của một biểu thức.');
 INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
 VALUES (5, 3, N'Câu lệnh nested if', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này giới thiệu về câu lệnh nested if trong Python và cách sử dụng nó để xử lý các trường hợp phức tạp hơn trong cấu trúc điều kiện.');
+
+UPDATE dbo.Users SET Role = 3 WHERE UserID = 1;

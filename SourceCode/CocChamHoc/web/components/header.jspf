@@ -3,12 +3,14 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <div class="header-container">
     <div class="navbar">
-        <div class="bold">
-            
-        </div>
+            <div class="bold">
+                <a href="/">
+                [COC CHAM HOC]
+                </a>
+            </div>
         <nav class="nav-header">
             <ul>
-                <li><a href="home">HOME</a></li>
+                <li><a href="/">HOME</a></li>
                 <li><a href="">ABOUT US</a></li>
                 <li><a href="">COURSE</a></li>
             </ul>

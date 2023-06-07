@@ -134,7 +134,7 @@ Validator.isRequired = function (selector, msg) {
         selector: selector,
         test: function (value) {
             return value ? undefined : msg ||
-                    'Vui lòng nhập lại trường này';
+                    'Please enter this field!';
         }
     };
 };
@@ -152,7 +152,7 @@ Validator.isMinlength = function (selector, min, msg) {
     return {
         selector: selector,
         test: function (value) {
-            return value.length >= min ? undefined : msg || `Yêu cầu mật khẩu tối thiểu dài ${min} kí tự`;
+            return value.length >= min ? undefined : msg || `The password minimum length is ${min}`;
         }
     };
 };
@@ -161,7 +161,7 @@ Validator.isMaxlength = function (selector, max, msg) {
     return {
         selector: selector,
         test: function (value) {
-            return value.length <= max ? undefined : msg || `Yêu cầu mật khẩu không được quá ${max} kí tự`;
+            return value.length <= max ? undefined : msg || `The password maximum length is ${max}`;
         }
     };
 };
@@ -170,7 +170,7 @@ Validator.isConfirmed = function (selector, isConfirmed, msg) {
     return {
         selector: selector,
         test: function (value) {
-            return value === isConfirmed() ? undefined : msg || "Mật khẩu nhập lại không chính xác";
+            return value === isConfirmed() ? undefined : msg || "Re-enter password is not matched!";
         }
     };
 };
