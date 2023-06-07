@@ -1,33 +1,31 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package dal;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+/**
+ *
+ * @author Phuoc
+ */
 public class DBContext {
     public Connection connection;
     public DBContext()
     {
         try {
             //Change the username password and url to connect your own database
-            // We get these information from environment variable so that it 
-            // can be changed without recompiling our code
-            String username = System.getenv("CSUSERNAME");
-            String password = System.getenv("CSPASSWORD");
-            String url = System.getenv("CS");
-            
+            String username = "sa";
+            String password = "sa";
+            String url = "jdbc:sqlserver://localhost:1433;databaseName=COC_CHAM_HOC";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Properties properties = new Properties();
-            properties.setProperty("user", username);
-            properties.setProperty("password", password);
-            properties.setProperty("sendTimeAsDatetime", "false"); // Set sendTimeAsDatetime to false
-            connection = DriverManager.getConnection(url, properties);
+            connection = DriverManager.getConnection(url, username, password);
         } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);           
         }
+        
     }
-    
 }

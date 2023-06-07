@@ -20,7 +20,7 @@
         <ul>
             <c:forEach var="chapter" items="${chapters}">
                 <li class="course-nav-header">
-                    <a href="/admin/edit-chapter?courseId=${course.id}&chapterId=${chapter.id}">${chapter.name}</a>
+                    <a href="/admin/edit-chapter?courseId=${course.id}&chapterId=${chapter.id}&chapterNumber=${chapter.chapterNumber}">${chapter.name}</a>
                     <ul>
                         <c:forEach var="lesson" items="${lessonMap.get(chapter)}">
                             <li class="nav-item">
@@ -33,9 +33,9 @@
                     </ul>
                 </li>
             </c:forEach>
-            <li class="course-nav-header">
-                <a href="#" class="nav-item-flex"> Add new Chapter</a>
-            </li>
+                <li class="course-nav-header">
+                    <a href="/admin/create-chapter?courseId=${course.id}" class="nav-item-flex"> Add new Chapter</a>
+                </li>
         </ul>
 
         <div class="hsep"></div>

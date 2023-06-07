@@ -55,6 +55,11 @@ public class Chapter {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "Chapter{" + "id=" + id + ", chapterNumber=" + chapterNumber + ", courseId=" + courseId + ", name=" + name + '}';
+    }
     
     
     

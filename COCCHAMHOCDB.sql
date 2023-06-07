@@ -48,7 +48,7 @@ GO
 CREATE TABLE Chapters
 (
 	ChapterID INT IDENTITY(1,1) PRIMARY KEY,
-    ChapterNumber INT UNIQUE NOT NULL,
+    ChapterNumber INT NOT NULL,
     CourseID INT
         FOREIGN KEY REFERENCES dbo.Courses (CourseID) ON DELETE CASCADE,
     ChapterName NVARCHAR(69) NOT NULL,
