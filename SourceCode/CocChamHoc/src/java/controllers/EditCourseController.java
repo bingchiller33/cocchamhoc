@@ -66,6 +66,7 @@ public class EditCourseController extends HttpServlet {
             List<Category> categories = categoryDAO.getAllCategories();
             List<model.Level> levels = levelDAO.getAllLevels();
 
+            request.setAttribute("backUrl", "/admin");
             request.setAttribute("chapters", chapters);
             request.setAttribute("lessonMap", lessonMap);
             request.setAttribute("course", course);

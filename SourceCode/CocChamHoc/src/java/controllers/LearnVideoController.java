@@ -27,8 +27,8 @@ import utils.ParseUtils;
  *
  * @author Yui
  */
-@WebServlet(name = "EditLessonController", urlPatterns = {"/admin/edit-lesson"})
-public class EditLessonController extends HttpServlet {
+@WebServlet(name = "LearnVideoController", urlPatterns = {"/learn/video"})
+public class LearnVideoController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +41,11 @@ public class EditLessonController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         try {
             int courseId = ParseUtils.parseIntWithDefault(request.getParameter("courseId"), -1);
-            int chapterId = ParseUtils.parseIntWithDefault(request.getParameter("chapterId"), -1);
-            int lessonNumber = ParseUtils.parseIntWithDefault(request.getParameter("lessonNumber"), -1);
+            int chapterId = ParseUtils.parseIntWithDefault(request.getParameter("chapterId"), 1);
+            int lessonNumber = ParseUtils.parseIntWithDefault(request.getParameter("lessonNumber"), 1);
 
             CourseDAO courseDAO = new CourseDAO();
             ChapterDAO chapterDAO = new ChapterDAO();
@@ -60,30 +61,45 @@ public class EditLessonController extends HttpServlet {
                 response.sendRedirect("/admin/edit-course?courseId=" + courseId);
                 return;
             }
-
+            
             List<Lesson> lessons = lessonDAO.findLessons(lessonMap, chapterId);
             if (lessons.isEmpty()) {
                 response.sendRedirect("/admin/edit-chapter?courseId=" + courseId + "&chapterId=" + chapterId);
                 return;
             }
 
+            Chapter chapter = chapterDAO.findChapterById(chapters, chapterId);
             Lesson lesson = lessonDAO.findLesson(lessons, lessonNumber);
             if (lesson == null) {
                 response.sendRedirect("/admin/edit-chapter?courseId=" + courseId + "&chapterId=" + chapterId);
                 return;
             }
 
-            Lesson prevLesson = lessonDAO.findPrevLesson(lessons, lesson);
+            String nextLessonUrl = "#";
+            String prevLessonUrl = "#";
 
-            request.setAttribute("backUrl", "/admin");
+            Lesson nextLesson = lessonDAO.getNextLesson(courseId, chapter.getChapterNumber(), lesson.getLessonNumber());
+            Lesson prevLesson = lessonDAO.getPrevLesson(courseId, chapter.getChapterNumber(), lesson.getLessonNumber());
+            
+            if(nextLesson != null) {
+                nextLessonUrl = "/learn/video?courseId=" + courseId + "&chapterId=" + nextLesson.getChapterId() + "&lessonNumber=" + nextLesson.getLessonNumber();
+            }
+            
+            if(prevLesson != null) {
+                prevLessonUrl = "/learn/video?courseId=" + courseId + "&chapterId=" + prevLesson.getChapterId() + "&lessonNumber=" + prevLesson.getLessonNumber();
+            }
+
+            request.setAttribute("backUrl", "/course-detail-deeznut");
             request.setAttribute("course", courseDAO.getCourseById(courseId));
             request.setAttribute("chapters", chapters);
+            request.setAttribute("chapter", chapter);
             request.setAttribute("lessonMap", lessonMap);
             request.setAttribute("lessons", lessons);
             request.setAttribute("lesson", lesson);
-            request.setAttribute("prev", prevLesson);
-            
-            request.getRequestDispatcher("/courseEditor/editLesson.jsp").include(request, response);
+            request.setAttribute("nextUrl", nextLessonUrl);
+            request.setAttribute("prevUrl", prevLessonUrl);
+
+            request.getRequestDispatcher("/learn/learn.jsp").include(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(EditLessonController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -115,70 +131,7 @@ public class EditLessonController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String action = request.getParameter("action");
-        if (action == null) {
-            processRequest(request, response);
-            return;
-        }
-
-        switch (action) {
-            case "Save":
-                processSave(request, response);
-                break;
-            case "Delete":
-                processDelete(request, response);
-                break;
-        }
-    }
-
-    private void processSave(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        try {
-            int courseId = ParseUtils.parseIntWithDefault(request.getParameter("courseId"), -1);
-            int chapterId = ParseUtils.parseIntWithDefault(request.getParameter("chapterId"), -1);
-            int lessonNumber = ParseUtils.parseIntWithDefault(request.getParameter("lessonNumber"), -1);
-
-            String name = request.getParameter("lessonName");
-            int lessonPrev = ParseUtils.parseIntWithDefault(request.getParameter("lessonPrev"), 0);
-            String video = request.getParameter("lessonVid");
-            String desc = request.getParameter("lessonDesc");
-
-            LessonDAO lessonDAO = new LessonDAO();
-            lessonDAO.updateLesson(chapterId, lessonNumber, name, video, desc);
-
-            if (lessonPrev + 1 != lessonNumber) {
-                lessonDAO.reorderLesson(chapterId, lessonNumber, lessonPrev);
-                response.sendRedirect("/admin/edit-lesson?courseId=" + courseId + "&chapterId=" + chapterId + "&lessonNumber=" + (lessonPrev + 1));
-                return;
-            }
-            
-            request.setAttribute("status", "Saved Successfully!");
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(EditLessonController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void processDelete(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        try {
-            int courseId = ParseUtils.parseIntWithDefault(request.getParameter("courseId"), -1);
-            int chapterId = ParseUtils.parseIntWithDefault(request.getParameter("chapterId"), -1);
-            int lessonNumber = ParseUtils.parseIntWithDefault(request.getParameter("lessonNumber"), -1);
-
-            LessonDAO lessonDAO = new LessonDAO();
-            if (lessonNumber > 0) {
-                lessonDAO.deleteLession(chapterId, lessonNumber);
-
-                if (lessonNumber == 1) {
-                    response.sendRedirect("/admin/edit-course?courseId=" + courseId);
-                } else {
-                    response.sendRedirect("/admin/edit-lesson?courseId=" + courseId + "&chapterId=" + chapterId + "&lessonNumber=" + (lessonNumber - 1));
-                }
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(EditLessonController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

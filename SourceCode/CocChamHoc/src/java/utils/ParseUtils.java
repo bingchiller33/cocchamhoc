@@ -16,6 +16,10 @@ public class ParseUtils {
             return defaultValue;
         }
     }
+    
+    public static String defaultIfEmpty(String str, String defaultValue) {
+        return str == null || str.isEmpty() ? defaultValue : str;
+    }
 }
 
 

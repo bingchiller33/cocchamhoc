@@ -1,0 +1,27 @@
+body {
+    background: #F4F6FC;
+}
+
+.course-editor-main {
+    padding: 2rem;
+}
+
+.course-nav-ctn {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+}
+
+a.course-nav {
+    display: inline-block;
+    background: #FCD980;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    color: black;
+}
+
+.video-frame {
+    width: 100%;
+    max-height: 100%;
+    aspect-ratio: 16/9;
+}

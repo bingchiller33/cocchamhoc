@@ -34,20 +34,24 @@
     <p class="filter-group-title">Duration</p>
     <ul class="filter-group"> 
         <li>
-            <input class="d-none" type="radio" name="duration" value="0" id="duration-choice-00-00-00" onclick="selectFilter(event)" ${empty param.duration || param.duration == "0" ? "checked" : ""}/> 
-            <label for="duration-choice-00-00-00">All</label>
+            <input class="d-none" type="radio" name="duration" value="0-0" id="dc-0-0" onclick="selectFilter(event)" ${empty param.duration || param.duration == "0-0" ? "checked" : ""}/> 
+            <label for="dc-0-0">All</label>
         </li>
         <li>
-            <input class="d-none" type="radio" name="duration" value="36000" id="duration-choice-10-00-00" onclick="selectFilter(event)" ${param.duration == "36000" ? "checked" : ""}/> 
-            <label for="duration-choice-10-00-00">Less than 10 hours</label>
+            <input class="d-none" type="radio" name="duration" value="0-36000" id="dc-0-36000" onclick="selectFilter(event)" ${param.duration == "0-36000" ? "checked" : ""}/> 
+            <label for="dc-0-36000">Less than 10 hours</label>
         </li>
         <li>
-            <input class="d-none" type="radio" name="duration" value="108000" id="duration-choice-30-00-00" onclick="selectFilter(event)" ${param.duration == "108000" ? "checked" : ""}/> 
-            <label for="duration-choice-30-00-00">Less than 30 hours</label>
+            <input class="d-none" type="radio" name="duration" value="36000-108000" id="dc-36000-108000" onclick="selectFilter(event)" ${param.duration == "36000-108000" ? "checked" : ""}/> 
+            <label for="dc-36000-108000">10-30 hours</label>
         </li>
         <li>
-            <input class="d-none" type="radio" name="duration" value="216000" id="duration-choice-60-00-00" onclick="selectFilter(event)" ${param.duration == "216000" ? "checked" : ""}/> 
-            <label for="duration-choice-60-00-00">Less than 60 hours</label>
+            <input class="d-none" type="radio" name="duration" value="108000-216000" id="dc-108000-216000" onclick="selectFilter(event)" ${param.duration == "108000-216000" ? "checked" : ""}/> 
+            <label for="dc-108000-216000">30-60 hours</label>
+        </li>
+        <li>
+            <input class="d-none" type="radio" name="duration" value="216000-0" id="dc-216000-0" onclick="selectFilter(event)" ${param.duration == "216000-0" ? "checked" : ""}/> 
+            <label for="dc-216000-0">More than 60 hours</label>
         </li>
     </ul>
 </form>
