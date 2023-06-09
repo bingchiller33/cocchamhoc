@@ -31,6 +31,7 @@
                 </h1>
             </div>
             <main class="course-editor-main">
+                
                 <form method="post">
                     <input type="hidden" name="courseId" value="${courseId}"/>
                     <input type="hidden" name="chapterId" value="${chapterId}"/>
@@ -46,9 +47,10 @@
                             </c:forEach>
                         </select>
                         <label for="lesson-vid">Video URL</label>
-                        <input type="text" id="lesson-vid" name="lessonVid" value="${lesson.video}"  required/>
+                        <input type="url" id="lesson-vid" name="lessonVid" value="${lesson.video}"  required/>
                         <label for="lesson-desc">Description</label>
                         <textarea height="300px" id="lesson-desc" name="lessonDesc">${lesson.description}</textarea>
+                        <p style="color: red">${status}</p> 
                     </div>
                     <div class="action-container">
                         <input type="submit" name="action" value="Delete" class="btn-del"/>

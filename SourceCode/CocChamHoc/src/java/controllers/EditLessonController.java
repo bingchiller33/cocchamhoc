@@ -75,13 +75,14 @@ public class EditLessonController extends HttpServlet {
 
             Lesson prevLesson = lessonDAO.findPrevLesson(lessons, lesson);
 
+            request.setAttribute("backUrl", "/admin");
             request.setAttribute("course", courseDAO.getCourseById(courseId));
             request.setAttribute("chapters", chapters);
             request.setAttribute("lessonMap", lessonMap);
             request.setAttribute("lessons", lessons);
             request.setAttribute("lesson", lesson);
             request.setAttribute("prev", prevLesson);
-
+            
             request.getRequestDispatcher("/courseEditor/editLesson.jsp").include(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(EditLessonController.class.getName()).log(Level.SEVERE, null, ex);
@@ -150,6 +151,8 @@ public class EditLessonController extends HttpServlet {
                 response.sendRedirect("/admin/edit-lesson?courseId=" + courseId + "&chapterId=" + chapterId + "&lessonNumber=" + (lessonPrev + 1));
                 return;
             }
+            
+            request.setAttribute("status", "Saved Successfully!");
             processRequest(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(EditLessonController.class.getName()).log(Level.SEVERE, null, ex);
