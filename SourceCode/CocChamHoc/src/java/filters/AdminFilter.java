@@ -112,8 +112,6 @@ public class AdminFilter implements Filter {
         if(user == null || user.getRole() == 1){
             req.getRequestDispatcher("/components/Denied.jsp").forward(request, response);
         }
-        else 
-            req.getRequestDispatcher("/admin").forward(request, response);
         
 	Throwable problem = null;
 	try {

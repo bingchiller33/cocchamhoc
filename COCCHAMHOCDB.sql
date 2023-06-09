@@ -47,7 +47,7 @@ CREATE TABLE Courses
 GO
 CREATE TABLE Chapters
 (
-	ChapterID INT IDENTITY(1,1) PRIMARY KEY,
+    ChapterID INT IDENTITY(1,1) PRIMARY KEY,
     ChapterNumber INT UNIQUE NOT NULL,
     CourseID INT
         FOREIGN KEY REFERENCES dbo.Courses (CourseID) ON DELETE CASCADE,
@@ -71,7 +71,7 @@ GO
 CREATE TABLE Exams
 (
     ExamID INT IDENTITY(1, 1) PRIMARY KEY,
-	ExamName NVARCHAR(420),
+    ExamName NVARCHAR(420),
     CourseID INT
         FOREIGN KEY REFERENCES dbo.Courses (CourseID) ON DELETE CASCADE,
     Duration TIME NOT NULL,
@@ -107,10 +107,10 @@ CREATE TABLE [Users]
 );
 CREATE TABLE [UsersEnroll]
 (
-	UserId INT FOREIGN KEY REFERENCES dbo.Users(UserID),
-	CourseID INT FOREIGN KEY REFERENCES dbo.Courses(CourseID),
-	Status VARCHAR(100)  CHECK(Status IN('Learning', 'Complete')) DEFAULT 'Learning',
-	PRIMARY KEY (UserId, CourseID)
+    UserId INT FOREIGN KEY REFERENCES dbo.Users(UserID),
+    CourseID INT FOREIGN KEY REFERENCES dbo.Courses(CourseID),
+    Status VARCHAR(100)  CHECK(Status IN('Learning', 'Complete')) DEFAULT 'Learning',
+    PRIMARY KEY (UserId, CourseID)
 )
 GO
 CREATE TABLE ExamPapers
@@ -132,7 +132,7 @@ CREATE TABLE UserAnswers
     PaperID INT
         FOREIGN KEY REFERENCES dbo.ExamPapers (PaperID) ON DELETE CASCADE,
     ChoiceID INT
-		FOREIGN KEY REFERENCES dbo.Choices(ChoiceID),
+        FOREIGN KEY REFERENCES dbo.Choices(ChoiceID),
     PRIMARY KEY (
                     AnswerID,
                     ChoiceID
@@ -154,8 +154,8 @@ CREATE TABLE Ratings
     CourseID INT
         FOREIGN KEY REFERENCES dbo.Courses (CourseID) ON DELETE CASCADE,
     Rating INT CHECK (Rating >= 1
-                      AND Rating <= 5
-                     ),
+                    AND Rating <= 5
+                    ),
     RateTime DATETIME
         DEFAULT GETDATE(),
     Review TEXT,
@@ -200,36 +200,45 @@ INSERT INTO Chapters (ChapterNumber, CourseID, ChapterName)
 VALUES (3, 1, N'Cấu trúc điều kiện');
 
 INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
-VALUES (1, 1, N'Giới thiệu về Python', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này giới thiệu về Python và tầm quan trọng của việc học lập trình Python.');
+VALUES (1, 1, N'Giới thiệu về Python', 'https://www.youtube.com/embed/dQw4w9WgXcQ', N'Bài học này giới thiệu về Python và tầm quan trọng của việc học lập trình Python.');
 INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
-VALUES (2, 1, N'Cài đặt môi trường Python', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này hướng dẫn cách cài đặt môi trường Python trên máy tính của bạn.');
+VALUES (2, 1, N'Cài đặt môi trường Python', 'https://www.youtube.com/embed/dQw4w9WgXcQ', N'Bài học này hướng dẫn cách cài đặt môi trường Python trên máy tính của bạn.');
 INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
-VALUES (3, 1, N'Cú pháp căn bản', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này giới thiệu về cú pháp căn bản của Python, bao gồm khai báo biến, các toán tử cơ bản, và cấu trúc điều kiện.');
+VALUES (3, 1, N'Cú pháp căn bản', 'https://www.youtube.com/embed/dQw4w9WgXcQ', N'Bài học này giới thiệu về cú pháp căn bản của Python, bao gồm khai báo biến, các toán tử cơ bản, và cấu trúc điều kiện.');
 INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
-VALUES (4, 1, N'Cấu trúc điều kiện', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này tập trung vào cấu trúc điều kiện trong Python, bao gồm câu lệnh if-else và câu lệnh switch-case.');
+VALUES (4, 1, N'Cấu trúc điều kiện', 'https://www.youtube.com/embed/dQw4w9WgXcQ', N'Bài học này tập trung vào cấu trúc điều kiện trong Python, bao gồm câu lệnh if-else và câu lệnh switch-case.');
 INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
-VALUES (5, 1, N'Vòng lặp', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này giới thiệu về vòng lặp trong Python, bao gồm vòng lặp while và vòng lặp for.');
+VALUES (5, 1, N'Vòng lặp', 'https://www.youtube.com/embed/dQw4w9WgXcQ', N'Bài học này giới thiệu về vòng lặp trong Python, bao gồm vòng lặp while và vòng lặp for.');
 
 INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
-VALUES (1, 2, N'Kiểu số nguyên', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này giới thiệu về kiểu dữ liệu số nguyên trong Python và các phép toán số học liên quan.');
+VALUES (1, 2, N'Kiểu số nguyên', 'https://www.youtube.com/embed/dQw4w9WgXcQ', N'Bài học này giới thiệu về kiểu dữ liệu số nguyên trong Python và các phép toán số học liên quan.');
 INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
-VALUES (2, 2, N'Kiểu số thực', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này tập trung vào kiểu dữ liệu số thực trong Python và các phép toán liên quan.');
+VALUES (2, 2, N'Kiểu số thực', 'https://www.youtube.com/embed/dQw4w9WgXcQ', N'Bài học này tập trung vào kiểu dữ liệu số thực trong Python và các phép toán liên quan.');
 INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
-VALUES (3, 2, N'Kiểu chuỗi', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này giới thiệu về kiểu dữ liệu chuỗi trong Python và các phép toán và phương thức liên quan.');
+VALUES (3, 2, N'Kiểu chuỗi', 'https://www.youtube.com/embed/dQw4w9WgXcQ', N'Bài học này giới thiệu về kiểu dữ liệu chuỗi trong Python và các phép toán và phương thức liên quan.');
 INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
-VALUES (4, 2, N'Kiểu boolean', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này tập trung vào kiểu dữ liệu boolean trong Python và các phép toán logic liên quan.');
+VALUES (4, 2, N'Kiểu boolean', 'https://www.youtube.com/embed/dQw4w9WgXcQ', N'Bài học này tập trung vào kiểu dữ liệu boolean trong Python và các phép toán logic liên quan.');
 INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
-VALUES (5, 2, N'Kiểu danh sách', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này giới thiệu về kiểu dữ liệu danh sách trong Python và các phép toán và phương thức liên quan.');
+VALUES (5, 2, N'Kiểu danh sách', 'https://www.youtube.com/embed/dQw4w9WgXcQ', N'Bài học này giới thiệu về kiểu dữ liệu danh sách trong Python và các phép toán và phương thức liên quan.');
 
 INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
-VALUES (1, 3, N'Câu lệnh if', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này giới thiệu về câu lệnh if trong Python và cách sử dụng nó để kiểm tra điều kiện và thực hiện các hành động tương ứng.');
+VALUES (1, 3, N'Câu lệnh if', 'https://www.youtube.com/embed/dQw4w9WgXcQ', N'Bài học này giới thiệu về câu lệnh if trong Python và cách sử dụng nó để kiểm tra điều kiện và thực hiện các hành động tương ứng.');
 INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
-VALUES (2, 3, N'Câu lệnh if-else', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này tập trung vào câu lệnh if-else trong Python và cách sử dụng nó để lựa chọn giữa hai hành động khác nhau dựa trên một điều kiện.');
+VALUES (2, 3, N'Câu lệnh if-else', 'https://www.youtube.com/embed/dQw4w9WgXcQ', N'Bài học này tập trung vào câu lệnh if-else trong Python và cách sử dụng nó để lựa chọn giữa hai hành động khác nhau dựa trên một điều kiện.');
 INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
-VALUES (3, 3, N'Câu lệnh if-elif-else', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này giới thiệu về câu lệnh if-elif-else trong Python và cách sử dụng nó để kiểm tra nhiều điều kiện và lựa chọn hành động tương ứng.');
+VALUES (3, 3, N'Câu lệnh if-elif-else', 'https://www.youtube.com/embed/dQw4w9WgXcQ', N'Bài học này giới thiệu về câu lệnh if-elif-else trong Python và cách sử dụng nó để kiểm tra nhiều điều kiện và lựa chọn hành động tương ứng.');
 INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
-VALUES (4, 3, N'Câu lệnh switch-case', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này tập trung vào cách thực hiện cấu trúc điều kiện switch-case trong Python và cách sử dụng nó để lựa chọn giữa các trường hợp khác nhau dựa trên giá trị của một biểu thức.');
+VALUES (4, 3, N'Câu lệnh switch-case', 'https://www.youtube.com/embed/dQw4w9WgXcQ', N'Bài học này tập trung vào cách thực hiện cấu trúc điều kiện switch-case trong Python và cách sử dụng nó để lựa chọn giữa các trường hợp khác nhau dựa trên giá trị của một biểu thức.');
 INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
-VALUES (5, 3, N'Câu lệnh nested if', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này giới thiệu về câu lệnh nested if trong Python và cách sử dụng nó để xử lý các trường hợp phức tạp hơn trong cấu trúc điều kiện.');
+VALUES (5, 3, N'Câu lệnh nested if', 'https://www.youtube.com/embed/dQw4w9WgXcQ', N'Bài học này giới thiệu về câu lệnh nested if trong Python và cách sử dụng nó để xử lý các trường hợp phức tạp hơn trong cấu trúc điều kiện.');
 
-UPDATE dbo.Users SET Role = 3 WHERE UserID = 1;
+-- Generate default accounts
+-- Pass: 12345678
+insert into Users(Username, Email, Password, Role)
+values ('devadmin', 'admin@gmail.com', '6a5aeb1ea832832a9969a562357994ba', 3)
+
+insert into Users(Username, Email, Password, Role)
+values ('devdesigner', 'designer@gmail.com', '6a5aeb1ea832832a9969a562357994ba', 2)
+
+insert into Users(Username, Email, Password, Role)
+values ('devuser', 'user@gmail.com', '6a5aeb1ea832832a9969a562357994ba', 1)

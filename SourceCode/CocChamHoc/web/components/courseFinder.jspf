@@ -14,7 +14,9 @@
     </div>
     
     <div class="pagi-container">
-        <%@include file="courseListingPagination.jspf" %>
+        <c:if test="${pageCount != 0}">
+            <%@include file="courseListingPagination.jspf" %>
+        </c:if>
     </div>
 </main>
 <script>

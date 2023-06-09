@@ -16,7 +16,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -48,7 +50,6 @@ public class EditCourseController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try {
             int courseId = ParseUtils.parseIntWithDefault(request.getParameter("courseId"), -1);
-            
             CourseDAO courseDAO = new CourseDAO();
             CategoryDAO categoryDAO = new CategoryDAO();
             LevelDAO levelDAO = new LevelDAO();
@@ -61,10 +62,11 @@ public class EditCourseController extends HttpServlet {
                 response.sendRedirect("/admin/courses");
                 return;
             }
-            
+
             List<Category> categories = categoryDAO.getAllCategories();
             List<model.Level> levels = levelDAO.getAllLevels();
 
+            request.setAttribute("backUrl", "/admin");
             request.setAttribute("chapters", chapters);
             request.setAttribute("lessonMap", lessonMap);
             request.setAttribute("course", course);
@@ -98,6 +100,8 @@ public class EditCourseController extends HttpServlet {
 
         switch (action) {
             case "Save":
+            case "Publish":
+            case "Unpublish":
                 processSave(request, response);
                 break;
             case "Delete":
@@ -125,6 +129,8 @@ public class EditCourseController extends HttpServlet {
 
         switch (action) {
             case "Save":
+            case "Publish":
+            case "Unpublish":
                 processSave(request, response);
                 break;
             case "Delete":
@@ -136,6 +142,8 @@ public class EditCourseController extends HttpServlet {
     private void processSave(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            String action = request.getParameter("action");
+
             int courseId = ParseUtils.parseIntWithDefault(request.getParameter("courseId"), -1);
             if (courseId == -1) {
                 response.sendRedirect("/admin/courses");
@@ -154,8 +162,14 @@ public class EditCourseController extends HttpServlet {
             String lecturer = request.getParameter("courseLecturer");
             String courseImgUrl = request.getParameter("courseImgUrl");
             String courseDesc = request.getParameter("courseDesc");
+            Date publishDate = ParseUtils.parseDateWithDefault(request.getParameter("coursePublishDate"), null);
+            if (action.equals("Publish")) {
+                publishDate = Date.valueOf(LocalDate.now());
+            } else if (action.equals("Unpublish")) {
+                publishDate = null;
+            }
 
-            courseDAO.updateCourse(courseId, name, categoryId, levelId, lecturer, courseImgUrl, courseDesc);
+            courseDAO.updateCourse(courseId, name, categoryId, levelId, lecturer, courseImgUrl, courseDesc, publishDate);
             processRequest(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(EditCourseController.class.getName()).log(Level.SEVERE, null, ex);
