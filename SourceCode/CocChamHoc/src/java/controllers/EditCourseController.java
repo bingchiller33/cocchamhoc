@@ -51,7 +51,6 @@ public class EditCourseController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try {
             int courseId = ParseUtils.parseIntWithDefault(request.getParameter("courseId"), -1);
-
             CourseDAO courseDAO = new CourseDAO();
             CategoryDAO categoryDAO = new CategoryDAO();
             LevelDAO levelDAO = new LevelDAO();

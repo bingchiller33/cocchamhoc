@@ -75,7 +75,6 @@ public class CourseDAO extends MyDAO {
         while (rs.next()) {
             results.add(fromResultSet(rs));
         }
-
         return results;
     }
 
@@ -92,7 +91,7 @@ public class CourseDAO extends MyDAO {
                 list.add(c);
             }
         } catch (SQLException e) {
-            System.err.println(e);
+            e.printStackTrace();
         }
         return list;
     }
@@ -140,7 +139,6 @@ public class CourseDAO extends MyDAO {
         ps = con.prepareStatement(xSql);
         ps.setInt(1, id);
         rs = ps.executeQuery();
-
         if (!rs.next()) {
             return null;
         }

@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import model.Chapter;
 import model.Lesson;
 
@@ -154,9 +155,9 @@ public class LessonDAO extends MyDAO {
             }
         }
     }
-
-    public List<Lesson> findLessons(Map<Chapter, List<Lesson>> map, int chapterId) {
-        for (Map.Entry<Chapter, List<Lesson>> entry : map.entrySet()) {
+    
+     public List<Lesson> findLessons(Map<Chapter, List<Lesson>> map, int chapterId) {
+        for (Entry<Chapter, List<Lesson>> entry : map.entrySet()) {
             if (entry.getKey().getId() == chapterId) {
                 return entry.getValue();
             }
