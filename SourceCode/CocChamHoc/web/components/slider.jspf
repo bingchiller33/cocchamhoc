@@ -6,45 +6,22 @@
 <div class="document-center">
     <div class="carousel-container">
         <div class="carousel" id="carousel-1" auto-scroll="7000">
-            <section class="carousel-screen">
-                <img src="../assets/img/slider/1.jpg" alt="" />
-                <section class="text-container">
-                    <p>Chicago</p>
-                    <p>Thank you, Chicago!</p>
-                    <a href="page1.html" class="slide-button">Go to Course</a>
+            <c:forEach var="sliderList" items="${sliderList}">
+                <section class="carousel-screen">
+                    <img src="${sliderList.imgUrl}" alt="" />
+                    <section class="text-container">
+                        <p>${sliderList.title}</p>
+                        <p>${sliderList.description}</p>
+                        <a href="course?id=${sliderList.id}" class="slide-button">Go to Course</a>
+                    </section>
                 </section>
-            </section>
-            <section class="carousel-screen">
-                <img src="../assets/img/slider/2.jpg" alt="" />
-                <section class="text-container">
-                    <p>New York</p>
-                    <p>We love the Big Apple!</p>
-                    <a href="page1.html" class="slide-button">Go to Course</a>
-                </section>
-            </section>
-            <section class="carousel-screen">
-                <img src="../assets/img/slider/3.jpg" alt="" />
-                <section class="text-container">
-                    <p>Los Angeles</p>
-                    <p>LA is always so much fun!</p>
-                    <a href="page1.html" class="slide-button">Go to Course</a>
-                </section>
-            </section>
-            <section class="carousel-screen">
-                <img src="../assets/img/slider/4.jpg" alt="" />
-                <section class="text-container">
-                    <p>Los Angeles</p>
-                    <p>LA is always so much fun!</p>
-                    <a href="page1.html" class="slide-button">Go to Course</a>
-                </section>
-            </section>
+            </c:forEach>     
             <!--These are not screens. They will always be on carousel-->
             <section class="circle-container">
                 <!--These 'circles' need to match the number of carousel screens-->
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
+                <c:forEach items="${sliderList}" var="course">
+                    <div class="circle"></div>
+                </c:forEach>
             </section>
             <div class="left-arrow">
                 <span class="chevron left"></span>

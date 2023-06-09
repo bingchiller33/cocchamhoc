@@ -4,9 +4,7 @@
  */
 package dal;
 
-import dal.MyDAO;
 import model.User;
-import java.security.MessageDigest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
