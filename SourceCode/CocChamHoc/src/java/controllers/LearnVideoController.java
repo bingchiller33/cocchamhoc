@@ -52,26 +52,26 @@ public class LearnVideoController extends HttpServlet {
             LessonDAO lessonDAO = new LessonDAO();
             List<Chapter> chapters = chapterDAO.getCourseChapters(courseId);
             if (chapters.isEmpty()) {
-                response.sendRedirect("/admin/courses");
+                response.sendRedirect("/");
                 return;
             }
 
             Map<Chapter, List<Lesson>> lessonMap = chapterDAO.getGroupedLesson(chapters);
             if (lessonMap.isEmpty()) {
-                response.sendRedirect("/admin/edit-course?courseId=" + courseId);
+                response.sendRedirect("/learn/video?courseId=" + courseId);
                 return;
             }
             
             List<Lesson> lessons = lessonDAO.findLessons(lessonMap, chapterId);
             if (lessons.isEmpty()) {
-                response.sendRedirect("/admin/edit-chapter?courseId=" + courseId + "&chapterId=" + chapterId);
+                response.sendRedirect("/learn/video?courseId=" + courseId + "&chapterId=" + chapterId);
                 return;
             }
 
             Chapter chapter = chapterDAO.findChapterById(chapters, chapterId);
             Lesson lesson = lessonDAO.findLesson(lessons, lessonNumber);
             if (lesson == null) {
-                response.sendRedirect("/admin/edit-chapter?courseId=" + courseId + "&chapterId=" + chapterId);
+                response.sendRedirect("/learn/video?courseId=" + courseId + "&chapterId=" + chapterId);
                 return;
             }
 
@@ -89,7 +89,7 @@ public class LearnVideoController extends HttpServlet {
                 prevLessonUrl = "/learn/video?courseId=" + courseId + "&chapterId=" + prevLesson.getChapterId() + "&lessonNumber=" + prevLesson.getLessonNumber();
             }
 
-            request.setAttribute("backUrl", "/course-detail-deeznut");
+            request.setAttribute("backUrl", "/course?id=" + courseId);
             request.setAttribute("course", courseDAO.getCourseById(courseId));
             request.setAttribute("chapters", chapters);
             request.setAttribute("chapter", chapter);

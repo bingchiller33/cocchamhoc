@@ -27,7 +27,6 @@ import model.Category;
 import model.Chapter;
 import model.Course;
 import model.Lesson;
-import model.Users;
 import utils.ParseUtils;
 
 /**
