@@ -4,6 +4,7 @@
  */
 package dal;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
@@ -174,8 +175,8 @@ public class CourseDAO extends MyDAO {
         return rs.getInt("CourseId");
     }
 
-    public void updateCourse(int courseId, String name, int categoryId, int levelId, String lecturer, String imgUrl, String description) throws SQLException {
-        xSql = "update Courses set Title = ?, CategoryID = ?, LevelID = ?, Lecturer = ?, CourseBannerImage = ?, CourseDescription = ? "
+    public void updateCourse(int courseId, String name, int categoryId, int levelId, String lecturer, String imgUrl, String description, Date publishDate) throws SQLException {
+        xSql = "update Courses set Title = ?, CategoryID = ?, LevelID = ?, Lecturer = ?, CourseBannerImage = ?, CourseDescription = ?, PublishDate = ? "
                 + "where CourseId = ?";
         ps = con.prepareStatement(xSql);
         ps.setString(1, name);
@@ -184,7 +185,8 @@ public class CourseDAO extends MyDAO {
         ps.setString(4, lecturer);
         ps.setString(5, imgUrl);
         ps.setString(6, description);
-        ps.setInt(7, courseId);
+        ps.setDate(7, publishDate);
+        ps.setInt(8, courseId);
 
         ps.execute();
     }

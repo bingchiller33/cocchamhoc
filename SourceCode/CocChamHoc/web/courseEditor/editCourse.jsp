@@ -34,7 +34,7 @@
                 </h1>
             </div>
             <main class="course-editor-main">
-                <form method="post">
+                <form method="post" onsubmit="handleSubmit(event)">
                     <input type="hidden" name="courseId" value="${courseId}"/>
                     <datalist id="category-list">
                         <c:forEach var="item" items="${categories}">
@@ -54,6 +54,8 @@
                         <input type="text" list="category-list" id="course-category" name="courseCategory" value="${course.category.description}" required/>
                         <label for="level-category">Level</label>
                         <input type="text" list="level-list" id="course-level" name="courseLevel" value="${course.level.description}" required/>
+                        <label for="course-publish-date">Publish Date</label>
+                        <input type="date" id="course-publish-date" name="coursePublishDate" value="${course.publishDate}"/>
                         <label for="course-lecturer">Lecturer</label>
                         <input type="text" id="course-lecturer" name="courseLecturer" value="${course.lecturer}" required/>
                         <label for="course-img-url">Banner Image</label>
@@ -64,6 +66,12 @@
                     <div class="action-container">
                         <input type="submit" name="action" value="Delete" class="btn-del"/>
                         <input type="submit" name="action" value="Save" class="btn-save"/>
+                        <c:if test="${course.publishDate != null}">
+                            <input type="submit" name="action" value="Unpublish" class="btn-save"/>
+                        </c:if>
+                        <c:if test="${course.publishDate == null}">
+                            <input type="submit" name="action" value="Publish" class="btn-save"/>
+                        </c:if>
                     </div>
                 </form>
             </main>
