@@ -232,4 +232,5 @@ VALUES (4, 3, N'Câu lệnh switch-case', 'https://www.youtube.com/watch?v=dQw4w
 INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo, LessonDescription)
 VALUES (5, 3, N'Câu lệnh nested if', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley', N'Bài học này giới thiệu về câu lệnh nested if trong Python và cách sử dụng nó để xử lý các trường hợp phức tạp hơn trong cấu trúc điều kiện.');
 
-UPDATE dbo.Users SET Role = 3 WHERE UserID = 1;
+SELECT * FROM dbo.Users
+SELECT * FROM dbo.UsersEnroll WHERE UserId = ? AND CourseID = ?
