@@ -1,0 +1,58 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<link rel="stylesheet" href="../assets/css/sliderStyle3.css" />
+
+<div class="document-center">
+    <div class="carousel-container">
+        <div class="carousel" id="carousel-1" auto-scroll="7000">
+            <section class="carousel-screen">
+                <img src="../assets/img/slider/1.jpg" alt="" />
+                <section class="text-container">
+                    <p>Chicago</p>
+                    <p>Thank you, Chicago!</p>
+                    <a href="page1.html" class="slide-button">Go to Course</a>
+                </section>
+            </section>
+            <section class="carousel-screen">
+                <img src="../assets/img/slider/2.jpg" alt="" />
+                <section class="text-container">
+                    <p>New York</p>
+                    <p>We love the Big Apple!</p>
+                    <a href="page1.html" class="slide-button">Go to Course</a>
+                </section>
+            </section>
+            <section class="carousel-screen">
+                <img src="../assets/img/slider/3.jpg" alt="" />
+                <section class="text-container">
+                    <p>Los Angeles</p>
+                    <p>LA is always so much fun!</p>
+                    <a href="page1.html" class="slide-button">Go to Course</a>
+                </section>
+            </section>
+            <section class="carousel-screen">
+                <img src="../assets/img/slider/4.jpg" alt="" />
+                <section class="text-container">
+                    <p>Los Angeles</p>
+                    <p>LA is always so much fun!</p>
+                    <a href="page1.html" class="slide-button">Go to Course</a>
+                </section>
+            </section>
+            <!--These are not screens. They will always be on carousel-->
+            <section class="circle-container">
+                <!--These 'circles' need to match the number of carousel screens-->
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+            </section>
+            <div class="left-arrow">
+                <span class="chevron left"></span>
+            </div>
+            <div class="right-arrow">
+                <span class="chevron right"></span>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/js/imageSlider2.js"></script>
