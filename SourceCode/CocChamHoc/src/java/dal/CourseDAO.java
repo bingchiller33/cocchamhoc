@@ -41,17 +41,17 @@ public class CourseDAO extends MyDAO {
      * to ignore this filter.
      * @param levelId The ID of the level to filter courses by. Set to -1 to
      * ignore this filter.
-     * @param duration The maximum duration of the courses to filter by. Specify
-     * "00:00:00.00" to ignore this filter.
      * @param page The page number of the results to retrieve.
      * @param pageSize The number of courses per page.
      * @return A list of Course objects that match the specified criteria.
      * @throws SQLException If an error occurs while executing the SQL query
      */
-    public List<Course> searchCourses(String searchQuery, int categoryId, int levelId, int durationLow, int durationHigh, int page,
-            int pageSize) throws SQLException {
+    public List<Course> searchCourses(
+            String searchQuery, int categoryId, int levelId, int durationLow, int durationHigh,
+            String sortName, String sortDuration, String sortPublishDate,
+            int page, int pageSize) throws SQLException {
         xSql = "select * " + searchCourseQuery
-                + "order by c.CourseID "
+                + "order by " + getSortQuery(sortName, sortDuration, sortPublishDate) + " "
                 + "offset ? rows fetch next ? rows only";
 
         int offset = page * pageSize;
@@ -76,6 +76,46 @@ public class CourseDAO extends MyDAO {
             results.add(fromResultSet(rs));
         }
         return results;
+    }
+
+    private String getSortQuery(String sortName, String sortDuration, String sortPublishDate) {
+        List<String> sorter = new ArrayList<String>();
+        if (sortName != null) {
+            switch (sortName) {
+                case "asc":
+                    sorter.add("c.Title asc");
+                    break;
+                case "desc":
+                    sorter.add("c.Title desc");
+                    break;
+            }
+        }
+
+        if (sortDuration != null) {
+            switch (sortDuration) {
+                case "asc":
+                    sorter.add("c.DurationInSeconds asc");
+                    break;
+                case "desc":
+                    sorter.add("c.DurationInSeconds desc");
+                    break;
+            }
+        }
+
+        if (sortPublishDate != null) {
+            switch (sortPublishDate) {
+                case "asc":
+                    sorter.add("c.PublishDate asc");
+                    break;
+                case "desc":
+                    sorter.add("c.PublishDate desc");
+                    break;
+            }
+        }
+
+        
+        sorter.add("c.CourseId desc");
+        return String.join(", ", sorter);
     }
 
     public ArrayList<Course> getCourse() {
@@ -106,8 +146,8 @@ public class CourseDAO extends MyDAO {
      * to ignore this filter.
      * @param levelId The ID of the level to filter courses by. Set to -1 to
      * ignore this filter.
-     * @param durationLow The maximum duration of the courses to filter by. Specify
-     * "00:00:00.00" to ignore this filter.
+     * @param durationLow The maximum duration of the courses to filter by.
+     * Specify "00:00:00.00" to ignore this filter.
      * @return
      * @throws SQLException
      */
