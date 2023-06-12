@@ -22,7 +22,7 @@
             <div class="footer-col">
                 <h4>Program</h4>
                 <ul>
-                    <li><a href="#">My Course</a></li>
+                    <li><a href="mycourse">My Course</a></li>
                     <li><a href="#">Free Learning</a></li>
                 </ul>
             </div>
@@ -37,10 +37,10 @@
             <div class="footer-col">
                 <h4>Follow Us</h4>
                 <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://twitter.com/rickastley"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/watch?v=b9v63hkj024"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
         </div>

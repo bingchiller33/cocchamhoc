@@ -90,7 +90,6 @@ public class HomeController extends HttpServlet {
         CategoryDAO catDao = new CategoryDAO();
         LevelDAO levelDao = new LevelDAO();
         try {
-            List<Course> list = courseDao.searchCourses(search, category, level, low, high, page, pageSize);
             List<Course> sliderList = courseDao.getNewestCoursesInfo(5);
             List<Course> list = courseDao.searchCourses(search, category, level, low, high, sortName, sortDuration, sortPublishDate, page, pageSize);
             int listCount = courseDao.searchCoursesCount(search, category, level, low, high);

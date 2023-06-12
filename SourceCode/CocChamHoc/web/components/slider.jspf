@@ -12,8 +12,9 @@
                     <img src="${sliderList.imgUrl}" alt="" />
                     <section class="text-container">
                         <p>${sliderList.title}</p>
+                        <p>Lecturer: ${sliderList.lecturer}</p>
                         <p>${sliderList.description}</p>
-                        <a href="course?id=${sliderList.id}" class="slide-button">Go to Course</a>
+                        <a href="course?id=${sliderList.id}" class="slide-button">--> Details</a>
                     </section>
                 </section>
             </c:forEach>     

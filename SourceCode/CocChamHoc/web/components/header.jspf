@@ -12,8 +12,8 @@
         <nav class="nav-header">
             <ul>
                 <li><a href="/">HOME</a></li>
-                <li><a href="">ABOUT US</a></li>
-                <li><a href="">COURSE</a></li>
+                <li><a href="/">ABOUT US</a></li>
+                <li><a href="mycourse">COURSE</a></li>
             </ul>
         </nav>
         <div class="user-items">
