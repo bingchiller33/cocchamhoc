@@ -416,8 +416,12 @@ input[type="submit"] {
     display: block;
 }
 
-.dropdown-content a:hover {
-    background-color: transparent;
+.dropdown-item:hover {
+    background-color: #FCD980;
+    border-radius: 5px;
+}
+.dropdown-item {
+    transition: background-color 0.3s ease;
 }
 
 .navbar-logo {
