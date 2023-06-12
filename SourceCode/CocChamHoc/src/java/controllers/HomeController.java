@@ -82,13 +82,17 @@ public class HomeController extends HttpServlet {
         if (search == null) {
             search = "";
         }
-
+        String sortName = request.getParameter("sortName");
+        String sortDuration = request.getParameter("sortDuration");
+        String sortPublishDate = request.getParameter("sortPublishDate");
+        
         CourseDAO courseDao = new CourseDAO();
         CategoryDAO catDao = new CategoryDAO();
         LevelDAO levelDao = new LevelDAO();
         try {
             List<Course> list = courseDao.searchCourses(search, category, level, low, high, page, pageSize);
             List<Course> sliderList = courseDao.getNewestCoursesInfo(5);
+            List<Course> list = courseDao.searchCourses(search, category, level, low, high, sortName, sortDuration, sortPublishDate, page, pageSize);
             int listCount = courseDao.searchCoursesCount(search, category, level, low, high);
             int pageCount = (int) Math.ceil(listCount / (float) pageSize);
 

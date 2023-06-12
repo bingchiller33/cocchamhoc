@@ -333,26 +333,60 @@ ul{
 
 /* end pagination section */
 
+/* sort dialog section */
+form.sort-form > ul {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;
+}
+
+form.sort-form ul button {
+    font-size: 1rem;
+    border: 0;
+    background: 0;
+    padding: 0.5rem;
+    border-radius: 4px;
+}
+
+form.sort-form ul button:hover {
+    background: #1C1E5340;
+}
+
+form.sort-form ul .sorted {
+    background: #1C1E5330;
+}
+
+.vsep {
+    width: 1px;
+    border: 1px solid rgb(40, 41, 56);
+    margin: 5px 0;
+}
+/* sort dialog section */
+
 
 /* course finder section */
 .course-finder {
     display: grid;
     gap: 1rem;
     grid-template:
-        "rs     search" auto
+        "s      s" auto
         "filter list" 1fr
         "pagi   pagi" auto
         / auto 1fr;
     padding: 40px;
 }
 
-.course-finder>.result-container {
-    grid-area: rs;
-    color: #282938
+.course-finder > .sort-container {
+    grid-area: s;
 }
 
-.course-finder>.search-container {
-    grid-area: search;
+.course-finder > .search-container {
+    grid-area: s;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .course-finder>.filter-container {
