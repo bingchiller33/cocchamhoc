@@ -70,21 +70,31 @@ public class HomeController extends HttpServlet {
         int page = ParseUtils.parseIntWithDefault(request.getParameter("page"), 1) - 1;
         int category = ParseUtils.parseIntWithDefault(request.getParameter("category"), -1);
         int level = ParseUtils.parseIntWithDefault(request.getParameter("level"), -1);
-        int duration = ParseUtils.parseIntWithDefault(request.getParameter("duration"), 0);
-        
+        String duration = ParseUtils.defaultIfEmpty(request.getParameter("duration"), "0-0");
+        String[] parts = duration.split("-");
+        int low = ParseUtils.parseIntWithDefault(parts[0], 0);
+        int high = 0;
+        if(parts.length >= 2) {
+            high = ParseUtils.parseIntWithDefault(parts[1], 0);
+        }
+
         String search = request.getParameter("search");
         if (search == null) {
             search = "";
         }
+
+        String sortName = request.getParameter("sortName");
+        String sortDuration = request.getParameter("sortDuration");
+        String sortPublishDate = request.getParameter("sortPublishDate");
         
         CourseDAO courseDao = new CourseDAO();
         CategoryDAO catDao = new CategoryDAO();
         LevelDAO levelDao = new LevelDAO();
         try {
-            List<Course> list = courseDao.searchCourses(search, category, level, duration, page, pageSize);
-            int listCount = courseDao.searchCoursesCount(search, category, level, duration);
+            List<Course> list = courseDao.searchCourses(search, category, level, low, high, sortName, sortDuration, sortPublishDate, page, pageSize);
+            int listCount = courseDao.searchCoursesCount(search, category, level, low, high);
             int pageCount = (int) Math.ceil(listCount / (float) pageSize);
-            
+
             request.setAttribute("list", list);
             request.setAttribute("pageCount", pageCount);
             request.setAttribute("listCount", listCount);
