@@ -40,8 +40,8 @@ public class NewChapterController extends HttpServlet {
             int chapterId = ParseUtils.parseIntWithDefault(request.getParameter("chapterId"), -1);
             ChapterDAO chapterDAO = new ChapterDAO();
             int chapterNumber = chapterDAO.createDefaulChapter(courseId);
-            
-            response.sendRedirect("/admin/edit-chapter?courseId=" + courseId + "&chapterId=" + chapterId + "&chapterNumber="+chapterNumber);
+
+            response.sendRedirect("/admin/edit-chapter?courseId=" + courseId + "&chapterId=" + chapterId + "&chapterNumber=" + chapterNumber);
         } catch (SQLException ex) {
             Logger.getLogger(NewChapterController.class.getName()).log(Level.SEVERE, null, ex);
         }
