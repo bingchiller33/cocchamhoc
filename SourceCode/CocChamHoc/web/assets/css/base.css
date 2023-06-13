@@ -7,7 +7,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     Author     : Yui
 */
 
-*{
+* {
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
@@ -20,108 +20,124 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     scroll-behavior: smooth;
 }
 
-body{
+body {
     min-height: 100vh;
-    display:flex;
-    flex-direction:column;
+    display: flex;
+    flex-direction: column;
 }
-.header-container{
-    min-height:50px;
+
+.header-container {
+    min-height: 50px;
 }
-article{
-    flex:1;
+
+article {
+    flex: 1;
 }
-.footer{
-    min-height:50px;
+
+.footer {
+    min-height: 50px;
 }
-ul{
+
+ul {
     list-style-type: none;
 }
 
-a{
+a {
     text-decoration: none;
     color: black;
 }
 
-.row{
+.row {
     display: flex;
     justify-content: space-around;
     align-items: center;
     flex-wrap: wrap;
 }
-.row-2{
+
+.row-2 {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
 }
 
-.col-2{
+.col-2 {
     flex-basis: 50%;
     min-width: 300px;
 }
-.col-3{
+
+.col-3 {
     flex-basis: 25%;
     min-width: 250px;
 }
-.col-4{
+
+.col-4 {
     flex-basis: 25%;
     padding: 10px;
     min-width: 200px;
 }
-.bold{
+
+.bold {
     font-weight: bold;
-    font-size: 18px;     
+    font-size: 18px;
 }
-.bold a{
+
+.bold a {
     color: white;
 }
-.normal{
+
+.normal {
     font-weight: normal;
     font-size: 16px;
 }
+
 /* header section */
-.header-container{
+.header-container {
     font-weight: 300;
     color: white;
     background-color: #1C1E53;
-    padding: 20px 40px;
+    padding: 15px 40px;
 }
-.navbar{
+
+.navbar {
     display: flex;
     align-items: center;
 }
 
-.nav-header{
+.nav-header {
     flex: 1;
     text-align: right;
     padding-right: 40px;
 }
-.nav-header ul{
+
+.nav-header ul {
     display: inline-block;
     list-style-type: none;
 }
-.nav-header ul li{
+
+.nav-header ul li {
     display: inline-block;
     margin-left: 20px;
     margin-right: 20px;
 }
-.nav-header ul li a{
+
+.nav-header ul li a {
     color: white;
 }
+
 .button a {
     border: 1px solid white;
     border-radius: 3px;
     padding: 8px 30px;
     color: white;
-
 }
 
 /* Course Listing Section*/
-.course-container{
+.course-container {
     margin-left: auto;
     padding: 0 25px;
     color: black;
 }
+
 .course-container .col-3 {
     margin: 20px;
 }
@@ -139,22 +155,90 @@ a{
 
 /*footer section*/
 .footer-container{
-    font-weight: 300;
-    color: white;
-    background-color: #1C1E53;
-    padding: 20px;
+    margin:auto;
 }
-.footer-col-1,.footer-col-2,.footer-col-3,.footer-col-4{
-    min-width: 250px;
+.footer-row{
+    display: flex;
+    flex-wrap: wrap;
 }
-.footer-col-1{
-    flex-basis: 45%;
-    margin-left: 15px;
+ul{
+    list-style: none;
+}
+.footer{
+    background-color: #1c1e53;
+    padding: 15px 0;
+}
+.footer-col{
+    width: 20%;
+    padding: 0 15px;
 }
 
-.footer-col-2,.footer-col-3,.footer-col-4{
-    flex-basis: 10%;
+
+.footer-col img {
+    width: 60%;
+    margin-left: 34px;
+    margin-bottom: -32px;
 }
+.footer-col span{
+    font-size: 16px;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 400;
+    color: #bbbbbb;
+    display: block;
+}
+
+.footer-col h4{
+    font-size: 18px;
+    color: #ffffff;
+    margin-bottom: 35px;
+    font-weight: 500;
+    position: relative;
+}
+.footer-col h4::before{
+    content: '';
+    position: absolute;
+    left:0;
+    bottom: -10px;
+    background-color: #fcd980;
+    height: 2px;
+    box-sizing: border-box;
+    width: 50px;
+}
+.footer-col ul li:not(:last-child){
+    margin-bottom: 10px;
+}
+.footer-col ul li a{
+    font-size: 16px;
+    text-transform: capitalize;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    color: #bbbbbb;
+    display: block;
+    transition: all 0.3s ease;
+}
+.footer-col ul li a:hover{
+    color: #ffffff;
+    padding-left: 8px;
+}
+.footer-col .social-links a{
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    background-color: rgba(255,255,255,0.2);
+    margin:0 10px 10px 0;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 50%;
+    color: #ffffff;
+    transition: all 0.5s ease;
+}
+.footer-col .social-links a:hover{
+    color: #24262b;
+    background-color: #ffffff;
+}
+
 .nav-footer{
     flex: 1;
     text-align: right;
@@ -173,6 +257,20 @@ a{
     color: black;
 }
 
+
+/*responsive*/
+@media(max-width: 767px){
+    .footer-col{
+        width: 50%;
+        margin-bottom: 30px;
+    }
+}
+@media(max-width: 574px){
+    .footer-col{
+        width: 100%;
+    }
+}
+
 /* filter section */
 .filter-dialog {
     padding: 1rem;
@@ -187,7 +285,7 @@ a{
     padding-left: 16px;
 }
 
-.filter-group input[checked] + label {
+.filter-group input[checked]+label {
     opacity: 1;
 }
 
@@ -221,7 +319,7 @@ a{
     align-items: center;
 }
 
-.course-pagination input[checked] + label {
+.course-pagination input[checked]+label {
     background: #FCD980;
     color: white;
 }
@@ -232,6 +330,7 @@ a{
     background: #F5F5F5;
     cursor: pointer;
 }
+
 /* end pagination section */
 
 /* sort dialog section */
@@ -290,23 +389,76 @@ form.sort-form ul .sorted {
     justify-content: space-between;
 }
 
-.course-finder > .filter-container {
+.course-finder>.filter-container {
     grid-area: filter;
 }
 
-.course-finder > .list-container {
+.course-finder>.list-container {
     grid-area: list;
 }
 
-.course-finder > .pagi-container {
+.course-finder>.pagi-container {
     grid-area: pagi;
 }
 
 
-button, input[type="submit"] {
+button,
+input[type="submit"] {
     cursor: pointer;
 }
 
 .collapsed {
     display: none;
+}
+
+
+/*dropdown */
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    background-color: #1c1e53;
+    color: white;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    margin: 10px 0px 0px -35px;
+    display: none;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.9);
+    min-width: 160px;
+    box-shadow: 2px 8px 12px 1px rgba(0, 0, 0, 0.7);
+    z-index: 1;
+    border-radius: 5px;
+}
+
+
+.dropdown-content a {
+    color: #1c1e53;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.show {
+    display: block;
+}
+
+.dropdown-item:hover {
+    background-color: #FCD980;
+    border-radius: 5px;
+}
+.dropdown-item {
+    transition: background-color 0.3s ease;
+}
+
+.navbar-logo {
+    width: 50px;
+    margin-right: 5px;
 }

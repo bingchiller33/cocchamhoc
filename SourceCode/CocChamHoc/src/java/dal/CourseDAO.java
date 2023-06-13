@@ -244,4 +244,35 @@ public class CourseDAO extends MyDAO {
         Course c = new Course(rs.getInt("CourseID"), rs.getString("Title"), rs.getString("CourseDescription"), rs.getString("CourseBannerImage"), rs.getDate("PublishDate"), rs.getString("Lecturer"), level, cat, rs.getInt("DurationInSeconds"));
         return c;
     }
+    
+    public ArrayList<Course> getNewestCoursesInfo(int limit) {
+        ArrayList<Course> courses = new ArrayList<>();
+        xSql = "SELECT TOP " + limit +" * "
+                + "FROM Courses "
+                + "ORDER BY Courses.PublishDate DESC";
+        try {
+            ps = con.prepareStatement(xSql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Level    level = new Level(rs.getInt(1), rs.getString(2));
+                Category cat   = new Category(rs.getInt(1), rs.getString(2));
+                Course   c     = new Course(rs.getInt("CourseID"), 
+                        rs.getString("Title"), 
+                        rs.getString("CourseDescription"), 
+                        rs.getString("CourseBannerImage"),
+                        rs.getDate("PublishDate"), 
+                        rs.getString("Lecturer"), 
+                        level, 
+                        cat, 
+                        rs.getInt("DurationInSeconds"));
+                courses.add(c);
+            }
+            ps.execute();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return courses;
+    }
+    
 }
