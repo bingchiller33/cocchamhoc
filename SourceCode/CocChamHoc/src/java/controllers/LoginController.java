@@ -23,11 +23,10 @@ import utils.EncryptionUtils;
  */
 @WebServlet(name = "LoginController", urlPatterns = {"/login"})
 public class LoginController extends HttpServlet {
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/login/login.jsp").forward(request, response);
-        boolean inValid = request.getSession().getAttribute("validate").equals("");
+        boolean inValid = "".equals(request.getSession().getAttribute("validate"));
         if (!inValid) {
             request.getSession().setAttribute("validate", "");
         }
@@ -38,18 +37,18 @@ public class LoginController extends HttpServlet {
             throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        String remember = request.getParameter("remember-account");
+        boolean remember = "".equals(request.getParameter("remember-account"));
         String validate = "Email or password is incorrect.";
         UserDAO userDAO = new UserDAO();
         EncryptionUtils eu = new EncryptionUtils();
-        List<User> isUser = userDAO.checkUser(email, eu.toMD5(password));
+        List<User> isUser = userDAO.checkUser(email, eu.toMD5(password)); 
         if (!isUser.isEmpty()) {
             try {
                 request.getSession().setAttribute("user", userDAO.getUser(email, eu.toMD5(password)));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            if (remember.equals("on")) {
+            if (!remember) {
                 Cookie cEmail = new Cookie("email", email);
                 Cookie cPassword = new Cookie("password", password);
                 cEmail.setMaxAge(60 * 60 * 24);
