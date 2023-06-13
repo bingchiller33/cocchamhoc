@@ -123,7 +123,16 @@ public class UserDAO extends MyDAO {
     }
     
     public User fromResultSet(ResultSet rs) throws SQLException{
-        return new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getDate(6), rs.getBoolean(7), rs.getString(8));
+        return new User(
+                rs.getInt(1), 
+                rs.getString(2), 
+                rs.getString(3), 
+                rs.getString(4), 
+                rs.getInt(5), 
+                rs.getDate(6), 
+                rs.getBoolean(7), 
+                rs.getString(8)
+        );
     }
     
     public User getUser(String email, String pass) throws SQLException{
