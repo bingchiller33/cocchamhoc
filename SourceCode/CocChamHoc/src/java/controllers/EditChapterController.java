@@ -39,22 +39,7 @@ public class EditChapterController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-//    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-//    throws ServletException, IOException {
-//        try {
-//            String courseId = request.getParameter("courseId");
-//            String chapterNumber = request.getParameter("chapterNumber");
-//            int courseIdi = Integer.parseInt(courseId);
-//            int chapterNumberi = Integer.parseInt(chapterNumber);
-//            ChapterDAO chapterDAO = new ChapterDAO();
-//            List<Chapter> chapters = chapterDAO.getCourseChapters(courseIdi);
-//            Chapter chapter = chapterDAO.getChapterByID(courseId, chapterNumber);
-//            request.setAttribute("chapter",chapter);
-//            request.getRequestDispatcher("/courseEditor/editChapter.jsp").forward(request, response);
-//        } catch (SQLException e) {
-//            Logger.getLogger(EditChapterController.class.getName()).log(Level.SEVERE, null, e);
-//        }
-//    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
@@ -74,6 +59,7 @@ public class EditChapterController extends HttpServlet {
             List<Lesson> lessons = lessonDAO.findLessons(lessonMap, chapterId);
 
             Chapter chapter = chapterDAO.getChapterByID(courseId, chapterNumber);
+            request.setAttribute("backUrl", "/admin");
             request.setAttribute("course", courseDAO.getCourseById(courseId));
             request.setAttribute("chapters", chapters);
             request.setAttribute("chapter", chapter);
