@@ -74,7 +74,7 @@ public class HomeController extends HttpServlet {
         String[] parts = duration.split("-");
         int low = ParseUtils.parseIntWithDefault(parts[0], 0);
         int high = 0;
-        if(parts.length >= 2) {
+        if (parts.length >= 2) {
             high = ParseUtils.parseIntWithDefault(parts[1], 0);
         }
 
@@ -82,7 +82,6 @@ public class HomeController extends HttpServlet {
         if (search == null) {
             search = "";
         }
-
         String sortName = request.getParameter("sortName");
         String sortDuration = request.getParameter("sortDuration");
         String sortPublishDate = request.getParameter("sortPublishDate");
@@ -91,10 +90,12 @@ public class HomeController extends HttpServlet {
         CategoryDAO catDao = new CategoryDAO();
         LevelDAO levelDao = new LevelDAO();
         try {
+            List<Course> sliderList = courseDao.getNewestCoursesInfo(5);
             List<Course> list = courseDao.searchCourses(search, category, level, low, high, sortName, sortDuration, sortPublishDate, page, pageSize);
             int listCount = courseDao.searchCoursesCount(search, category, level, low, high);
             int pageCount = (int) Math.ceil(listCount / (float) pageSize);
 
+            request.setAttribute("sliderList", sliderList);
             request.setAttribute("list", list);
             request.setAttribute("pageCount", pageCount);
             request.setAttribute("listCount", listCount);

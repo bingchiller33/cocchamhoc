@@ -8,6 +8,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.*" %>
 <%@page import="utils.*" %>
+<%@page import="model.User" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -18,6 +19,7 @@
     </head>
     <body>
         <%@include file="/components/header.jspf" %>
+        <%@include file="/components/slider.jspf" %>
         <%@include file="/components/courseFinder.jspf" %>
         <%@include file="/components/footer.jspf" %>
     </body>
