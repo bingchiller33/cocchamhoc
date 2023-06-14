@@ -6,7 +6,7 @@
         <ul>
             <c:forEach var="chapter" items="${chapters}">
                 <li class="course-nav-header">
-                    <a href="/admin/edit-chapter?courseId=${course.id}&chapterId=${chapter.id}">${chapter.name}</a>
+                    <a href="/learn/video?courseId=${course.id}&chapterId=${chapter.id}">${chapter.name}</a>
                     <ul>
                         <c:forEach var="lesson" items="${lessonMap.get(chapter)}">
                             <li class="nav-item">
