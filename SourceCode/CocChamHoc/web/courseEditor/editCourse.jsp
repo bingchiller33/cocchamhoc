@@ -85,6 +85,7 @@
                 padding: 2rem;
             }
         </style>
+        <script src="../assets/js/course.js"></script>
         <script src="/assets/js/base.js"></script>
     </body>
 </html>
