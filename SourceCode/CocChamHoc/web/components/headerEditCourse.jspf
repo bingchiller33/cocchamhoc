@@ -4,7 +4,7 @@
 <div class="header-container">
     <div class="navbar">
         <div class="course-title-container bold">
-            <a href="/admin" class="back-btn"> <i class="fa-solid fa-chevron-left"></i> Back to courses</a>
+            <a href="${backUrl}" class="back-btn"> <i class="fa-solid fa-chevron-left"></i> Back to courses</a>
             <p class="course-title">${course.title}</p>
         </div>
         <nav class="nav-header">
@@ -14,12 +14,24 @@
                 <li><a href="">COURSE</a></li>
             </ul>
         </nav>
-        <div class="user-items">
+         <div class="user-items">
             <c:if test="${user != null}">
-                <div class="button normal"><a href="logout">Logout</a></div>
+                <div class="dropdown">
+                    Hi, <button class="dropbtn" onclick="toggleDropdown()">
+                        ${user.getFullName()}
+                    </button>
+                    <div class="dropdown-content" id="myDropdown">
+                        <a class="dropdown-item" href="profile"><i class="fa-solid fa-user"></i>  Profile</a>
+                        <a class="dropdown-item" href="mycourse"><i class="fa-solid fa-book"></i>  My Course</a>
+                        <c:if test="${user.role == '3'}">
+                            <a class="dropdown-item admin-item" href="../admin"><i class="fa-solid fa-pen-to-square"></i> Edit Course</a>
+                        </c:if>
+                        <a class="dropdown-item" href="../logout"><i class="fa-solid fa-right-from-bracket"></i>  Logout</a>
+                    </div>
+                </div>
             </c:if>
             <c:if test="${user == null}">
-                <div class="button normal"><a href="login">Login</a></div>
+                <div class="button normal"><a href="../login"><i class="fa-solid fa-right-to-bracket"></i>  Login</a></div>
             </c:if>
         </div>
     </div>
@@ -39,3 +51,22 @@
         color: white;
     }
 </style>
+
+<script>
+    function toggleDropdown() {
+        var dropdownContent = document.getElementById("myDropdown");
+        dropdownContent.classList.toggle("show");
+    }
+
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            for (var i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+</script>

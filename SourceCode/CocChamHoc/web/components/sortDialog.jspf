@@ -1,0 +1,50 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="utils.*" %>
+<%@ page pageEncoding="UTF-8" %>
+
+<div>
+    <c:set var="sortName" value="${empty param.sortName ? 'none' : param.sortName}"></c:set>
+    <c:set var="sortDuration" value="${empty param.sortDuration ? 'none' : param.sortDuration}"></c:set>
+    <c:set var="sortPublshDate" value="${empty param.sortPublshDate ? 'none' : param.sortPublshDate}"></c:set>
+        <form class="sort-form">
+            <ul>
+                <li style="align-self: center"><i class="fa-solid fa-sort"></i> Sort: </li>
+                <li>
+                    <button type="button" name="sortName" value="${SortUtils.getNextSort(sortName)}" onclick="applyFilter('sortName', '${SortUtils.getNextSort(sortName)}')" class="${sortName == "none" ? "" : "sorted"}">
+                    <span>Name</span>
+                    <c:if test="${sortName == 'asc'}">
+                        <i class="fa-solid fa-sort-up"></i>
+                    </c:if>
+                    <c:if test="${sortName == 'desc'}">
+                        <i class="fa-solid fa-sort-down"></i>
+                    </c:if>
+                </button>
+            </li>
+            <li class="vsep"></li>
+            <li>
+                <button type="button" name="sortDuration" value="${SortUtils.getNextSort(sortDuration)}" onclick="applyFilter('sortDuration', '${SortUtils.getNextSort(sortDuration)}')" class="${sortDuration == "none" ? "" : "sorted"}">
+                    <span>Duration</span>
+                    <c:if test="${sortDuration == 'asc'}">
+                        <i class="fa-solid fa-sort-up"></i>
+                    </c:if>
+                    <c:if test="${sortDuration == 'desc'}">
+                        <i class="fa-solid fa-sort-down"></i>
+                    </c:if>
+                </button>
+            </li>
+            <li class="vsep"></li>
+            <li>
+                <button type="button" name="sortPublshDate" value="${SortUtils.getNextSort(sortPublshDate)}" onclick="applyFilter('sortPublshDate', '${SortUtils.getNextSort(sortPublshDate)}')" class="${sortPublshDate == "none" ? "" : "sorted"}">
+                    <span>Publish Date</span>
+                    <c:if test="${sortPublshDate == 'asc'}">
+                        <i class="fa-solid fa-sort-up"></i>
+                    </c:if>
+                    <c:if test="${sortPublshDate == 'desc'}">
+                        <i class="fa-solid fa-sort-down"></i>
+                    </c:if>
+                </button>
+            </li>
+        </ul>
+    </form>
+</div>

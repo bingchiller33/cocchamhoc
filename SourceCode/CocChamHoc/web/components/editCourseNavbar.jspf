@@ -28,7 +28,7 @@
                             </li>
                         </c:forEach>
                         <li class="nav-item">
-                            <a href="/admin/create-lesson?courseId=${course.id}&chapterId=${chapter.id}" class="nav-item-flex"> <i class="fa-regular fa-circle-play"></i> Add new Lesson</a>
+                            <a href="/admin/create-lesson?courseId=${course.id}&chapterId=${chapter.id}" class="nav-item-flex"> <i class="fa fa-plus"></i> Add new Lesson</a>
                         </li>
                     </ul>
                 </li>

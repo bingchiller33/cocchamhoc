@@ -1,0 +1,37 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<link rel="stylesheet" href="../assets/css/sliderStyle3.css" />
+
+<div class="document-center">
+    <h2 class="carousel-title">New Courses</h2>
+    <div class="carousel-container">
+        <div class="carousel" id="carousel-1" auto-scroll="7000">
+            <c:forEach var="sliderList" items="${sliderList}">
+                <section class="carousel-screen">
+                    <img src="${sliderList.imgUrl}" alt="" />
+                    <section class="text-container">
+                        <p>${sliderList.title}</p>
+                        <p>Lecturer: ${sliderList.lecturer}</p>
+                        <p>${sliderList.description}</p>
+                        <a href="course?id=${sliderList.id}" class="slide-button">--> Details</a>
+                    </section>
+                </section>
+            </c:forEach>     
+            <!--These are not screens. They will always be on carousel-->
+            <section class="circle-container">
+                <!--These 'circles' need to match the number of carousel screens-->
+                <c:forEach items="${sliderList}" var="course">
+                    <div class="circle"></div>
+                </c:forEach>
+            </section>
+            <div class="left-arrow">
+                <span class="chevron left"></span>
+            </div>
+            <div class="right-arrow">
+                <span class="chevron right"></span>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/js/imageSlider2.js"></script>

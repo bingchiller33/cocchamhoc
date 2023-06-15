@@ -3,6 +3,7 @@
 <main class="course-finder">
     <div class="search-container">
         <%@include file="searchBar.jspf" %>
+        <%@include file="sortDialog.jspf" %>
     </div>
     
     <div class="filter-container">
@@ -14,7 +15,9 @@
     </div>
     
     <div class="pagi-container">
-        <%@include file="courseListingPagination.jspf" %>
+        <c:if test="${pageCount != 0}">
+            <%@include file="courseListingPagination.jspf" %>
+        </c:if>
     </div>
 </main>
 <script>

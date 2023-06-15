@@ -10,4 +10,5 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;500&display=swap" rel="stylesheet">
 <title>COC CHAM HOC</title>
-<link rel="icon" href="/assets/img/coc-cham-hoc-logo.png" type="image/gif" sizes="16x16">
+<link rel="icon" href="../assets/img/coc-cham-hoc-logo.png" type="image/gif" sizes="16x16">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
