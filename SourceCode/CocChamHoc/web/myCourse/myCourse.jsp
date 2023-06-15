@@ -10,6 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>My Course</title>
+        <link rel="stylesheet" href="../assets/css/sliderStyle3.css"/>
         <link rel="stylesheet" href="../assets/css/myCourse.css">
         <link rel="stylesheet" href="../assets/css/notFound.css">
         <link rel="stylesheet" href="../assets/css/base.css">
@@ -17,7 +18,7 @@
     </head>
     <body>
         <%  
-            User user                 = (User)         request.getSession().getAttribute("user");
+            User user  = (User) request.getSession().getAttribute("user");
         %>
         <c:set var="listMyCourse" value="${listMyCourse}" />
         <c:set var="noCourse" value="${noCourse}" />
