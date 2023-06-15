@@ -14,6 +14,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -25,6 +26,7 @@ import model.Category;
 import model.Chapter;
 import model.Course;
 import model.Lesson;
+import model.User;
 import utils.ParseUtils;
 
 /**
@@ -64,12 +66,16 @@ public class EditCourseController extends HttpServlet {
             List<Category> categories = categoryDAO.getAllCategories();
             List<model.Level> levels = levelDAO.getAllLevels();
 
+            HttpSession session = request.getSession();
+            User user = (User) session.getAttribute("user");
+
             request.setAttribute("backUrl", "/admin");
             request.setAttribute("chapters", chapters);
             request.setAttribute("lessonMap", lessonMap);
             request.setAttribute("course", course);
             request.setAttribute("categories", categories);
             request.setAttribute("levels", levels);
+            request.setAttribute("admin", user != null && user.getRole() == 3);
 
             request.getRequestDispatcher("/courseEditor/editCourse.jsp").include(request, response);
         } catch (SQLException ex) {

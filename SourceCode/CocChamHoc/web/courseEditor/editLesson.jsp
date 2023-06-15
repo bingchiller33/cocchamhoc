@@ -50,7 +50,7 @@
                         <input type="url" id="lesson-vid" name="lessonVid" value="${lesson.video}"  required/>
                         <label for="lesson-desc">Description</label>
                         <textarea height="300px" id="lesson-desc" name="lessonDesc">${lesson.description}</textarea>
-                        <p style="color: red">${status}</p> 
+                        <p style="color: red; grid-column: 1 / span 2;">${status}</p> 
                     </div>
                     <div class="action-container">
                         <input type="submit" name="action" value="Delete" class="btn-del"/>
