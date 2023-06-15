@@ -8,7 +8,6 @@ import dal.ChapterDAO;
 import dal.CourseDAO;
 import dal.LessonDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -44,34 +43,34 @@ public class LearnVideoController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try {
             int courseId = ParseUtils.parseIntWithDefault(request.getParameter("courseId"), -1);
-            int chapterId = ParseUtils.parseIntWithDefault(request.getParameter("chapterId"), 1);
-            int lessonNumber = ParseUtils.parseIntWithDefault(request.getParameter("lessonNumber"), 1);
+            int chapterId = ParseUtils.parseIntWithDefault(request.getParameter("chapterId"), -1);
+            int lessonNumber = ParseUtils.parseIntWithDefault(request.getParameter("lessonNumber"), -1);
 
             CourseDAO courseDAO = new CourseDAO();
             ChapterDAO chapterDAO = new ChapterDAO();
             LessonDAO lessonDAO = new LessonDAO();
             List<Chapter> chapters = chapterDAO.getCourseChapters(courseId);
             if (chapters.isEmpty()) {
-                response.sendRedirect("/");
+                request.getRequestDispatcher("/notFound.jsp").forward(request, response);
                 return;
             }
 
             Map<Chapter, List<Lesson>> lessonMap = chapterDAO.getGroupedLesson(chapters);
             if (lessonMap.isEmpty()) {
-                response.sendRedirect("/learn/video?courseId=" + courseId);
+                request.getRequestDispatcher("/notFound.jsp").forward(request, response);
                 return;
             }
             
             List<Lesson> lessons = lessonDAO.findLessons(lessonMap, chapterId);
             if (lessons.isEmpty()) {
-                response.sendRedirect("/learn/video?courseId=" + courseId + "&chapterId=" + chapterId);
+                request.getRequestDispatcher("/notFound.jsp").forward(request, response);
                 return;
             }
 
             Chapter chapter = chapterDAO.findChapterById(chapters, chapterId);
             Lesson lesson = lessonDAO.findLesson(lessons, lessonNumber);
             if (lesson == null) {
-                response.sendRedirect("/learn/video?courseId=" + courseId + "&chapterId=" + chapterId);
+                request.getRequestDispatcher("/notFound.jsp").forward(request, response);
                 return;
             }
 

@@ -163,7 +163,7 @@ public class LessonDAO extends MyDAO {
             }
         }
 
-        return null;
+        return new ArrayList<>();
     }
 
     public Lesson findLesson(List<Lesson> lessons, int lessonNumber) {

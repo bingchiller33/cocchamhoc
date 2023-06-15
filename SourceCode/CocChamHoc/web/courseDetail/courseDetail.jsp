@@ -64,7 +64,7 @@
                     <p><i class="fas fa-graduation-cap"></i> Lecturer: ${courseData.lecturer}</p>
                 </div>
                 <c:if test="${isEnroll == true}">
-                    <div><a href="/learn/video?courseId=${courseID}">Go To Course</a></div>
+                    <div><a href="/gotoLearn?courseId=${courseID}">Go To Course</a></div>
                 </c:if>
                 <c:if test="${isEnroll == false}">
                     <div><a href="enroll?id=${courseID}">Enroll Now</a></div>
