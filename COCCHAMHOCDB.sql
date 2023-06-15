@@ -35,7 +35,7 @@ CREATE TABLE Courses
     CourseID INT IDENTITY(1, 1) PRIMARY KEY,
     [CourseBannerImage] VARCHAR(420),
     [Title] NVARCHAR(69) NOT NULL,
-    [CourseDescription] TEXT NOT NULL,
+    [CourseDescription] NTEXT NOT NULL,
     PublishDate DATE DEFAULT NULL,
     Lecturer NVARCHAR(69) NOT NULL,
     DurationInSeconds INT NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE Lessons
         FOREIGN KEY REFERENCES dbo.Chapters (ChapterID) ON DELETE CASCADE,
     LessonName NVARCHAR(69) NOT NULL,
     LessonVideo VARCHAR(512) NOT NULL,
-    LessonDescription TEXT,
+    LessonDescription NTEXT,
     PRIMARY KEY (
                     LessonNumber,
                     ChapterID
@@ -158,7 +158,7 @@ CREATE TABLE Ratings
                     ),
     RateTime DATETIME
         DEFAULT GETDATE(),
-    Review TEXT,
+    Review NTEXT,
     PRIMARY KEY (
                     UserID,
                     CourseID
