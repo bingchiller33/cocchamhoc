@@ -8,6 +8,7 @@ import dal.ChapterDAO;
 import dal.CourseDAO;
 import dal.LessonDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -24,10 +25,10 @@ import utils.ParseUtils;
 
 /**
  *
- * @author Yui
+ * @author Phuoc
  */
-@WebServlet(name = "LearnVideoController", urlPatterns = {"/learn/video"})
-public class LearnVideoController extends HttpServlet {
+@WebServlet(name = "EditChapterController", urlPatterns = {"/admin/edit-chapter"})
+public class EditChapterController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,67 +39,33 @@ public class LearnVideoController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         try {
             int courseId = ParseUtils.parseIntWithDefault(request.getParameter("courseId"), -1);
             int chapterId = ParseUtils.parseIntWithDefault(request.getParameter("chapterId"), -1);
-            int lessonNumber = ParseUtils.parseIntWithDefault(request.getParameter("lessonNumber"), -1);
-
+            int chapterNumber = ParseUtils.parseIntWithDefault(request.getParameter("chapterNumber"), -1);
             CourseDAO courseDAO = new CourseDAO();
             ChapterDAO chapterDAO = new ChapterDAO();
             LessonDAO lessonDAO = new LessonDAO();
             List<Chapter> chapters = chapterDAO.getCourseChapters(courseId);
             if (chapters.isEmpty()) {
-                request.getRequestDispatcher("/notFound.jsp").forward(request, response);
+                response.sendRedirect("/admin/courses");
                 return;
             }
-
             Map<Chapter, List<Lesson>> lessonMap = chapterDAO.getGroupedLesson(chapters);
-            if (lessonMap.isEmpty()) {
-                request.getRequestDispatcher("/notFound.jsp").forward(request, response);
-                return;
-            }
-            
+
             List<Lesson> lessons = lessonDAO.findLessons(lessonMap, chapterId);
-            if (lessons.isEmpty()) {
-                request.getRequestDispatcher("/notFound.jsp").forward(request, response);
-                return;
-            }
 
-            Chapter chapter = chapterDAO.findChapterById(chapters, chapterId);
-            Lesson lesson = lessonDAO.findLesson(lessons, lessonNumber);
-            if (lesson == null) {
-                request.getRequestDispatcher("/notFound.jsp").forward(request, response);
-                return;
-            }
-
-            String nextLessonUrl = "#";
-            String prevLessonUrl = "#";
-
-            Lesson nextLesson = lessonDAO.getNextLesson(courseId, chapter.getChapterNumber(), lesson.getLessonNumber());
-            Lesson prevLesson = lessonDAO.getPrevLesson(courseId, chapter.getChapterNumber(), lesson.getLessonNumber());
-            
-            if(nextLesson != null) {
-                nextLessonUrl = "/learn/video?courseId=" + courseId + "&chapterId=" + nextLesson.getChapterId() + "&lessonNumber=" + nextLesson.getLessonNumber();
-            }
-            
-            if(prevLesson != null) {
-                prevLessonUrl = "/learn/video?courseId=" + courseId + "&chapterId=" + prevLesson.getChapterId() + "&lessonNumber=" + prevLesson.getLessonNumber();
-            }
-
-            request.setAttribute("backUrl", "/course?id=" + courseId);
+            Chapter chapter = chapterDAO.getChapterByID(courseId, chapterNumber);
+            request.setAttribute("backUrl", "/admin");
             request.setAttribute("course", courseDAO.getCourseById(courseId));
             request.setAttribute("chapters", chapters);
             request.setAttribute("chapter", chapter);
             request.setAttribute("lessonMap", lessonMap);
             request.setAttribute("lessons", lessons);
-            request.setAttribute("lesson", lesson);
-            request.setAttribute("nextUrl", nextLessonUrl);
-            request.setAttribute("prevUrl", prevLessonUrl);
-
-            request.getRequestDispatcher("/learn/learn.jsp").include(request, response);
+            request.getRequestDispatcher("/courseEditor/editChapter.jsp").include(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(EditLessonController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -125,13 +92,57 @@ public class LearnVideoController extends HttpServlet {
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException if an I/O error0 occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String action = request.getParameter("action");
+        if (action == null) {
+            processRequest(request, response);
+            return;
+        }
+
+        switch (action) {
+            case "Save":
+                processSave(request, response);
+                break;
+            case "Delete":
+                processDelete(request, response);
+                break;
+        }
     }
+
+    private void processSave(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            int courseId = ParseUtils.parseIntWithDefault(request.getParameter("courseId"), -1);
+            int chapterId = ParseUtils.parseIntWithDefault(request.getParameter("chapterId"), -1);
+            int chapterNumber = ParseUtils.parseIntWithDefault(request.getParameter("chapterNumber"), -1);
+            String name = request.getParameter("chapterName");
+            ChapterDAO chapterDAO = new ChapterDAO();
+            chapterDAO.updateChapter(name, chapterNumber, courseId);
+            processRequest(request, response);
+        } catch (SQLException e) {
+            Logger.getLogger(EditChapterController.class.getName()).log(Level.SEVERE, null, e);
+        }
+
+    }
+
+    private void processDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            int courseId = ParseUtils.parseIntWithDefault(request.getParameter("courseId"), -1);
+            int chapterNumber = ParseUtils.parseIntWithDefault(request.getParameter("chapterNumber"), -1);
+            ChapterDAO chapterDAO = new ChapterDAO();
+            chapterDAO.deleteChapter(chapterNumber, courseId);
+            processRequest(request, response);
+        } catch (SQLException e) {
+             Logger.getLogger(EditChapterController.class.getName()).log(Level.SEVERE, null, e);
+        }
+
+    }
+
 
     /**
      * Returns a short description of the servlet.

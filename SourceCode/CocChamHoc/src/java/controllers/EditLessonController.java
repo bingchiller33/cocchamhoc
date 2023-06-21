@@ -82,7 +82,7 @@ public class EditLessonController extends HttpServlet {
             request.setAttribute("lessons", lessons);
             request.setAttribute("lesson", lesson);
             request.setAttribute("prev", prevLesson);
-            
+
             request.getRequestDispatcher("/courseEditor/editLesson.jsp").include(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(EditLessonController.class.getName()).log(Level.SEVERE, null, ex);
@@ -138,9 +138,27 @@ public class EditLessonController extends HttpServlet {
             int chapterId = ParseUtils.parseIntWithDefault(request.getParameter("chapterId"), -1);
             int lessonNumber = ParseUtils.parseIntWithDefault(request.getParameter("lessonNumber"), -1);
 
-            String name = request.getParameter("lessonName");
+            String name = ParseUtils.defaultIfEmpty(request.getParameter("lessonName"), "");
+            if (name.length() > 60) {
+                request.setAttribute("status", "Name cannot be longer than 60 characters!");
+                processRequest(request, response);
+                return;
+            }
+
             int lessonPrev = ParseUtils.parseIntWithDefault(request.getParameter("lessonPrev"), 0);
-            String video = request.getParameter("lessonVid");
+            if (lessonPrev == lessonNumber) {
+                request.setAttribute("status", "Previous lesson cannot be the same lesson!");
+                processRequest(request, response);
+                return;
+            }
+            
+            String video = ParseUtils.defaultIfEmpty(request.getParameter("lessonVid"), "");
+            if (video.length() > 500) {
+                request.setAttribute("status", "Video Url cannot be longer than 500 characters!");
+                processRequest(request, response);
+                return;
+            }
+            
             String desc = request.getParameter("lessonDesc");
 
             LessonDAO lessonDAO = new LessonDAO();
@@ -151,7 +169,7 @@ public class EditLessonController extends HttpServlet {
                 response.sendRedirect("/admin/edit-lesson?courseId=" + courseId + "&chapterId=" + chapterId + "&lessonNumber=" + (lessonPrev + 1));
                 return;
             }
-            
+
             request.setAttribute("status", "Saved Successfully!");
             processRequest(request, response);
         } catch (SQLException ex) {

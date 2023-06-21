@@ -12,10 +12,10 @@
         <filter-name>AdminFilter</filter-name>
         <url-pattern>/admin/*</url-pattern>
     </filter-mapping>
-    <servlet>
-        <servlet-name>SyllabusController</servlet-name>
-        <servlet-class>controllers.SyllabusController</servlet-class>
-    </servlet>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/notFound.jsp</location>
+    </error-page>
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.css</url-pattern>
@@ -31,10 +31,6 @@
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.jpg</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SyllabusController</servlet-name>
-        <url-pattern>/syllabus</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

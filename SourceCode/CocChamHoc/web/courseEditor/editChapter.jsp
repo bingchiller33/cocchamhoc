@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <c:set var="courseId" value="${empty param.courseId ? -1 : param.courseId}"></c:set>
 <c:set var="chapterId" value="${empty param.chapterId ? -1 : param.chapterId}"></c:set>
@@ -13,7 +14,7 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <title>Edit Lesson</title>
+            <title>Edit Chapter</title>
         <%@include file="/components/headCommon.jspf" %>
     </head>
     <body>
@@ -27,30 +28,14 @@
             <div class="course-editor-title-bar">
                 <button onclick="collapseEvent(this)" data-target="course-editor-nav"><i class="fa-solid fa-bars"></i></button>
                 <h1 class="editor-default-title">
-                    Edit Lesson
+                    Edit Chapter
                 </h1>
             </div>
             <main class="course-editor-main">
-                
-                <form method="post">
-                    <input type="hidden" name="courseId" value="${courseId}"/>
-                    <input type="hidden" name="chapterId" value="${chapterId}"/>
-                    <input type="hidden" name="lessonNumber" value="${lessonNumber}"/>
+                 <form method="post">                    
                     <div class="field-list">
                         <label for="lesson-name">Name</label>
-                        <input type="text" id="lesson-name" name="lessonName" value="${lesson.name}" required/>
-                        <label for="lesson-prev">Previous Lesson</label>
-                        <select id="lesson-prev" name="lessonPrev" required>
-                            <option value="0">None (First lesson in this chapter)</option>
-                            <c:forEach var="item" items="${lessons}">
-                                <option value="${item.lessonNumber}" ${prev.lessonNumber == item.lessonNumber ? "selected" : ""}>${item.lessonNumber}: ${item.name}</option>
-                            </c:forEach>
-                        </select>
-                        <label for="lesson-vid">Video URL</label>
-                        <input type="url" id="lesson-vid" name="lessonVid" value="${lesson.video}"  required/>
-                        <label for="lesson-desc">Description</label>
-                        <textarea height="300px" id="lesson-desc" name="lessonDesc">${lesson.description}</textarea>
-                        <p style="color: red; grid-column: 1 / span 2;">${status}</p> 
+                        <input type="text" id="lesson-name" name="chapterName" value="${chapter.name}" required/>
                     </div>
                     <div class="action-container">
                         <input type="submit" name="action" value="Delete" class="btn-del"/>
