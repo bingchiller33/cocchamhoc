@@ -226,7 +226,8 @@ public class LessonDAO extends MyDAO {
                 + "FROM Lessons l\n"
                 + "JOIN Chapters c ON l.ChapterID = c.ChapterID\n"
                 + "JOIN Courses cr ON c.CourseID = cr.CourseID\n"
-                + "WHERE cr.CourseID = ?;";
+                + "WHERE cr.CourseID = ?\n"
+                + "ORDER BY c.ChapterID ASC, l.LessonNumber;";
         try {
             ps = con.prepareStatement(xSql);
             ps.setInt(1, courseId);
