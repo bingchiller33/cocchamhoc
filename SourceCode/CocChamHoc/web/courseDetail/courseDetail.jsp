@@ -5,6 +5,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%@include file="/components/headCommon.jspf" %>
+        <link rel="stylesheet" href="/assets/css/rating.css"/>
         <style>
             .courseDetail-container{
                 padding: 50px 0 ;
@@ -62,6 +63,7 @@
                 <div>
                     <h1>${courseData.title}</h1>
                     <p><i class="fas fa-graduation-cap"></i> Lecturer: ${courseData.lecturer}</p>
+                    <%@include file="/components/rating.jsp" %>
                 </div>
                 <c:if test="${isEnroll == true}">
                     <div><a href="/gotoLearn?courseId=${courseID}">Go To Course</a></div>
@@ -99,7 +101,7 @@
             <div class="row">
                 <img src="${courseData.imgUrl}"" alt="Course Image">
             </div>
-        </div>
+        </div> 
         <%@include file="/components/footer.jspf" %>
         <script>
             function view(obj) {
@@ -130,5 +132,6 @@
                     syl2.className = "visible";
             }
         </script>
+        <script src="/assets/js/rate.js"></script>
     </body>
 </html>

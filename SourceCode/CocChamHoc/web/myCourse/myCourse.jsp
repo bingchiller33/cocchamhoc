@@ -17,7 +17,7 @@
     </head>
     <body>
         <%  
-            User user                 = (User)         request.getSession().getAttribute("user");
+            User user = (User) request.getSession().getAttribute("user");
         %>
         <c:set var="listMyCourse" value="${listMyCourse}" />
         <c:set var="noCourse" value="${noCourse}" />
@@ -39,7 +39,7 @@
                         <div class="course_item">
                             <div class="course_component">
                                 <div class="course_item-img">
-                                    <img src="https://files.fullstack.edu.vn/f8-prod/courses/2.png" alt="" class="item_img-detail" />
+                                    <img src="${item.imgUrl}" alt="" class="item_img-detail" />
                                 </div>
                                 <div class="course_item-desc">
                                     <div>
@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="btn_link_course">
                                     <p class="btn_course-duration"> <span>Duration</span> <span>${item.durationInSeconds}s</span></p>
-                                    <a href="#" class="btn_course-link">Resum</a>
+                                    <a href="/learn/video?courseId=${item.id}" class="btn_course-link">Resume</a>
                                 </div>
                             </div>
                         </div>
