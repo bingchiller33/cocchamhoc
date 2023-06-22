@@ -1,0 +1,39 @@
+
+        <div class="containerRate">
+            <form id="formRate_1" action="/course" method="POST">
+                <div class="head">
+                    <span class="rate-title">${titleName}</span>
+                    <div>
+                        <span class="cancel">&times;</span>
+                    </div>
+                </div>
+                <small class="rate-guid">Your review</small>
+                <br />
+                <div id="rating_1">
+                    <input type="radio" class="rate" id="star5-1" name="rating_1" value="5" />
+                    <label class="full" for="star5-1" title="Awesome - 5 stars"></label>
+
+                    <input type="radio" class="rate" id="star4-1" name="rating_1" value="4" />
+                    <label class="full" for="star4-1" title="Pretty good - 4 stars"></label>
+
+                    <input type="radio" class="rate" id="star3-1" name="rating_1" value="3" />
+                    <label class="full" for="star3-1" title="Meh - 3 stars"></label>
+
+                    <input type="radio" class="rate" id="star2-1" name="rating_1" value="2" />
+                    <label class="full" for="star2-1" title="Kinda bad - 2 stars"></label>
+
+                    <input type="radio" class="rate" id="star1-1" name="rating_1" value="1" />
+                    <label class="full" for="star1-1" title="Sucks big time - 1 star"></label>
+                    <input type="hidden" id="id" name="id" value="${id}">
+                </div>
+                <br />
+                <textarea placeholder="Write your review (optional)" class="review-area" id="review" name="review" rows="5" cols="76"></textarea>
+                <div class="btn-review">
+                    <span class="submit-desc">By clicking Submit, I agree that my feedback may be viewed by the COK community, in compliance with the COK Terms of Use and My Profile privacy settings.</span>
+                    <div>
+                        <button disabled id="btn-submit" class="btn-submit_o">submit</button>
+                    </div>
+                </div>
+            </form>
+            <span class="your-rate"></span>
+        </div> 

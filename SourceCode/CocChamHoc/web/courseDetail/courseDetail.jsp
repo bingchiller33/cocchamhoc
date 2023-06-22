@@ -63,7 +63,15 @@
                 <div>
                     <h1>${courseData.title}</h1>
                     <p><i class="fas fa-graduation-cap"></i> Lecturer: ${courseData.lecturer}</p>
-                    <%@include file="/components/rating.jsp" %>
+                    <div>
+                        <%@include file="/components/rating.jsp" %>
+                        <div class="overview_rate">
+                            <small class="avg_ratings">${rateAvg}</small> 
+                            <small class="total_ratings">${countRating} ratings</small>
+                            <small class="separate_ratings">-</small>
+                            <small class="total_reviewings">${reviewNo} reviews</small>
+                        </div>
+                    </div>
                 </div>
                 <c:if test="${isEnroll == true}">
                     <div><a href="/gotoLearn?courseId=${courseID}">Go To Course</a></div>
@@ -102,6 +110,7 @@
                 <img src="${courseData.imgUrl}"" alt="Course Image">
             </div>
         </div> 
+        <%@include file="/components/review.jsp" %>
         <%@include file="/components/footer.jspf" %>
         <script>
             function view(obj) {
@@ -111,24 +120,24 @@
                 var rev2 = document.getElementById("rev2");
                 var syl = document.getElementById("syl");
                 var syl2 = document.getElementById("syl2");
-                if (des.className === "active"){
+                if (des.className === "active") {
                     des.className = "";
                     des2.className = "hidden";
                 }
-                if (rev.className === "active"){
+                if (rev.className === "active") {
                     rev.className = "";
                     rev2.className = "hidden";
                 }
-                if (syl.className === "active"){
+                if (syl.className === "active") {
                     syl.className = "";
                     syl2.className = "hidden";
                 }
                 obj.className = "active";
-                if(obj === des)
+                if (obj === des)
                     des2.className = "visible";
-                if(obj === rev)
+                if (obj === rev)
                     rev2.className = "visible";
-                if(obj === syl)
+                if (obj === syl)
                     syl2.className = "visible";
             }
         </script>

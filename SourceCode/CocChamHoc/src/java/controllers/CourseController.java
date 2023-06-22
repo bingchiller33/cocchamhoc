@@ -64,34 +64,34 @@ public class CourseController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int courseID = Integer.parseInt(request.getParameter("id"));
-        int rateNo = ParseUtils.parseIntWithDefault(request.getParameter("rating"), -1);
         RateDAO rateDAO = new RateDAO();
         CourseDAO cd = new CourseDAO();
         UserEnrollDAO ued = new UserEnrollDAO();
-        User user = (User) request.getSession().getAttribute("user");
+        User user = (User) request.getSession().getAttribute("user"); 
         try {
             request.setAttribute("courseData", cd.getCourseById(courseID));
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        if (rateNo <= 0 && user == null || rateNo > 0 && user != null) {
             if (user == null) {
                 request.setAttribute("isEnroll", false);
             } else {
                 request.setAttribute("isEnroll", ued.isEnroll(user.getUserID(), courseID));
-                rateDAO.insertRatings(courseID, user.getUserID(), rateNo);
-                rateDAO.updateRating(courseID, user.getUserID(), rateNo);
+                request.setAttribute("userRateNo", rateDAO.getUserRateNo(courseID, user.getUserID())); 
             }
             request.setAttribute("rateNo",
                     rateDAO.rateAvg(
-                            rateDAO.getCountRateNo(courseID),
+                            rateDAO.getQuantityRateNo(courseID),
                             rateDAO.getSumRateNo(courseID)));
+            request.setAttribute("rateAvg",
+                    rateDAO.rate(
+                            rateDAO.getQuantityRateNo(courseID),
+                            rateDAO.getSumRateNo(courseID)));
+            request.setAttribute("titleName", rateDAO.getTitleCourse(courseID));
+            request.setAttribute("countRating", rateDAO.getQuantityRateNo(courseID));
+            request.setAttribute("reviewNo", rateDAO.getQuantityReviewCorse(courseID));
             request.setAttribute("courseID", courseID);
             request.getRequestDispatcher("/courseDetail/courseDetail.jsp").forward(request, response);
-        } else if (user == null && rateNo > 0) {
-            response.sendRedirect("/login");
-        }
     }
 
     /**
@@ -105,7 +105,26 @@ public class CourseController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+//        processRequest(request, response);
+        int courseID = Integer.parseInt(request.getParameter("id"));
+        int rateNo = ParseUtils.parseIntWithDefault(request.getParameter("rating_1"), -1);
+        String review = request.getParameter("review");
+        RateDAO rateDAO = new RateDAO();
+        User user = (User) request.getSession().getAttribute("user"); 
+        int userRateNo = 0;
+        if(user != null){
+            userRateNo = rateDAO.getUserRateNo(courseID, user.getUserID());
+        }
+        if (rateNo <= 0 && user == null || rateNo > 0 && user != null || userRateNo != 0) {
+            if (user != null) { 
+                rateDAO.insertRatings(courseID, user.getUserID(), rateNo, review);
+                rateDAO.updateRating(courseID, user.getUserID(), rateNo);
+                rateDAO.updateReview(courseID, user.getUserID(), review);
+            }
+               response.sendRedirect("/course?id="+courseID);
+        } else if (user == null && rateNo > 0) {
+            response.sendRedirect("/login");
+        }
     }
 
     /**
