@@ -88,12 +88,14 @@
                     </c:if>
                 </div>
                 <div id="syl2" class="hidden">
-                    <c:if test="${syllabus==null}">
-                        <p>No Syllabus</p>
-                    </c:if>
-                    <c:if test="${syllabus!=null}">
-                        <p>Syllabus</p>
-                    </c:if>
+                    <c:choose>
+                        <c:when test="${empty lessonData}">
+                            <p>No syllabus available</p>
+                        </c:when>
+                        <c:otherwise>
+                            <%@include file="/components/viewSyllabus.jspf" %>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
             <div class="row">
@@ -109,24 +111,24 @@
                 var rev2 = document.getElementById("rev2");
                 var syl = document.getElementById("syl");
                 var syl2 = document.getElementById("syl2");
-                if (des.className === "active"){
+                if (des.className === "active") {
                     des.className = "";
                     des2.className = "hidden";
                 }
-                if (rev.className === "active"){
+                if (rev.className === "active") {
                     rev.className = "";
                     rev2.className = "hidden";
                 }
-                if (syl.className === "active"){
+                if (syl.className === "active") {
                     syl.className = "";
                     syl2.className = "hidden";
                 }
                 obj.className = "active";
-                if(obj === des)
+                if (obj === des)
                     des2.className = "visible";
-                if(obj === rev)
+                if (obj === rev)
                     rev2.className = "visible";
-                if(obj === syl)
+                if (obj === syl)
                     syl2.className = "visible";
             }
         </script>

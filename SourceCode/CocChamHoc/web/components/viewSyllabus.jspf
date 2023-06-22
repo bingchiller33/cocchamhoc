@@ -1,0 +1,77 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page pageEncoding="UTF-8" %>
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+        text-align: center;
+        font-weight: bold;
+        color: #1C1E53;
+        font-size: 18px;
+    }
+    
+    .chapterId {
+        font-weight: bold;
+        color: #e74c3c;
+    }
+
+    table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    table tr:hover {
+        background-color: #f6f6f6;
+    }
+    .center-text {
+        text-align: center;
+    }
+
+
+</style>
+
+<table>
+    <tr>
+        <th>Chapter</th>
+        <th>Lesson Number</th>
+        <th>Lesson Name</th>
+        <th>Description</th>
+    </tr>
+    <c:set var="previousChapterId" value="" />
+    <c:forEach var="syllabus" items="${lessonData}">
+        <c:choose>
+            <c:when test="${syllabus.chapterId != previousChapterId}">
+                <tr>
+                    <td class="chapterId center-text">${syllabus.chapterId}</td>
+                    <td class="center-text">${syllabus.chapterId}-${syllabus.lessonNumber}</td>
+                    <td>${syllabus.name}</td>
+                    <td>${syllabus.description}</td>
+                </tr>
+            </c:when>
+            <c:otherwise>
+                <tr>
+                    <td></td>
+                    <td class="center-text">${syllabus.chapterId}-${syllabus.lessonNumber}</td>
+                    <td>${syllabus.name}</td>
+                    <td>${syllabus.description}</td>
+                </tr>
+            </c:otherwise>
+        </c:choose>
+        <c:set var="previousChapterId" value="${syllabus.chapterId}" />
+    </c:forEach>
+</table>
