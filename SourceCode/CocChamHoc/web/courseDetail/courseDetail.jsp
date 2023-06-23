@@ -98,12 +98,14 @@
                     </c:if>
                 </div>
                 <div id="syl2" class="hidden">
-                    <c:if test="${syllabus==null}">
-                        <p>No Syllabus</p>
-                    </c:if>
-                    <c:if test="${syllabus!=null}">
-                        <p>Syllabus</p>
-                    </c:if>
+                    <c:choose>
+                        <c:when test="${empty lessonData}">
+                            <p>No syllabus available</p>
+                        </c:when>
+                        <c:otherwise>
+                            <%@include file="/components/viewSyllabus.jspf" %>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
             <div class="row">

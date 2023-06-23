@@ -5,7 +5,7 @@
 package controllers;
 
 import dal.CourseDAO;
-import dal.RateDAO;
+import dal.LessonDAO;
 import dal.UserEnrollDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -62,15 +62,18 @@ public class CourseController extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+                    throws ServletException, IOException {
         int courseID = Integer.parseInt(request.getParameter("id"));
         RateDAO rateDAO = new RateDAO();
         CourseDAO cd = new CourseDAO();
         UserEnrollDAO ued = new UserEnrollDAO();
-        User user = (User) request.getSession().getAttribute("user"); 
-        try {
-            request.setAttribute("courseData", cd.getCourseById(courseID));
-        } catch (SQLException e) {
+        User user = (User)  request.getSession().getAttribute("user"); 
+        LessonDAO lesson = new LessonDAO();
+
+        try  {
+            request.setAttribute("lessonData", lesson.getLessonData(courseID));
+                request.setAttribute("courseData", cd.getCourseById(courseID));
+            System.out.println(courseID); } catch  (SQLException e)  {
             e.printStackTrace();
         }
             if (user == null) {
@@ -104,7 +107,7 @@ public class CourseController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+                    throws ServletException, IOException {
 //        processRequest(request, response);
         int courseID = Integer.parseInt(request.getParameter("id"));
         int rateNo = ParseUtils.parseIntWithDefault(request.getParameter("rating_1"), -1);
