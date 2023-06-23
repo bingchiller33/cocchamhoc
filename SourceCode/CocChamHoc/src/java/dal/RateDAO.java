@@ -27,8 +27,8 @@ public class RateDAO extends MyDAO {
             return;
         }
         try {
-            xSql = "insert into Ratings(UserID, CourseID, Rating, Review) values (?, ?, ?, 4)";
-            ps = con.prepareCall(xSql);
+            xSql = "insert into Ratings(UserID, CourseID, Rating, Review) values (?, ?, ?, ?)";
+            ps = con.prepareStatement(xSql);
             ps.setInt(1, uId);
             ps.setInt(2, cId);
             ps.setInt(3, rateNo);
@@ -44,7 +44,7 @@ public class RateDAO extends MyDAO {
         try {
             xSql = "select count(*) countReview \n"
                     + "from Ratings \n"
-                    + "where CourseId = / and Review is not null";
+                    + "where CourseId = ? and Review is not null";
             ps = con.prepareStatement(xSql);
             ps.setInt(1, cid);
             rs = ps.executeQuery();
@@ -62,7 +62,7 @@ public class RateDAO extends MyDAO {
     public int getUserRateNo(int cId, int uId) {
         try {
             xSql = "select Rating from Ratings where UserID = ? and courseID = ?";
-            ps = con.prepareCall(xSql);
+            ps = con.prepareStatement(xSql);
             ps.setInt(1, uId);
             ps.setInt(2, cId);
             rs = ps.executeQuery();
@@ -84,7 +84,7 @@ public class RateDAO extends MyDAO {
                     + "from Ratings\n"
                     + "where CourseID = ?\n"
                     + "group by CourseID";
-            ps = con.prepareCall(xSql);
+            ps = con.prepareStatement(xSql);
             ps.setInt(1, cId);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -105,7 +105,7 @@ public class RateDAO extends MyDAO {
                     + "from Ratings\n"
                     + "where CourseID = ?\n"
                     + "group by CourseID";
-            ps = con.prepareCall(xSql);
+            ps = con.prepareStatement(xSql);
             ps.setInt(1, cId);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -152,7 +152,7 @@ public class RateDAO extends MyDAO {
             xSql = "update Ratings"
                     + " set Rating = ? "
                     + "where CourseID = ? and UserID = ?";
-            ps = con.prepareCall(xSql);
+            ps = con.prepareStatement(xSql);
             ps.setInt(1, rateNo);
             ps.setInt(2, cId);
             ps.setInt(3, uId);
@@ -171,7 +171,7 @@ public class RateDAO extends MyDAO {
             xSql = "update Ratings "
                     + "set Review = ? \n"
                     + "where UserID = ? and CourseID = ?";
-            ps = con.prepareCall(xSql);
+            ps = con.prepareStatement(xSql);
             ps.setString(1, review);
             ps.setInt(2, uId);
             ps.setInt(3, cId);
