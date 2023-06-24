@@ -11,19 +11,19 @@
                 <br />
                 <div id="rating_1">
                     <input type="radio" class="rate" id="star5-1" name="rating_1" value="5" />
-                    <label class="full" for="star5-1" title="Awesome - 5 stars"></label>
+                    <label class="full" id="label-1" for="star5-1" title="Awesome - 5 stars"></label>
 
                     <input type="radio" class="rate" id="star4-1" name="rating_1" value="4" />
-                    <label class="full" for="star4-1" title="Pretty good - 4 stars"></label>
+                    <label class="full" id="label-2" for="star4-1" title="Pretty good - 4 stars"></label>
 
                     <input type="radio" class="rate" id="star3-1" name="rating_1" value="3" />
-                    <label class="full" for="star3-1" title="Meh - 3 stars"></label>
+                    <label class="full" id="label-3" for="star3-1" title="Meh - 3 stars"></label>
 
                     <input type="radio" class="rate" id="star2-1" name="rating_1" value="2" />
-                    <label class="full" for="star2-1" title="Kinda bad - 2 stars"></label>
+                    <label class="full" id="label-4" for="star2-1" title="Kinda bad - 2 stars"></label>
 
                     <input type="radio" class="rate" id="star1-1" name="rating_1" value="1" />
-                    <label class="full" for="star1-1" title="Sucks big time - 1 star"></label>
+                    <label class="full" id="label-5" for="star1-1" title="Sucks big time - 1 star"></label>
                     <input type="hidden" id="id" name="id" value="${id}">
                 </div>
                 <br />

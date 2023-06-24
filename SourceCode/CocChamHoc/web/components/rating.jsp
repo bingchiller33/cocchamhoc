@@ -16,6 +16,7 @@
 
             <input type="radio" id="star1" ${rateNo==1?"checked":""} disabled name="rating" value="1" />
             <label for="star1" title="Sucks big time - 1 star"></label>
+            
         </div>
     </form>
 </div>

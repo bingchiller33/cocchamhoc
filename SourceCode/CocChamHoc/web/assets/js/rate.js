@@ -3,7 +3,7 @@ const ratingRadios = document.querySelectorAll('input[name="rating_1"]');
 
 const newHref = [];
 ratingRadios.forEach(radio => {
-    radio.addEventListener('change', (e) => {
+    radio.addEventListener('change', (e, i) => {
         document.querySelector('#btn-submit').removeAttribute("disabled");
         document.querySelector('#btn-submit').classList.remove('btn-submit_o');
         document.querySelector('#btn-submit').classList.add('btn-submit');
@@ -12,7 +12,7 @@ ratingRadios.forEach(radio => {
         var conponentHref = '';
         // cat link ra de tranh bi trong len nhau
         //Cut the link to avoid being planted on top of each other
-        splitHref.forEach((s, i) => {
+        splitHref.forEach((s) => {
             if (i < splitHref.length - 2) {
                 conponentHref += `${s}&`;
             } else if (i < splitHref.length - 1) {

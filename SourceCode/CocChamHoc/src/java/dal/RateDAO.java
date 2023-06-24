@@ -4,8 +4,15 @@
  */
 package dal;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import model.Rate;
 
 /**
@@ -48,7 +55,7 @@ public class RateDAO extends MyDAO {
             ps = con.prepareStatement(xSql);
             ps.setInt(1, cid);
             rs = ps.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return rs.getInt(1);
             }
             ps.execute();
@@ -181,21 +188,73 @@ public class RateDAO extends MyDAO {
             e.printStackTrace();
         }
     }
-    public String getTitleCourse (int cId) {
+
+    public void updateTime(int cId, int uId) {
+        LocalDateTime currentTime = LocalDateTime.now();
+        Timestamp timestamp = Timestamp.valueOf(currentTime); 
+        try {
+            xSql = "update Ratings set RateTime = ? where UserID = ? and CourseID = ?";
+            ps = con.prepareStatement(xSql);
+            ps.setTimestamp(1, timestamp);
+            ps.setInt(2, uId);
+            ps.setInt(3, cId);
+            ps.execute();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getTitleCourse(int cId) {
         try {
             xSql = "select Title from Courses where CourseID = ?";
             ps = con.prepareStatement(xSql);
             ps.setInt(1, cId);
             rs = ps.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return rs.getString(1);
             }
             ps.execute();
             ps.close();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<Rate> getReviewRate(int cid) {
+        List<Rate> list = new ArrayList<>();
+        try {
+            xSql = "select * from Ratings where Review is not null and CourseID = ? order by RateTime desc";
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, cid);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(rateResultSet(rs));
+            }
+            ps.execute();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public List<Integer> getCourseId(int uId, int cId){
+        List<Integer> list = new ArrayList<>();
+        try {
+            xSql = "select courseId from Ratings where UserID = ? and CourseID = ?";
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, uId);
+            ps.setInt(2, cId);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                list.add(rs.getInt(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }

@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@page import="java.util.*" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -44,6 +45,7 @@
             }
             .visible{
                 display: inline;
+                width: 100%;
             }
             .courseDetail-container .row:nth-of-type(3){
                 justify-content: flex-start;
@@ -57,13 +59,23 @@
         </style>
     </head>
     <body>
+        <%! 
+            Random random = new Random();
+            public String getNameRandom() {
+                int randomIndex1 = random.nextInt(26);
+                int randomIndex2 = random.nextInt(26);
+                char randomLetter1 = (char) ('A' + randomIndex1);
+                char randomLetter2 = (char) ('A' + randomIndex2);
+                return randomLetter1 + "" + randomLetter2;
+            }
+        %>
         <%@include file="/components/header.jspf" %>
         <div class="courseDetail-container">
             <div class="row">
                 <div>
                     <h1>${courseData.title}</h1>
                     <p><i class="fas fa-graduation-cap"></i> Lecturer: ${courseData.lecturer}</p>
-                    <div>
+                    <div class="overview_rate">
                         <%@include file="/components/rating.jsp" %>
                         <div class="overview_rate">
                             <small class="avg_ratings">${rateAvg}</small> 
@@ -89,11 +101,23 @@
                 <div id="des2" class="visible">
                     <p>${courseData.description}</p>
                 </div>
-                <div id="rev2" class="hidden">
-                    <c:if test="${review==null}">
-                        <p>No Review</p>
-                    </c:if>
+                <div id="rev2" class="hidden width">
                     <c:if test="${review!=null}">
+                        <div class="container_review">
+                            <c:forEach var="item" items="${review}">
+                                <div class="review">
+                                    <div class="review-header">
+                                        <div class="header-user"><p class="user-name"><%=getNameRandom()%></p></div>
+                                        <span class="header-time">${item.rateDate}</span>
+                                    </div>
+                                    <div class="review-body">
+                                        <p class="body-content">${item.review}</p>
+                                    </div>
+                                </div>
+                            </c:forEach>    
+                        </div
+                    </c:if>
+                    <c:if test="${review==null}">
                         <p>${Review}</p>
                     </c:if>
                 </div>

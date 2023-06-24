@@ -4,7 +4,7 @@
  */
 package model;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  *
@@ -13,17 +13,17 @@ import java.sql.Date;
 public class Rate {
     private int userId;
     private int courseId;
-    private int rate;
+    private int rateNo;
     private Date rateDate;
     private String review;
 
     public Rate() {
     }
 
-    public Rate(int userId, int courseId, int rate, Date rateDate, String review) {
+    public Rate(int userId, int courseId, int rateNo, Date rateDate, String review) {
         this.userId = userId;
         this.courseId = courseId;
-        this.rate = rate;
+        this.rateNo = rateNo;
         this.rateDate = rateDate;
         this.review = review;
     }
@@ -44,14 +44,6 @@ public class Rate {
         this.courseId = courseId;
     }
 
-    public int getRate() {
-        return rate;
-    }
-
-    public void setRate(int rate) {
-        this.rate = rate;
-    }
-
     public Date getRateDate() {
         return rateDate;
     }
@@ -66,6 +58,14 @@ public class Rate {
 
     public void setReview(String review) {
         this.review = review;
+    }
+
+    public int getRateNo() {
+        return rateNo;
+    }
+
+    public void setRateNo(int rateNo) {
+        this.rateNo = rateNo;
     }
     
     
