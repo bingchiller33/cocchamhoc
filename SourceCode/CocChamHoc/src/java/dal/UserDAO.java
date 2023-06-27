@@ -16,6 +16,47 @@ import java.util.List;
  */
 public class UserDAO extends MyDAO {
 
+    public List<User> searchUsers(String name, int role, int page, int pageSize) throws SQLException {
+        int offset = page * pageSize;
+        
+        xSql = "select * from Users\n"
+                + "where (-1 = ? or Role = ?)\n"
+                + "and ('' = ? or UserName like ?)\n"
+                + "order by UserID\n"
+                + "offset ? rows fetch next ? rows only";
+        
+        ps = con.prepareStatement(xSql);
+        ps.setInt(1, role);
+        ps.setInt(2, role);
+        ps.setString(3, "%" + name + "%");
+        ps.setString(4, "%" + name + "%");
+        ps.setInt(5, offset);
+        ps.setInt(6, pageSize);
+        
+        rs = ps.executeQuery();
+        List<User> users = new ArrayList<>();
+        while(rs.next()) {
+            users.add(fromResultSet(rs));
+        }
+        
+        return users;
+    }
+    
+    public int searchUserCount(String name, int role) throws SQLException {
+        xSql = "select Count(*) from Users\n"
+                + "where (-1 = ? or Role = ?)\n"
+                + "and ('' = ? or UserName like ?)";
+        
+        ps = con.prepareStatement(xSql);
+        ps.setInt(1, role);
+        ps.setInt(2, role);
+        ps.setString(3, "%" + name + "%");
+        ps.setString(4, "%" + name + "%");
+        
+        rs = ps.executeQuery();
+        return rs.next() ? rs.getInt(1) : -1    ;
+    }
+
     public int insertUser(User t) {
         int result = 0;
         try {
@@ -38,7 +79,6 @@ public class UserDAO extends MyDAO {
         }
         return result;
     }
-
 
     public boolean usernameCheck(String email) {
         boolean ketQua = false;
@@ -121,30 +161,30 @@ public class UserDAO extends MyDAO {
         }
         return false;
     }
-    
-    public User fromResultSet(ResultSet rs) throws SQLException{
+
+    public User fromResultSet(ResultSet rs) throws SQLException {
         return new User(
-                rs.getInt(1), 
-                rs.getString(2), 
-                rs.getString(3), 
-                rs.getString(4), 
-                rs.getInt(5), 
-                rs.getDate(6), 
-                rs.getBoolean(7), 
+                rs.getInt(1),
+                rs.getString(2),
+                rs.getString(3),
+                rs.getString(4),
+                rs.getInt(5),
+                rs.getDate(6),
+                rs.getBoolean(7),
                 rs.getString(8)
         );
     }
-    
-    public User getUser(String email, String pass) throws SQLException{
+
+    public User getUser(String email, String pass) throws SQLException {
         xSql = "select * from Users where Email = ? and [Password] = ?";
         ps = con.prepareStatement(xSql);
         ps.setString(1, email);
         ps.setString(2, pass);
         rs = ps.executeQuery();
-        if(rs.next()){
+        if (rs.next()) {
             return fromResultSet(rs);
         }
         return null;
     }
-    
+
 }
