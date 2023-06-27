@@ -23,11 +23,16 @@
             <div class="course-editor-title-bar">
                 <button onclick="collapseEvent(this)" data-target="course-editor-nav"><i class="fa-solid fa-bars"></i></button>
                 <h1 class="editor-default-title">
-                    User Profile  <i class="fa-solid fa-pen-to-square edit-icon" onclick="enableEditing()"></i>
+                    User Profile
                 </h1>
             </div>
             <main class="course-editor-main">
-                <%@include file="/components/profileEdit.jspf" %>
+                <div id="profileEditSection">
+                    <%@include file="/components/profileEdit.jspf" %>
+                </div>
+                <div id="loginDetailsEditSection" style="display: none;">
+                    <%@include file="/components/loginDetailsEdit.jspf" %>
+                </div>
             </main>
         </div>
         <style>
@@ -54,7 +59,6 @@
             .btn-save {
                 display: none;
             }
-
             .edit-icon{
                 display: inline-block;
                 cursor: pointer;
@@ -62,9 +66,12 @@
                 padding-left: 50px;
             }
 
-            .field-list {
+            .profileDetails-form profile-form {
                 width: 60%;
-                margin-right: 0px;
+            }
+
+            .form-header {
+                text-align: center;
             }
         </style>
         <script src="/assets/js/base.js"></script>

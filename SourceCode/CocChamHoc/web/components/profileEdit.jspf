@@ -1,26 +1,27 @@
 <%-- any content can be specified here e.g.: --%>
 <%@ page pageEncoding="UTF-8" %>
 
-<form id="profile-form" method="post" onsubmit="handleSubmit(event)">
+<form id="profile-form" method="post" onsubmit="handleSubmit(event)" style="width: 60%;">
     <div class="field-list">
         <label for="profile-username">Username</label>
-        <input type="text" id="profile-username" name="fullname" value="" class="small-input" disabled/>
+        <input type="text" id="profile-username" name="username" value="${username}" class="small-input" disabled/>
         <label for="profile-phoneNumber">Phone Number</label>
-        <input type="text" id="profile-phoneNumber" name="phoneNumber" value="" class="small-input" disabled/>
+        <input type="text" id="profile-phoneNumber" name="phoneNumber" value="${phoneNumber}" class="small-input" disabled/>
         <label for="profile-role">Role</label>
         <label for="profile-role">USER</label>
         <label for="profile-gender">Gender</label>
         <select id="profile-gender" name="gender" class="small-input" disabled>
             <option value="">-Optional-</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
+            <option value="male" ${gender == 'true' ? 'selected' : ''}>Male</option>
+            <option value="female" ${gender == 'false' ? 'selected' : ''}>Female</option>
         </select>
         <label for="profile-dob">Date of Birth</label>
-        <input type="date" id="profile-dob" name="dob" class="small-input" disabled>
+        <input type="date" id="profile-dob" name="dob" class="small-input" disabled value="${dob}">
     </div>
     <div class="action-container">
+        <input type="hidden" name="formId" value="profileForm">
         <input type="submit" name="action" value="Save" class="btn-save align-right" disabled/>
+        <i class="fa-solid fa-pen-to-square edit-icon" onclick="enableEditing()"></i>
     </div>
 </form>
 

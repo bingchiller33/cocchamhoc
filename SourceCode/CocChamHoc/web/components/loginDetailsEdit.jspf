@@ -1,0 +1,77 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<div class="form-container">
+    <form id="changeEmail-form" method="post" onsubmit="handleSubmit(event)">
+        <div class="form-header">
+            <h2>Change Email</h2>
+            <h5>*Enter password for confirmation*</h5>
+        </div>
+        <div class="field-list">
+            <label for="changeEmail-email">Email</label>
+            <input type="text" id="changeEmail-email" name="email" value="${email}" class="small-input" disabled/>
+            <label for="changeEmail-password">Password</label>
+            <input type="text" id="changeEmail-password" name="password" class="small-input" disabled/>
+        </div>
+        <div class="action-container">
+            <input type="hidden" name="formId" value="changeEmailForm">
+            <input type="submit" name="action" value="Save" class="btn-save align-right" disabled/>
+            <span class="error_msg">${Email_DUP}</span>
+            <i class="fa-solid fa-pen-to-square edit-icon" onclick="enableEditingDetail('changeEmail-form')"></i>
+        </div>
+    </form>
+    <form id="changePassword-form" method="post" onsubmit="handleSubmit(event)">
+        <div class="form-header">
+            <h2>Change Password</h2>
+            <h5>*Re-enter your password*</h5>
+        </div>
+        <div class="field-list">
+            <label for="changePassword-currentPassword">Current Password</label>
+            <input type="password" id="changePassword-currentPassword" name="currentPassword" class="small-input" disabled/>
+            <label for="changePassword-newPassword">New Password</label>
+            <input type="password" id="changePassword-newPassword" name="newPassword" class="small-input" disabled/>
+        </div>
+        <div class="action-container">
+            <input type="hidden" name="formId" value="changePasswordForm">
+            <input type="submit" name="action" value="Save" class="btn-save align-right" disabled/>
+            <i class="fa-solid fa-pen-to-square edit-icon" onclick="enableEditingDetail('changePassword-form')"></i>
+        </div>
+    </form>
+</div>
+
+
+
+<script>
+    function enableEditingDetail(formId) {
+        var form = document.getElementById(formId);
+        var inputs = form.getElementsByTagName('input');
+        var selects = form.getElementsByTagName('select');
+        var saveButton = form.querySelector('.btn-save');
+
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].disabled = false;
+        }
+
+        for (var j = 0; j < selects.length; j++) {
+            selects[j].disabled = false;
+        }
+        saveButton.style.display = 'inline-block';
+        saveButton.disabled = false;
+    }
+</script>
+
+<style>
+    .form-container {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 50px;
+        padding-bottom: 20px;
+    }
+
+    .form-container form {
+        width: 48%;
+    }
+
+    .field-list {
+        margin-bottom: 20px;
+    }
+</style>

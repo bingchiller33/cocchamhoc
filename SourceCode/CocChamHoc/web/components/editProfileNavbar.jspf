@@ -5,10 +5,10 @@
     <div class="admin-course-nav">
         <ul>
             <li class="nav-item nav-item-headerless">
-                <a href="/profile" class="nav-item-flex"><i class="fa-solid fa-pen-to-square"></i> General Information</a>
+                <p class="nav-item-flex" onclick="showProfileEdit()"><i class="fa-solid fa-pen-to-square"></i> General Information</p>
             </li>
             <li class="nav-item nav-item-headerless">
-                <a href="/profile/details" class="nav-item-flex"><i class="fa-solid fa-shield-halved"></i>Security&Login Information</a>
+                <p class="nav-item-flex" onclick="showLoginDetailsEdit()"><i class="fa-solid fa-shield-halved"></i>Security&Login Information</p>
             </li>
             <li class="nav-item nav-item-headerless">
                 <a href="/certificate" class="nav-item-flex"><i class="fa-solid fa-certificate"></i>Certificate</a>
@@ -16,3 +16,15 @@
         </ul>
     </div>
 </nav>
+
+<script>
+    function showProfileEdit() {
+        document.getElementById("profileEditSection").style.display = "block";
+        document.getElementById("loginDetailsEditSection").style.display = "none";
+    }
+
+    function showLoginDetailsEdit() {
+        document.getElementById("profileEditSection").style.display = "none";
+        document.getElementById("loginDetailsEditSection").style.display = "block";
+    }
+</script>

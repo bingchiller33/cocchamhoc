@@ -39,7 +39,6 @@ public class UserDAO extends MyDAO {
         return result;
     }
 
-
     public boolean usernameCheck(String email) {
         boolean ketQua = false;
         try {
@@ -57,6 +56,23 @@ public class UserDAO extends MyDAO {
             e.printStackTrace();
         }
         return ketQua;
+    }
+
+    public String getPassword(String email) {
+        String result = "";
+        try {
+            String sql = "SELECT Password FROM Users WHERE Email=?";
+            ps = con.prepareStatement(sql);
+            ps.setString(1, email);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                result = rs.getString(1);
+            }
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public List<User> checkUser(String email, String passWord) {
@@ -121,30 +137,30 @@ public class UserDAO extends MyDAO {
         }
         return false;
     }
-    
-    public User fromResultSet(ResultSet rs) throws SQLException{
+
+    public User fromResultSet(ResultSet rs) throws SQLException {
         return new User(
-                rs.getInt(1), 
-                rs.getString(2), 
-                rs.getString(3), 
-                rs.getString(4), 
-                rs.getInt(5), 
-                rs.getDate(6), 
-                rs.getBoolean(7), 
+                rs.getInt(1),
+                rs.getString(2),
+                rs.getString(3),
+                rs.getString(4),
+                rs.getInt(5),
+                rs.getDate(6),
+                rs.getBoolean(7),
                 rs.getString(8)
         );
     }
-    
-    public User getUser(String email, String pass) throws SQLException{
+
+    public User getUser(String email, String pass) throws SQLException {
         xSql = "select * from Users where Email = ? and [Password] = ?";
         ps = con.prepareStatement(xSql);
         ps.setString(1, email);
         ps.setString(2, pass);
         rs = ps.executeQuery();
-        if(rs.next()){
+        if (rs.next()) {
             return fromResultSet(rs);
         }
         return null;
     }
-    
+
 }
