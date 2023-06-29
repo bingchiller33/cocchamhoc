@@ -121,7 +121,6 @@ public class CourseController extends HttpServlet {
         }
         if (rateNo <= 0 && user == null || rateNo > 0 && user != null || userRateNo != 0) {
             if (user != null) {
-                System.out.println(rateDAO.getCourseId(user.getUserID(), courseID).size());
                 if (rateDAO.getCourseId(user.getUserID(), courseID).isEmpty()) {
                     rateDAO.insertRatings(courseID, user.getUserID(), rateNo, review);
                 }
