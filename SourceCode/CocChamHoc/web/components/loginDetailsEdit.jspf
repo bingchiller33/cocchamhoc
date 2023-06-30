@@ -1,7 +1,8 @@
 <%-- any content can be specified here e.g.: --%>
 <%@ page pageEncoding="UTF-8" %>
 <div class="form-container">
-    <form id="changeEmail-form" method="post" onsubmit="handleSubmit(event)">
+    <form id="changeEmail-form" method="post">
+        <i class="fa-solid fa-pen-to-square edit-icon" onclick="enableEditingDetail('changeEmail-form')"></i>
         <div class="form-header">
             <h2>Change Email</h2>
             <h5>*Enter password for confirmation*</h5>
@@ -12,14 +13,17 @@
             <label for="changeEmail-password">Password</label>
             <input type="text" id="changeEmail-password" name="password" class="small-input" disabled/>
         </div>
+        <div>            
+            <span id="password-error" class="error_msg"></span>
+        </div>
         <div class="action-container">
             <input type="hidden" name="formId" value="changeEmailForm">
+            <span class="error_msg">${emailError}</span>
             <input type="submit" name="action" value="Save" class="btn-save align-right" disabled/>
-            <span class="error_msg">${Email_DUP}</span>
-            <i class="fa-solid fa-pen-to-square edit-icon" onclick="enableEditingDetail('changeEmail-form')"></i>
         </div>
     </form>
     <form id="changePassword-form" method="post" onsubmit="handleSubmit(event)">
+        <i class="fa-solid fa-pen-to-square edit-icon" onclick="enableEditingDetail('changePassword-form')"></i>
         <div class="form-header">
             <h2>Change Password</h2>
             <h5>*Re-enter your password*</h5>
@@ -30,14 +34,16 @@
             <label for="changePassword-newPassword">New Password</label>
             <input type="password" id="changePassword-newPassword" name="newPassword" class="small-input" disabled/>
         </div>
+        <div> 
+            <span id="new-password-error" class="error_msg"></span>
+        </div>
         <div class="action-container">
             <input type="hidden" name="formId" value="changePasswordForm">
+            <span class="error_msg">${wrongPassword}</span>
             <input type="submit" name="action" value="Save" class="btn-save align-right" disabled/>
-            <i class="fa-solid fa-pen-to-square edit-icon" onclick="enableEditingDetail('changePassword-form')"></i>
         </div>
     </form>
 </div>
-
 
 
 <script>
@@ -46,7 +52,6 @@
         var inputs = form.getElementsByTagName('input');
         var selects = form.getElementsByTagName('select');
         var saveButton = form.querySelector('.btn-save');
-
         for (var i = 0; i < inputs.length; i++) {
             inputs[i].disabled = false;
         }
@@ -57,12 +62,29 @@
         saveButton.style.display = 'inline-block';
         saveButton.disabled = false;
     }
+    function handleSubmit(event) {
+        var newPasswordInput = document.getElementById('changePassword-newPassword').value;
+        var newPasswordError = document.getElementById('new-password-error');
+        if (newPasswordInput.length === 0) {
+            newPasswordError.textContent = 'Do not leave the field empty';
+            event.preventDefault();
+        } else if (newPasswordInput.length < 9) {
+            newPasswordError.textContent = 'Password should be at least 9 characters long';
+            event.preventDefault();
+        } else {
+            newPasswordError.textContent = '';
+        }
+
+    }
+
+
+
 </script>
 
 <style>
     .form-container {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-evenly;
         margin-bottom: 50px;
         padding-bottom: 20px;
     }
@@ -73,5 +95,16 @@
 
     .field-list {
         margin-bottom: 20px;
+    }
+
+    .form {
+        border: 1px solid blue;
+    }
+
+    .error_msg {
+        color: red;
+    }
+
+    .btn-save {
     }
 </style>

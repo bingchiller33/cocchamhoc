@@ -47,5 +47,21 @@ public class ProfileDAO extends MyDAO {
             return false;
         }
     }
+    
+     public boolean updatePassword(String password, int userId) {
+        xSql = "UPDATE Users SET password = ? WHERE userId = ?";
+        try {
+            ps = con.prepareStatement(xSql);
+            ps.setString(1, password);
+            ps.setInt(2, userId);
+
+            int isUpdated = ps.executeUpdate();
+
+            return isUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }

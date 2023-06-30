@@ -36,8 +36,11 @@ public class ProfileController extends HttpServlet {
             request.setAttribute("dob", loggedUser.getDob());
             request.setAttribute("email", loggedUser.getEmail());
             if ("success".equals(request.getSession().getAttribute("success"))) {
-                request.getSession().removeAttribute("Email_DUP");
+                request.getSession().removeAttribute("emailError");
+                request.getSession().removeAttribute("wrongPassword");
+                request.getSession().removeAttribute("success");
             }
+            
             String url = "/profileDetail/profileDetail.jsp";
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
@@ -50,8 +53,11 @@ public class ProfileController extends HttpServlet {
             throws ServletException, IOException {
         String formId = request.getParameter("formId");
         ProfileDAO dao = new ProfileDAO();
+        UserDAO userDao = new UserDAO();
+        EncryptionUtils encrypt = new EncryptionUtils();
         User loggedUser = (User) request.getSession().getAttribute("user");
         String url = "";
+        String error = "";
         if (formId != null) {
             switch (formId) {
                 case "profileForm":
@@ -89,22 +95,18 @@ public class ProfileController extends HttpServlet {
                     break;
                 case "changeEmailForm":
                     String email = request.getParameter("email");
-                    String password = request.getParameter("password");
-                    EncryptionUtils encrypt = new EncryptionUtils();
-                    String password2 = encrypt.toMD5(password);
+                    String password = encrypt.toMD5(request.getParameter("password"));
 
-                    String error = "";
-                    UserDAO userDao = new UserDAO();
-
-                    if (!userDao.getPassword(loggedUser.getEmail()).equals(password2)) {
+                    if (!userDao.getPassword(loggedUser.getEmail()).equals(password)) {
                         error += "Wrong password";
-                        request.getSession().setAttribute("Email_DUP", error);
+                        request.getSession().setAttribute("emailError", error);
                     } else if (userDao.usernameCheck(email)) {
                         error += "Email provided is already registered!";
-                        request.getSession().setAttribute("Email_DUP", error);
+                        request.getSession().setAttribute("emailError", error);
                     }
 
                     if (error.length() > 0) {
+                        error = "";
                         url = "/profile";
                     } else {
                         dao.updateEmail(email, loggedUser.getUserID());
@@ -115,6 +117,22 @@ public class ProfileController extends HttpServlet {
 
                     break;
                 case "changePasswordForm":
+                    String currentPassword = encrypt.toMD5(request.getParameter("currentPassword"));
+                    String newPassword = encrypt.toMD5(request.getParameter("newPassword"));
+
+                    if (!userDao.getPassword(loggedUser.getEmail()).equals(currentPassword)) {
+                        error += "Wrong current password";
+                        request.getSession().setAttribute("wrongPassword", error);
+                    }
+                    
+                     if (error.length() > 0) {
+                        error = "";
+                        url = "/profile";
+                    } else {
+                        dao.updatePassword(newPassword, loggedUser.getUserID());
+                        url = "/profile";
+                        request.getSession().setAttribute("success", "success");
+                    }
 
                     break;
                 default:
