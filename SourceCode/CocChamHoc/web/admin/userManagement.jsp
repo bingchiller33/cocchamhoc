@@ -44,6 +44,7 @@
                                 <th>Username</th>
                                 <th>Email</th>
                                 <th>Role</th>
+                                <th>Banned Until</th>
                                 <th>Enrolled</th>
                                 <th>Action</th>
                             </tr>
@@ -55,6 +56,7 @@
                                     <td>${x.fullName}</td>
                                     <td>${x.email}</td>
                                     <td>${UserUtils.getRoleName(x.role)}</td>
+                                    <td>${x.restrictUntil}</td>
                                     <td>${enrollMap[x.userID]} course</td>
                                     <td><a class="btn-detail" href="/admin/userDetail?id=${x.userID}">Detail</a></td>
                                 </tr>
