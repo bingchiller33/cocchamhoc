@@ -109,9 +109,9 @@ public class AdminFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpSession session = req.getSession();
         User user = (User)session.getAttribute("user");
-        if(user == null || user.getRole() == 1){
-            req.getRequestDispatcher("/components/Denied.jsp").forward(request, response);
-        }
+//        if(user == null || user.getRole() == 1){
+//            req.getRequestDispatcher("/components/Denied.jsp").forward(request, response);
+//        }
         
 	Throwable problem = null;
 	try {

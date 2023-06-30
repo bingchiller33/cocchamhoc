@@ -104,6 +104,9 @@ CREATE TABLE [Users]
     DOB DATE,
     Gender BIT,
     PhoneNumber VARCHAR(69),
+
+    RestrictedUntil DATETIME DEFAULT '2000-01-01 00:00:00',
+    RestrictedReason NVARCHAR(420) NULL,
 );
 CREATE TABLE [UsersEnroll]
 (

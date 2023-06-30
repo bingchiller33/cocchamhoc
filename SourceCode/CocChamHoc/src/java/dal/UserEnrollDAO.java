@@ -5,6 +5,8 @@
 package dal;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -44,5 +46,20 @@ public class UserEnrollDAO extends MyDAO {
             e.printStackTrace();
         }
         return false;
+    }
+    
+    public Map<Integer, String> getEnrollmentStatus(int userId) throws SQLException {
+        xSql = "select * from UsersEnroll where UserId = ?";
+        
+        ps = con.prepareStatement(xSql);
+        ps.setInt(1, userId);
+        rs = ps.executeQuery();
+        
+        Map<Integer, String> res = new HashMap<>();
+        while(rs.next()) {
+            res.put(rs.getInt("CourseId"), rs.getString("Status"));
+        }
+        
+        return res;
     }
 }
