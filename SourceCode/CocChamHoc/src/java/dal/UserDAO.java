@@ -99,6 +99,23 @@ public class UserDAO extends MyDAO {
         return ketQua;
     }
 
+    public String getPassword(String email) {
+        String result = "";
+        try {
+            String sql = "SELECT Password FROM Users WHERE Email=?";
+            ps = con.prepareStatement(sql);
+            ps.setString(1, email);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                result = rs.getString(1);
+            }
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public List<User> checkUser(String email, String passWord) {
         List<User> t = new ArrayList<>();
         xSql = "select * from Users where Email = ? and [Password] = ?";
