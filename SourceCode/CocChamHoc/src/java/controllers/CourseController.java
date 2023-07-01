@@ -71,7 +71,6 @@ public class CourseController extends HttpServlet {
         try {
             request.setAttribute("lessonData", lesson.getLessonData(courseID));
             request.setAttribute("courseData", cd.getCourseById(courseID));
-            System.out.println(courseID);
         } catch (SQLException e) {
             e.printStackTrace();
         }
