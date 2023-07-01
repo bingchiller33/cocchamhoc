@@ -24,6 +24,29 @@
                 <div class="admin-content" style="padding: 1rem">
                     <h1>User Details</h1>
                     <h2 style="margin-top: 1rem">User profile</h2>
+                    <form method="POST">
+                        <div class="field-list">
+                            <label>User ID </label>
+                            <input type="text" name="useridprofile" value="${userd.userID}" disabled/>
+                            <label>Full name</label>
+                            <input type="text" name="fullName" value="${userd.fullName}"/>
+                            <label>Email</label>
+                            <input type="email" name="email" value="${userd.email}"/>
+                            <label>Date of Birth</label>
+                            <input type="date" name="dob" value="${userd.dob}"/>
+                            <label>Gender</label>
+                            <select id="profile-gender" name="gender" class="small-input" value="${userd.gender}">
+                                <option value="1" ${userd.gender == 'true' ? 'selected' : ''}>Male</option>
+                                <option value="0" ${userd.gender == 'false' ? 'selected' : ''}>Female</option>
+                            </select>
+                            <label>Phone number</label>
+                            <input type="tel" name="phone" value="${userd.phoneNumber}"/>
+                        </div>
+                        <p style="color: red">${profileStatus}</p>
+                        <div>
+                            <input class="btn-save" type="submit" name="action" value="Save Profile"/>
+                        </div>
+                    </form>
 
                     <h2 style="margin-top: 1rem">Course Enrolled (${courses.size()})</h2>
                     <table id="user-table">
@@ -49,14 +72,31 @@
                         </tbody>
                     </table>
 
+                    <h2 style="margin-top: 1rem">Role assignment</h2>
+                    <form method="POST">
+                        <p>Account <strong style="color: red">${userd.email}</strong> is currently <strong style="color: red">${UserUtils.getRoleName(userd.role)}</strong>:</p>
+                        <div class="field-list">
+                            <label>New Role</label>
+                            <select name="role" class="small-input" value="${userd.role}">
+                                <option value="1" ${userd.role == 1 ? 'selected' : ''}>User</option>
+                                <option value="2" ${userd.role == 2  ? 'selected' : ''}>Lecturer</option>
+                                <option value="3" ${userd.role == 3  ? 'selected' : ''}>Admin</option>
+                            </select>
+                        </div>
+                        <p style="color: red">${grantRoleStatus}</p>
+                        <div>
+                            <input class="btn-save" type="submit" name="action" value="Grant Role"/>
+                        </div>
+                    </form>    
+
                     <h2 style="margin-top: 1rem">Restrict User</h2>
                     <em>User will no longer have access to the website if you ban the user. </em>
                     <form method="POST">
                         <div class="field-list">
                             <label>Restrict Until </label>
-                            <input type="date" name="banUntil" value="${user.restrictUntil}"/>
+                            <input type="date" name="banUntil" value="${userd.restrictUntil}"/>
                             <label>Reason</label>
-                            <input type="text" name="banReason" value="${user.restrictReason}"/>
+                            <input type="text" name="banReason" value="${userd.restrictReason}"/>
                         </div>
                         <p style="color: red">${restrictStatus}</p>
                         <div>

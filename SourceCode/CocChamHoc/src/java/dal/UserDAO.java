@@ -8,6 +8,7 @@ import java.sql.Date;
 import model.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -200,22 +201,50 @@ public class UserDAO extends MyDAO {
         }
         return null;
     }
-    
-    public void updateUserRestriction(int id, Date until, String reason) {
-        try {
-            xSql = "update Users set RestrictedUntil = ?, RestrictedReason = ? where UserId = ?";
-            
-            ps = con.prepareStatement(xSql);
-            ps.setDate(1, until);
-            ps.setString(2, reason);
-            ps.setInt(3, id);
-            
-            ps.execute();
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+
+    public void updateUserRestriction(int id, Date until, String reason) throws SQLException {
+        xSql = "update Users set RestrictedUntil = ?, RestrictedReason = ? where UserId = ?";
+
+        ps = con.prepareStatement(xSql);
+        ps.setDate(1, until);
+        ps.setString(2, reason);
+        ps.setInt(3, id);
+
+        ps.execute();
+
     }
 
+    public void updateUserRole(int id, int newRole) throws SQLException {
+        xSql = "update Users set Role = ? where UserId = ?";
+
+        ps = con.prepareStatement(xSql);
+        ps.setInt(1, newRole);
+        ps.setInt(2, id);
+
+        ps.execute();
+    }
+
+    public void updateUserProfile(int id, String fullName, String email, Date dob, int gender, String phoneNumber) throws SQLException {
+        xSql = "update Users set UserName = ?, Email = ?, DOB = ?, Gender = ?, PhoneNumber = ? where UserId = ?";
+
+        ps = con.prepareStatement(xSql);
+        ps.setString(1, fullName);
+        ps.setString(2, email);
+        ps.setDate(3, dob);
+        ps.setString(5, phoneNumber);
+        ps.setInt(6, id);
+
+        switch (gender) {
+            case 0:
+                ps.setInt(4, 0);
+                break;
+            case 1:
+                ps.setInt(4, 1);
+                break;
+            default:
+                ps.setNull(4, Types.BIT);
+        }
+
+        ps.execute();
+    }
 }

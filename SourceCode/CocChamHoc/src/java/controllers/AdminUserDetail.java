@@ -53,7 +53,7 @@ public class AdminUserDetail extends HttpServlet {
             List<Course> courses = myCourseDAO.listMyCourse(id);
             Map<Integer, String> statMap = userEnrollDAO.getEnrollmentStatus(id);
 
-            request.setAttribute("user", u);
+            request.setAttribute("userd", u);
             request.setAttribute("courses", courses);
             request.setAttribute("statusMap", statMap);
 
@@ -97,6 +97,12 @@ public class AdminUserDetail extends HttpServlet {
             case "Appeal":
                 processAppeal(request, response);
                 break;
+            case "Grant Role":
+                processGrantRole(request, response);
+                break;
+            case "Save Profile":
+                processSaveProfile(request, response);
+                break;
         }
     }
 
@@ -111,27 +117,69 @@ public class AdminUserDetail extends HttpServlet {
     }// </editor-fold>
 
     private void processRestrict(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = ParseUtils.parseIntWithDefault(request.getParameter("id"), -1);
-        Date restrictUntil = ParseUtils.parseDateWithDefault(request.getParameter("banUntil"), Date.valueOf("2000-01-01"));
-        String reason = ParseUtils.defaultIfEmpty(request.getParameter("banReason"), "");
+        try {
+            int id = ParseUtils.parseIntWithDefault(request.getParameter("id"), -1);
+            Date restrictUntil = ParseUtils.parseDateWithDefault(request.getParameter("banUntil"), Date.valueOf("2000-01-01"));
+            String reason = ParseUtils.defaultIfEmpty(request.getParameter("banReason"), "");
 
-        UserDAO userDAO = new UserDAO();
-        userDAO.updateUserRestriction(id, restrictUntil, reason);
+            UserDAO userDAO = new UserDAO();
+            userDAO.updateUserRestriction(id, restrictUntil, reason);
 
-        request.setAttribute("restrictStatus", "Restricting user successfully!");
-        processRequest(request, response);
+            request.setAttribute("restrictStatus", "Restricting user successfully!");
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminUserDetail.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
     private void processAppeal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = ParseUtils.parseIntWithDefault(request.getParameter("id"), -1);
+        try {
+            int id = ParseUtils.parseIntWithDefault(request.getParameter("id"), -1);
 
-        UserDAO userDAO = new UserDAO();
-        userDAO.updateUserRestriction(id, Date.valueOf("2000-01-01"), "");
+            UserDAO userDAO = new UserDAO();
+            userDAO.updateUserRestriction(id, Date.valueOf("2000-01-01"), "");
 
-        request.setAttribute("restrictStatus", "Appeal user successfully!");
-        processRequest(request, response);
+            request.setAttribute("restrictStatus", "Appeal user successfully!");
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminUserDetail.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
+    }
+
+    private void processGrantRole(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            int id = ParseUtils.parseIntWithDefault(request.getParameter("id"), -1);
+            int role = ParseUtils.parseIntWithDefault(request.getParameter("role"), -1);
+
+            UserDAO userDAO = new UserDAO();
+            userDAO.updateUserRole(id, role);
+
+            request.setAttribute("grantRoleStatus", "Grant role successfully!");
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminUserDetail.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void processSaveProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            int id = ParseUtils.parseIntWithDefault(request.getParameter("id"), -1);
+            String fullName = ParseUtils.defaultIfEmpty(request.getParameter("fullName"), "");
+            String email = ParseUtils.defaultIfEmpty(request.getParameter("email"), "");
+            Date dob = ParseUtils.parseDateWithDefault(request.getParameter("dob"), null);
+            int gender = ParseUtils.parseIntWithDefault(request.getParameter("gender"), -1);
+            String phone = ParseUtils.defaultIfEmpty(request.getParameter("phone"), "");
+
+            UserDAO userDAO = new UserDAO();
+            userDAO.updateUserProfile(id, fullName, email, dob, gender, phone);
+
+            request.setAttribute("profileStatus", "Update profile successfully!");
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminUserDetail.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }
