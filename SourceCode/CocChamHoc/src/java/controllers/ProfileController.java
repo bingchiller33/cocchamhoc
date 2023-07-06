@@ -4,6 +4,7 @@
  */
 package controllers;
 
+import dal.CertificateDAO;
 import dal.ProfileDAO;
 import dal.UserDAO;
 import jakarta.servlet.RequestDispatcher;
@@ -27,6 +28,7 @@ public class ProfileController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         User loggedUser = (User) request.getSession().getAttribute("user");
+        CertificateDAO certificateDAO = new CertificateDAO();
         if (loggedUser == null) {
             response.sendRedirect("/login");
         } else {
@@ -35,6 +37,7 @@ public class ProfileController extends HttpServlet {
             request.setAttribute("gender", loggedUser.isGender());
             request.setAttribute("dob", loggedUser.getDob());
             request.setAttribute("email", loggedUser.getEmail());
+            request.setAttribute("listCourse", certificateDAO.getCourseCer(loggedUser.getUserID()));
             if ("success".equals(request.getSession().getAttribute("success"))) {
                 request.getSession().removeAttribute("emailError");
                 request.getSession().removeAttribute("wrongPassword");

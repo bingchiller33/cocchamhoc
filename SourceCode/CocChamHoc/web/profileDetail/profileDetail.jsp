@@ -33,6 +33,9 @@
                 <div id="loginDetailsEditSection" style="display: none;">
                     <%@include file="/components/loginDetailsEdit.jspf" %>
                 </div>
+                <div id="certificate" style="display: none;">
+                    <%@include file="/components/certificateList.jsp" %>
+                </div>
             </main>
         </div>
         <style>
