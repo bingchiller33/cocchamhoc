@@ -69,7 +69,7 @@ public class ProfileController extends HttpServlet {
 
                     // gender
                     String genderStr = request.getParameter("gender");
-                    boolean gender = false; // Default value for gender is null
+                    boolean gender = false;
 
                     if (genderStr != null && !genderStr.isEmpty()) {
                         if (genderStr.equalsIgnoreCase("male")) {
@@ -87,6 +87,9 @@ public class ProfileController extends HttpServlet {
                         dob = new java.sql.Date(utilDate.getTime());
                     } catch (ParseException e) {
                         e.printStackTrace();
+                    }
+                    if (dao.updateProfile(username, phoneNumber, gender, dob, loggedUser.getUserID())) {
+                        url = "/profile";
                     }
 
                     dao.updateProfile(username, phoneNumber, gender, dob, loggedUser.getUserID());
