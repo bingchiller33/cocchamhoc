@@ -16,7 +16,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.User;
 
@@ -24,7 +23,7 @@ import model.User;
  *
  * @author Viet
  */
-public class AdminFilter implements Filter {
+public class ExamFilter implements Filter {
 
     private static final boolean debug = true;
 
@@ -33,13 +32,12 @@ public class AdminFilter implements Filter {
     // configured. 
     private FilterConfig filterConfig = null;
 
-    public AdminFilter() {
-        //Default function
+    public ExamFilter() {
     } 
 
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
 	throws IOException, ServletException {
-	if (debug) log("AdminFilter:DoBeforeProcessing");
+	if (debug) log("ExamFilter:DoBeforeProcessing");
 
 	// Write code here to process the request and/or response before
 	// the rest of the filter chain is invoked.
@@ -66,7 +64,7 @@ public class AdminFilter implements Filter {
 
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
 	throws IOException, ServletException {
-	if (debug) log("AdminFilter:DoAfterProcessing");
+	if (debug) log("ExamFilter:DoAfterProcessing");
 
 	// Write code here to process the request and/or response after
 	// the rest of the filter chain is invoked.
@@ -102,17 +100,15 @@ public class AdminFilter implements Filter {
                          FilterChain chain)
 	throws IOException, ServletException {
 
-	if (debug) log("AdminFilter:doFilter()");
+	if (debug) log("ExamFilter:doFilter()");
 
 	doBeforeProcessing(request, response);
-        
-        HttpServletRequest req = (HttpServletRequest) request;
+	HttpServletRequest req = (HttpServletRequest) request;
         HttpSession session = req.getSession();
         User user = (User)session.getAttribute("user");
-        if(user == null || user.getRole() == 1){
+        if(user == null){
             req.getRequestDispatcher("/components/denied.jsp").forward(request, response);
         }
-        
 	Throwable problem = null;
 	try {
 	    chain.doFilter(request, response);
@@ -156,8 +152,8 @@ public class AdminFilter implements Filter {
      * Destroy method for this filter 
      */
     public void destroy() { 
-        //Default destroy method
     }
+
     /**
      * Init method for this filter 
      */
@@ -165,7 +161,7 @@ public class AdminFilter implements Filter {
 	this.filterConfig = filterConfig;
 	if (filterConfig != null) {
 	    if (debug) { 
-		log("AdminFilter:Initializing filter");
+		log("ExamFilter:Initializing filter");
 	    }
 	}
     }
@@ -175,8 +171,8 @@ public class AdminFilter implements Filter {
      */
     @Override
     public String toString() {
-	if (filterConfig == null) return ("AdminFilter()");
-	StringBuffer sb = new StringBuffer("AdminFilter(");
+	if (filterConfig == null) return ("ExamFilter()");
+	StringBuffer sb = new StringBuffer("ExamFilter(");
 	sb.append(filterConfig);
 	sb.append(")");
 	return (sb.toString());

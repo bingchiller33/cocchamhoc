@@ -7,8 +7,11 @@ package controllers;
 import dal.ChapterDAO;
 import dal.CourseDAO;
 import dal.ExamDAO;
+import dal.ExamPapersDAO;
 import dal.LessonDAO;
+import dal.QuestionDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -21,15 +24,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Chapter;
 import model.Exam;
+import model.ExamPapers;
 import model.Lesson;
+import model.Question;
+import model.User;
 import utils.ParseUtils;
 
 /**
  *
- * @author Yui
+ * @author Viet
  */
-@WebServlet(name = "LearnVideoController", urlPatterns = {"/learn/video"})
-public class LearnVideoController extends HttpServlet {
+@WebServlet(name = "ExamController", urlPatterns = {"/learn/exam"})
+public class ExamController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,69 +48,55 @@ public class LearnVideoController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         try {
-            int courseId = ParseUtils.parseIntWithDefault(request.getParameter("courseId"), -1);
-            int chapterId = ParseUtils.parseIntWithDefault(request.getParameter("chapterId"), -1);
-            int lessonNumber = ParseUtils.parseIntWithDefault(request.getParameter("lessonNumber"), -1);
-
+            // Database Access Object
+            ExamDAO ed = new ExamDAO();
             CourseDAO courseDAO = new CourseDAO();
+            QuestionDAO qd = new QuestionDAO();
             ChapterDAO chapterDAO = new ChapterDAO();
-            LessonDAO lessonDAO = new LessonDAO();
             ExamDAO examDAO = new ExamDAO();
+            ExamPapersDAO epd = new ExamPapersDAO();
+            // URL param
+            int examId = ParseUtils.parseIntWithDefault(request.getParameter("examId"), -1);
+            Exam exam = ed.getExamByID(examId);
+            int courseId = exam.getCourseID();
+            // Load Navbar
             List<Exam> exams = examDAO.getExams(courseId);
             List<Chapter> chapters = chapterDAO.getCourseChapters(courseId);
             if (chapters.isEmpty()) {
                 request.getRequestDispatcher("/notFound.jsp").forward(request, response);
                 return;
             }
-
             Map<Chapter, List<Lesson>> lessonMap = chapterDAO.getGroupedLesson(chapters);
             if (lessonMap.isEmpty()) {
                 request.getRequestDispatcher("/notFound.jsp").forward(request, response);
                 return;
             }
-            
-            List<Lesson> lessons = lessonDAO.findLessons(lessonMap, chapterId);
-            if (lessons.isEmpty()) {
+            // Load Exam INF and Prev Exam attempt
+            if (exam == null) {
                 request.getRequestDispatcher("/notFound.jsp").forward(request, response);
                 return;
             }
-
-            Chapter chapter = chapterDAO.findChapterById(chapters, chapterId);
-            Lesson lesson = lessonDAO.findLesson(lessons, lessonNumber);
-            if (lesson == null) {
-                request.getRequestDispatcher("/notFound.jsp").forward(request, response);
-                return;
-            }
-
-            String nextLessonUrl = "#";
-            String prevLessonUrl = "#";
-
-            Lesson nextLesson = lessonDAO.getNextLesson(courseId, chapter.getChapterNumber(), lesson.getLessonNumber());
-            Lesson prevLesson = lessonDAO.getPrevLesson(courseId, chapter.getChapterNumber(), lesson.getLessonNumber());
-            
-            if(nextLesson != null) {
-                nextLessonUrl = "/learn/video?courseId=" + courseId + "&chapterId=" + nextLesson.getChapterId() + "&lessonNumber=" + nextLesson.getLessonNumber();
-            }
-            
-            if(prevLesson != null) {
-                prevLessonUrl = "/learn/video?courseId=" + courseId + "&chapterId=" + prevLesson.getChapterId() + "&lessonNumber=" + prevLesson.getLessonNumber();
-            }
-
+            User user = (User)request.getSession().getAttribute("user");
+            List<ExamPapers> examPapers = epd.getExamPapers(examId, user.getUserID());
+            ExamPapers bestAttempt = epd.getBestAttempt(user.getUserID(), examId);            
+            // Set Navbar data
             request.setAttribute("backUrl", "/course?id=" + courseId);
             request.setAttribute("course", courseDAO.getCourseById(courseId));
             request.setAttribute("chapters", chapters);
-            request.setAttribute("chapter", chapter);
             request.setAttribute("lessonMap", lessonMap);
-            request.setAttribute("lessons", lessons);
-            request.setAttribute("lesson", lesson);
-            request.setAttribute("nextUrl", nextLessonUrl);
-            request.setAttribute("prevUrl", prevLessonUrl);
-            request.setAttribute(("exams"), exams);
-            request.getRequestDispatcher("/learn/learn.jsp").include(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(EditLessonController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("exams", exams);            
+            // Set Exam INF and Prev Exam attempt data
+            request.setAttribute("questionCount", qd.getQuestionCount(examId));
+            if(bestAttempt!=null){
+                request.setAttribute("bestAttempt", bestAttempt);
+            }
+            request.setAttribute("exam", exam);
+            if(!examPapers.isEmpty())
+                request.setAttribute("examPapers", examPapers);
+            request.getRequestDispatcher("/exam/exam.jsp").forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(ExamController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

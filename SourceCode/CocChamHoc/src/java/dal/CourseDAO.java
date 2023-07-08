@@ -7,7 +7,6 @@ package dal;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import model.Category;
@@ -148,6 +147,7 @@ public class CourseDAO extends MyDAO {
      * ignore this filter.
      * @param durationLow The maximum duration of the courses to filter by.
      * Specify "00:00:00.00" to ignore this filter.
+     * @param durationHigh
      * @return
      * @throws SQLException
      */
@@ -170,7 +170,7 @@ public class CourseDAO extends MyDAO {
         rs.next();
         return rs.getInt(1);
     }
-
+    
     public Course getCourseById(int id) throws SQLException {
         xSql = "Select * from Courses c "
                 + "inner join Categories cat on c.CategoryID = cat.CategoryID "
@@ -252,7 +252,6 @@ public class CourseDAO extends MyDAO {
         if(rs.next()) {
             return new LessonLocation(courseId, rs.getInt("ChapterId"), rs.getInt("LessonNumber"));
         }
-        
         return null;
     }
 
