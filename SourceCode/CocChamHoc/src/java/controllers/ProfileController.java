@@ -37,6 +37,7 @@ public class ProfileController extends HttpServlet {
             request.setAttribute("gender", loggedUser.isGender());
             request.setAttribute("dob", loggedUser.getDob());
             request.setAttribute("email", loggedUser.getEmail());
+            request.setAttribute("role", loggedUser.getRole());
             request.setAttribute("listCourse", certificateDAO.getCourseCer(loggedUser.getUserID()));
             if ("success".equals(request.getSession().getAttribute("success"))) {
                 request.getSession().removeAttribute("emailError");

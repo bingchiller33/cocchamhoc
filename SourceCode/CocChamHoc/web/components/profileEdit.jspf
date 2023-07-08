@@ -19,7 +19,14 @@
         <label for="profile-phoneNumber">Phone Number</label>
         <input type="text" id="profile-phoneNumber" name="phoneNumber" value="${phoneNumber}" class="small-input" disabled/>
         <label for="profile-role">Role</label>
-        <label for="profile-role">USER</label>
+        <label for="profile-role">
+            <c:choose>
+                <c:when test="${role eq 1}">USER</c:when>
+                <c:when test="${role eq 2}">DESIGNER</c:when>
+                <c:when test="${role eq 3}">ADMIN</c:when>
+                <c:otherwise>UNKNOWN</c:otherwise>
+            </c:choose>
+        </label>
         <label for="profile-gender">Gender</label>
         <select id="profile-gender" name="gender" class="small-input" disabled>
             <option value="">-Optional-</option>
