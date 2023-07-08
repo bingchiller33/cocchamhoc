@@ -81,7 +81,7 @@ GO
 CREATE TABLE Questions
 (
     QuestionID INT IDENTITY(1, 1) PRIMARY KEY,
-    QuestionDetail NVARCHAR(420) NOT NULL,
+    QuestionDetail NVARCHAR(1000) NOT NULL,
     ExamID INT
         FOREIGN KEY REFERENCES dbo.Exams (ExamID) ON DELETE CASCADE
 );
@@ -246,3 +246,66 @@ values ('devdesigner', 'designer@gmail.com', '6a5aeb1ea832832a9969a562357994ba',
 
 insert into Users(Username, Email, Password, Role)
 values ('devuser', 'user@gmail.com', '6a5aeb1ea832832a9969a562357994ba', 1)
+
+INSERT INTO dbo.Exams(ExamName, CourseID, Duration)VALUES( N'Module 1 Exam', 1, '00:30:00')
+
+INSERT INTO dbo.Questions(QuestionDetail, ExamID)VALUES(   N'Which of the following is not an element of descriptive statistical problems?', 1)
+INSERT INTO dbo.Questions(QuestionDetail, ExamID)VALUES(   N'A bag of colored candies contains 20 red, 25 yellow, 15 blue and 20 orange candies. An experiment consists of randomly choosing one candy from the bag and recording its color. What is the sample space for this experiment?', 1)
+INSERT INTO dbo.Questions(QuestionDetail, ExamID)VALUES(   N'Sixty-five percent of men consider themselves knowledgeable football fans. If 15 men are randomly selected, find the probability that exactly five of them will consider themselves knowledgeable fans.', 1)
+INSERT INTO dbo.Questions(QuestionDetail, ExamID)VALUES(   N'The conditional probability of event G, given the knowledge that event H has occurred, would be written as _____.', 1)
+INSERT INTO dbo.Questions(QuestionDetail, ExamID)VALUES(   N'A company has 2 machines that produce widgets. An older machine produces 23% defective widgets, while the new machine produces only 8% defective widgets. In addition, the new machine produces 3 times as many widgets as the older machine does. Given that a widget was produced by the new machine, what is the probability it is not defective?', 1)
+INSERT INTO dbo.Questions(QuestionDetail, ExamID)VALUES(   N'If P(A) = 0.45, P(B) = 0.25, and P(B|A) = 0.45, are A and B independent?', 1)
+INSERT INTO dbo.Questions(QuestionDetail, ExamID)VALUES(   N'It was found that 60% of the workers were white, 30% were black and 10% are other races. Given that a worker was white, the probability that the worker had claimed bias was 30%. Given that a worker was black, the probability that the worker had claimed bias was 40%. Given that a worker was other race, the probability that the worker had claimed bias was 0%. If a randomly selected worker had claimed bias, what is the probability that the worker is white?', 1)
+INSERT INTO dbo.Questions(QuestionDetail, ExamID)VALUES(   N'Samples of 10 parts from a metal punching process are selected every hour. Let X denote the number of parts in the sample of 10 that require rework. If the percentage of parts that require rework at 3%, what is the probability that X exceeds 2?', 1)
+INSERT INTO dbo.Questions(QuestionDetail, ExamID)VALUES(   N'The range of the random variable X is {1, 2, 3, 6, u}, where u is unknown. If each value is equally likely and the mean of X is 10, determine the value of u.', 1)
+INSERT INTO dbo.Questions(QuestionDetail, ExamID)VALUES(   N'The probability that a radish seed will germinate is 0.26. A gardener plants seeds in batches of 52. Find the standard deviation for the random variable X, the number of seeds germinating in each batch.', 1)
+
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(1, N'a. The population or sample of interest.', 0)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(1, N'b. Identification of patterns in the data.', 0)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(1, N'c. An inference made about the population based on the sample.', 1)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(1, N'd. Tables, graphs, or numerical summary tools.', 0)
+
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(2, N'a. {80}', 0)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(2, N'b. {20, 25, 15, 20}', 0)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(2, N'c. {red, yellow, blue, orange}', 1)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(2, N'd. {1/4, 5/16, 7/16}', 0)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(2, N'e. {red, yellow, orange}', 0)
+
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(3, N'a. 0.0096', 1)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(3, N'b. 0.6541', 0)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(3, N'c. 0.3853', 0)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(3, N'd. 0.0341', 0)
+
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(4, N'a. P(H | G)', 0)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(4, N'b. P(G)', 0)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(4, N'c. P(H)', 0)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(4, N'd. P(G | H)', 1)
+
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(5, N'a. 0.92', 1)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(5, N'b. 0.06', 0)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(5, N'c. 0.94', 0)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(5, N'd. 0.50', 0)
+
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(6, N'a. cannot determine', 0)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(6, N'b. yes', 0)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(6, N'c. no', 1)
+
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(7, N'a. 0.3', 0)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(7, N'b. 0.7', 0)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(7, N'c. 0.6', 1)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(7, N'd. 0.4', 0)
+
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(8, N'a. 0.3152', 0)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(8, N'b. 0.0028', 1)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(8, N'c. 0.4114', 0)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(8, N'd. 0.0159', 0)
+
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(9, N'a. 24', 0)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(9, N'b. 38', 1)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(9, N'c. 19', 0)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(9, N'd. 12', 0)
+
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(10, N'a. 3.25', 0)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(10, N'b. 1.77', 0)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(10, N'c. 1.52', 0)
+INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(10, N'd. 3.16', 1)
