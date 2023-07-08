@@ -155,8 +155,8 @@ public class LessonDAO extends MyDAO {
             }
         }
     }
-    
-     public List<Lesson> findLessons(Map<Chapter, List<Lesson>> map, int chapterId) {
+
+    public List<Lesson> findLessons(Map<Chapter, List<Lesson>> map, int chapterId) {
         for (Entry<Chapter, List<Lesson>> entry : map.entrySet()) {
             if (entry.getKey().getId() == chapterId) {
                 return entry.getValue();
@@ -218,5 +218,34 @@ public class LessonDAO extends MyDAO {
         }
 
         return result;
+    }
+
+    public List<Lesson> getLessonData(int courseId) throws SQLException {
+        ArrayList<Lesson> lessons = new ArrayList<>();
+        xSql = "SELECT *\n"
+                + "FROM Lessons l\n"
+                + "JOIN Chapters c ON l.ChapterID = c.ChapterID\n"
+                + "JOIN Courses cr ON c.CourseID = cr.CourseID\n"
+                + "WHERE cr.CourseID = ?\n"
+                + "ORDER BY c.ChapterID ASC, l.LessonNumber;";
+        try {
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, courseId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Lesson l = new Lesson(
+                        rs.getInt("ChapterID"),
+                        rs.getInt("LessonNumber"),
+                        rs.getString("LessonName"),
+                        rs.getString("LessonDescription"),
+                        rs.getString("LessonVideo"));
+                lessons.add(l);
+            }
+            ps.execute();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lessons;
     }
 }

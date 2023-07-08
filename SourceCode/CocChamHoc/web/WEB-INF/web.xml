@@ -32,6 +32,14 @@
         <filter-name>ExamFilter</filter-name>
         <url-pattern>/learn/review</url-pattern>
     </filter-mapping>
+    <servlet>
+        <servlet-name>java</servlet-name>
+        <servlet-class>ProfileController.java</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProfileController</servlet-name>
+        <servlet-class>controllers.ProfileController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.css</url-pattern>
@@ -48,7 +56,7 @@
         <servlet-name>default</servlet-name>
         <url-pattern>*.jpg</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
+     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.mp4</url-pattern>
     </servlet-mapping>
