@@ -79,10 +79,10 @@
                             </c:if>
                             <c:if test="${bestAttempt != null}">
                                 <c:if test="${mark >= 80}">
-                                    <p style="color: #55ff00">${Math.ceil((bestAttempt.score/questionCount)*100)}%</p>
+                                    <p style="color: #55ff00">${mark}%</p>
                                 </c:if>
                                 <c:if test="${mark < 80}">
-                                    <p style="color: #ff8080">${Math.ceil((bestAttempt.score/questionCount)*100)}%</p>
+                                    <p style="color: #ff8080">${mark}%</p>
                                 </c:if>
                             </c:if>
                         </div>

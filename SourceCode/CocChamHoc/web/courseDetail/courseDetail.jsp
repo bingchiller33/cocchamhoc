@@ -136,7 +136,7 @@
                 <img src="${courseData.imgUrl}"" alt="Course Image">
             </div>
         </div> 
-        <%@include file="/components/review.jsp" %>
+        <%@include file="/components/review.jspf" %>
         <%@include file="/components/footer.jspf" %>
         <script>
             function view(obj) {

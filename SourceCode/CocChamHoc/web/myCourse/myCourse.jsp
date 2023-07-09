@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.*" %> 
+<%@ page import="utils.*" %>
 <%@ page import="model.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -53,8 +54,8 @@
                                     </div>
                                 </div>
                                 <div class="btn_link_course">
-                                    <p class="btn_course-duration"> <span>Duration</span> <span>${TimeUtils.intToTime(item.durationInSeconds)} mins</span></p>
-                                    <a href="/gotoLearn?courseId=${item.id}" class="btn_course-link">Resumee</a>
+                                    <p class="btn_course-duration"> <span>Duration</span> <span>${TimeUtils.intToTime(item.durationInSeconds)}</span></p>
+                                    <a href="/gotoLearn?courseId=${item.id}" class="btn_course-link">Resume</a>
                                 </div>
                             </div>
                         </div>

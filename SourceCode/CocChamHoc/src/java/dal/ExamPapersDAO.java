@@ -29,17 +29,18 @@ public class ExamPapersDAO extends MyDAO {
         }
         return list;
     }
-    
-    public ExamPapers getExamPaperByID(int attemptId) throws SQLException{
+
+    public ExamPapers getExamPaperByID(int attemptId) throws SQLException {
         xSql = "SELECT * FROM dbo.ExamPapers WHERE paperID = ?";
         ps = con.prepareStatement(xSql);
         ps.setInt(1, attemptId);
         rs = ps.executeQuery();
-        if(rs.next())
+        if (rs.next()) {
             return new ExamPapers(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getTimestamp(4), rs.getTimestamp(5), rs.getInt(6), rs.getInt(7));
+        }
         return null;
     }
-    
+
     public int attempt(int userID, int examID) throws SQLException {
         int check = isAttempting(userID, examID);
         if (check != -1) {
@@ -112,22 +113,24 @@ public class ExamPapersDAO extends MyDAO {
         }
     }
 
-    public ExamPapers getBestAttempt(int userID, int examID) throws SQLException{
-        xSql = "SELECT TOP(1) *\n"
+    public ExamPapers getBestAttempt(int userID, int examID) throws SQLException {
+        xSql = "SELECT TOP (1)\n"
+                + "       *\n"
                 + "FROM dbo.ExamPapers\n"
-                + "WHERE Score>=ALL\n"
-                + "(\n"
-                + "    SELECT Score FROM dbo.ExamPapers WHERE Score IS NOT NULL\n"
-                + ")\n"
-                + "      AND UserID = ? \n"
-                + "      AND ExamID = ? \n"
-                + "ORDER BY TimeEnd DESC";
+                + "WHERE UserID = ?\n"
+                + "      AND ExamID = ?\n"
+                + "      AND Score>=ALL\n"
+                + "      (\n"
+                + "          SELECT Score FROM dbo.ExamPapers WHERE Score IS NOT NULL AND ExamID = ?\n"
+                + "      )";
         ps = con.prepareStatement(xSql);
         ps.setInt(1, userID);
         ps.setInt(2, examID);
+        ps.setInt(3, examID);
         rs = ps.executeQuery();
-        if(rs.next())
+        if (rs.next()) {
             return new ExamPapers(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getTimestamp(4), rs.getTimestamp(5), rs.getInt(6), rs.getInt(7));
+        }
         return null;
     }
 }
