@@ -1,0 +1,65 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+
+<style>
+    form .action-container {
+        margin-top: 2rem;
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+</style>
+
+
+<form id="profile-form" method="post" style="width: 60%;">
+    <i class="fa-solid fa-pen-to-square edit-icon" onclick="enableEditingProfile()"></i>
+    <div class="field-list">
+        <label for="profile-username">Username</label>
+        <input type="text" id="profile-username" name="username" value="${username}" class="small-input" disabled/>
+        <label for="profile-phoneNumber">Phone Number</label>
+        <input type="text" id="profile-phoneNumber" name="phoneNumber" value="${phoneNumber}" class="small-input" disabled/>
+        <label for="profile-role">Role</label>
+        <label for="profile-role">
+            <c:choose>
+                <c:when test="${role eq 1}">USER</c:when>
+                <c:when test="${role eq 2}">DESIGNER</c:when>
+                <c:when test="${role eq 3}">ADMIN</c:when>
+                <c:otherwise>UNKNOWN</c:otherwise>
+            </c:choose>
+        </label>
+        <label for="profile-gender">Gender</label>
+        <select id="profile-gender" name="gender" class="small-input" disabled>
+            <option value="">-Optional-</option>
+            <option value="male" ${gender == 'true' ? 'selected' : ''}>Male</option>
+            <option value="female" ${gender == 'false' ? 'selected' : ''}>Female</option>
+        </select>
+        <label for="profile-dob">Date of Birth</label>
+        <input type="date" id="profile-dob" name="dob" class="small-input" disabled value="${dob}">
+    </div>
+    <div class="action-container">
+        <input type="hidden" name="formId" value="profileForm">
+        <input type="submit" name="action" value="Save" class="btn-save align-right" disabled/>
+    </div>
+</form>
+
+
+<script>
+    function enableEditingProfile() {
+        var form = document.getElementById('profile-form');
+        var inputs = form.getElementsByTagName('input');
+        var selects = form.getElementsByTagName('select');
+        var saveButton = form.querySelector('.btn-save');
+
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].disabled = false;
+        }
+
+        for (var j = 0; j < selects.length; j++) {
+            selects[j].disabled = false;
+        }
+        saveButton.style.display = 'inline-block';
+        saveButton.disabled = false;
+    }
+
+
+</script>

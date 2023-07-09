@@ -15,19 +15,18 @@
                         </c:forEach>
                     </ul>
                 </li>
+                <div class="hsep"></div>
             </c:forEach>
         </ul>
 
-        <div class="hsep"></div>
 
         <div  class="course-nav-header"><p>Exams</p></div>
         <ul>
-            <li class="nav-item nav-item-headerless">
-                <a href="#" class="nav-item-flex"><i class="fa-solid fa-pen-to-square"></i> Exam 1</a>
-            </li>
-            <li class="nav-item nav-item-headerless">
-                <a href="#" class="nav-item-flex"><i class="fa-solid fa-pen-to-square"></i> Exam 2</a>
-            </li>
+            <c:forEach items="${exams}" var="exam">
+                <li class="nav-item nav-item-headerless">
+                    <a href="/learn/exam?examId=${exam.examID}" class="nav-item-flex"><i class="fa-solid fa-pen-to-square"></i>${exam.examName}</a>
+                </li>
+            </c:forEach>
         </ul>
     </div>
 </nav>

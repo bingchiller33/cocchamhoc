@@ -34,7 +34,7 @@ function startAnim(direction) {
             highlightCircle(circleStore[currentScreen - 1], "left");
         }else{
             isAnim = false;
-            return
+            return;
         }
     }
 }

@@ -7,11 +7,11 @@ package dal;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import model.Category;
 import model.Course;
+import model.LessonLocation;
 import model.Level;
 
 /**
@@ -113,7 +113,6 @@ public class CourseDAO extends MyDAO {
             }
         }
 
-        
         sorter.add("c.CourseId desc");
         return String.join(", ", sorter);
     }
@@ -148,6 +147,7 @@ public class CourseDAO extends MyDAO {
      * ignore this filter.
      * @param durationLow The maximum duration of the courses to filter by.
      * Specify "00:00:00.00" to ignore this filter.
+     * @param durationHigh
      * @return
      * @throws SQLException
      */
@@ -170,7 +170,7 @@ public class CourseDAO extends MyDAO {
         rs.next();
         return rs.getInt(1);
     }
-
+    
     public Course getCourseById(int id) throws SQLException {
         xSql = "Select * from Courses c "
                 + "inner join Categories cat on c.CategoryID = cat.CategoryID "
@@ -237,6 +237,24 @@ public class CourseDAO extends MyDAO {
         ps.execute();
     }
 
+    public LessonLocation getFirstLesson(int courseId) throws SQLException {
+        xSql = "select * from Courses c\n"
+                + "inner join Chapters p on c.CourseId = p.CourseId\n"
+                + "inner join Lessons l on p.ChapterID = l.ChapterID\n"
+                + "where c.CourseID = ?\n"
+                + "order by p.ChapterID asc, l.LessonNumber asc\n"
+                + "offset 0 row fetch next 1 row only";
+        
+        ps = con.prepareStatement(xSql);
+        ps.setInt(1, courseId);
+        rs = ps.executeQuery();
+        
+        if(rs.next()) {
+            return new LessonLocation(courseId, rs.getInt("ChapterId"), rs.getInt("LessonNumber"));
+        }
+        return null;
+    }
+
     public Course fromResultSet(ResultSet rs) throws SQLException {
         // Must join with category and level
         Level level = new Level(rs.getInt("LevelID"), rs.getString("LevelDescription"));
@@ -244,26 +262,26 @@ public class CourseDAO extends MyDAO {
         Course c = new Course(rs.getInt("CourseID"), rs.getString("Title"), rs.getString("CourseDescription"), rs.getString("CourseBannerImage"), rs.getDate("PublishDate"), rs.getString("Lecturer"), level, cat, rs.getInt("DurationInSeconds"));
         return c;
     }
-    
+
     public ArrayList<Course> getNewestCoursesInfo(int limit) {
         ArrayList<Course> courses = new ArrayList<>();
-        xSql = "SELECT TOP " + limit +" * "
+        xSql = "SELECT TOP " + limit + " * "
                 + "FROM Courses "
                 + "ORDER BY Courses.PublishDate DESC";
         try {
             ps = con.prepareStatement(xSql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Level    level = new Level(rs.getInt(1), rs.getString(2));
-                Category cat   = new Category(rs.getInt(1), rs.getString(2));
-                Course   c     = new Course(rs.getInt("CourseID"), 
-                        rs.getString("Title"), 
-                        rs.getString("CourseDescription"), 
+                Level level = new Level(rs.getInt(1), rs.getString(2));
+                Category cat = new Category(rs.getInt(1), rs.getString(2));
+                Course c = new Course(rs.getInt("CourseID"),
+                        rs.getString("Title"),
+                        rs.getString("CourseDescription"),
                         rs.getString("CourseBannerImage"),
-                        rs.getDate("PublishDate"), 
-                        rs.getString("Lecturer"), 
-                        level, 
-                        cat, 
+                        rs.getDate("PublishDate"),
+                        rs.getString("Lecturer"),
+                        level,
+                        cat,
                         rs.getInt("DurationInSeconds"));
                 courses.add(c);
             }
@@ -274,5 +292,5 @@ public class CourseDAO extends MyDAO {
         }
         return courses;
     }
-    
+
 }

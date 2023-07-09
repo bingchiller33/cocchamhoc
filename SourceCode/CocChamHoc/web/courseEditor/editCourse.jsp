@@ -54,8 +54,10 @@
                         <input type="text" list="category-list" id="course-category" name="courseCategory" value="${course.category.description}" required/>
                         <label for="level-category">Level</label>
                         <input type="text" list="level-list" id="course-level" name="courseLevel" value="${course.level.description}" required/>
-                        <label for="course-publish-date">Publish Date</label>
-                        <input type="date" id="course-publish-date" name="coursePublishDate" value="${course.publishDate}"/>
+                        <c:if test="${admin}">
+                            <label for="course-publish-date">Publish Date</label>
+                            <input type="date" id="course-publish-date" name="coursePublishDate" value="${course.publishDate}"/>
+                        </c:if>
                         <label for="course-lecturer">Lecturer</label>
                         <input type="text" id="course-lecturer" name="courseLecturer" value="${course.lecturer}" required/>
                         <label for="course-img-url">Banner Image</label>
@@ -66,12 +68,16 @@
                     <div class="action-container">
                         <input type="submit" name="action" value="Delete" class="btn-del"/>
                         <input type="submit" name="action" value="Save" class="btn-save"/>
-                        <c:if test="${course.publishDate != null}">
-                            <input type="submit" name="action" value="Unpublish" class="btn-save"/>
+                        <p>${session.getAttribute('user').role}</p>
+                        <c:if test="${admin}">
+                            <c:if test="${course.publishDate != null}">
+                                <input type="submit" name="action" value="Unpublish" class="btn-save"/>
+                            </c:if>
+                            <c:if test="${course.publishDate == null}">
+                                <input type="submit" name="action" value="Publish" class="btn-save"/>
+                            </c:if>
                         </c:if>
-                        <c:if test="${course.publishDate == null}">
-                            <input type="submit" name="action" value="Publish" class="btn-save"/>
-                        </c:if>
+
                     </div>
                 </form>
             </main>
@@ -85,6 +91,7 @@
                 padding: 2rem;
             }
         </style>
+        <script src="../assets/js/course.js"></script>
         <script src="/assets/js/base.js"></script>
     </body>
 </html>

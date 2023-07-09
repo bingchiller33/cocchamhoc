@@ -22,8 +22,8 @@
             <div class="footer-col">
                 <h4>Program</h4>
                 <ul>
-                    <li><a href="mycourse">My Course</a></li>
-                    <li><a href="#">Free Learning</a></li>
+                    <li><a href="/mycourse">My Course</a></li>
+                    <li><a href="/">Free Learning</a></li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -31,7 +31,7 @@
                 <ul>
                     <li></li>
                     <li><a href="#">Provision</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="/privacyPolicy.jsp">Privacy Policy</a></li>
                 </ul>
             </div>
             <div class="footer-col">
