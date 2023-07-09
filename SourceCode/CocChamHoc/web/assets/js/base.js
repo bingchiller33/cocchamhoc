@@ -14,3 +14,16 @@ function collapseEvent(e) {
         target.classList.remove("collapsed");
     }
 }
+
+function selectFilter(e) {
+    let target = e.target;
+    let name = target.getAttribute("name");
+    let value = target.getAttribute("value");
+    applyFilter(name, value);
+}
+
+function applyFilter(name, value) {
+    let searches = new URLSearchParams(location.search);
+    searches.set(name, value);
+    location.search = searches.toString();
+}

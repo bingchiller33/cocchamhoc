@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="../assets/css/adminCourseNav.css"/>
 <link rel="stylesheet" href="../assets/css/courseEditorBase.css"/>
 <script src="https://kit.fontawesome.com/4008f7ead4.js" crossorigin="anonymous"></script>
+<script src="/assets/js/base.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;500&display=swap" rel="stylesheet">

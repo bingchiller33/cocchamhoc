@@ -6,6 +6,7 @@ package controllers;
 
 import dal.ChapterDAO;
 import dal.CourseDAO;
+import dal.ExamDAO;
 import dal.LessonDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -19,6 +20,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Chapter;
+import model.Exam;
 import model.Lesson;
 import utils.ParseUtils;
 
@@ -49,6 +51,8 @@ public class LearnVideoController extends HttpServlet {
             CourseDAO courseDAO = new CourseDAO();
             ChapterDAO chapterDAO = new ChapterDAO();
             LessonDAO lessonDAO = new LessonDAO();
+            ExamDAO examDAO = new ExamDAO();
+            List<Exam> exams = examDAO.getExams(courseId);
             List<Chapter> chapters = chapterDAO.getCourseChapters(courseId);
             if (chapters.isEmpty()) {
                 request.getRequestDispatcher("/notFound.jsp").forward(request, response);
@@ -97,7 +101,7 @@ public class LearnVideoController extends HttpServlet {
             request.setAttribute("lesson", lesson);
             request.setAttribute("nextUrl", nextLessonUrl);
             request.setAttribute("prevUrl", prevLessonUrl);
-
+            request.setAttribute(("exams"), exams);
             request.getRequestDispatcher("/learn/learn.jsp").include(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(EditLessonController.class.getName()).log(Level.SEVERE, null, ex);

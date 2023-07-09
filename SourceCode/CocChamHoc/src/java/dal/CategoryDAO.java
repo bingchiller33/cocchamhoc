@@ -75,7 +75,6 @@ public class CategoryDAO extends MyDAO {
         int categoryId = rs.getInt("CategoryID");
         String description = rs.getString("CategoryDescription");
         Category category = new Category(categoryId, description);
-        
         return category;
     }
 }

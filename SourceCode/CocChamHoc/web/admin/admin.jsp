@@ -19,9 +19,9 @@
         <div class="article">
             <div class="row">
                 <div class="admin-sidebar">
-                    <a href="admin/courses"><i class="fa-solid fa-book-open"></i> Course Management</a>
-                    <a href="#"><i class="fa-solid fa-users"></i>  User Management</a>
-                    <a href="#"><i class="fa-solid fa-certificate"></i>  Certificate Management</a>
+                    <a href="/admin"><i class="fa-solid fa-book-open"></i> Course Management</a>
+                    <a href="/admin/users"><i class="fa-solid fa-users"></i>  User Management</a>
+                    <a href="/admin/certificates"><i class="fa-solid fa-certificate"></i>  Certificate Management</a>
                 </div>
                 <div class="admin-content">
                     <div class="form-container">

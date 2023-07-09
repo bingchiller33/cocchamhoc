@@ -10,6 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>My Course</title>
+        <link rel="stylesheet" href="../assets/css/sliderStyle3.css"/>
         <link rel="stylesheet" href="../assets/css/myCourse.css">
         <link rel="stylesheet" href="../assets/css/notFound.css">
         <link rel="stylesheet" href="../assets/css/base.css">
