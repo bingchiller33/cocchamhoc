@@ -30,6 +30,15 @@
                 <h1>Exam</h1>
             </div>
             <main class="course-editor-main">
+                <c:if test="${toCert!=null}">
+                    <div class="gotoCert">
+                        <h2>Congratulations! You have passed all exams in this course</h2>
+                        <div class="link-special">
+                        <a href="${toCert}">Go To Your Certificate</a>
+                        </div>
+                    </div>
+                    <hr>
+                </c:if>
                 <div class="EXAM-INF">
                     <div>
                         <h2 class="editor-default-title">

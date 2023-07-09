@@ -3,18 +3,16 @@
 <%@ page import="model.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>My Course</title>
+        <%@include file="/components/headCommon.jspf" %>
         <link rel="stylesheet" href="../assets/css/sliderStyle3.css"/>
         <link rel="stylesheet" href="../assets/css/myCourse.css">
         <link rel="stylesheet" href="../assets/css/notFound.css">
         <link rel="stylesheet" href="../assets/css/base.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
     <body>
         <%  
@@ -55,8 +53,8 @@
                                     </div>
                                 </div>
                                 <div class="btn_link_course">
-                                    <p class="btn_course-duration"> <span>Duration</span> <span>${item.durationInSeconds}s</span></p>
-                                    <a href="#" class="btn_course-link">Resum</a>
+                                    <p class="btn_course-duration"> <span>Duration</span> <span>${TimeUtils.intToTime(item.durationInSeconds)} mins</span></p>
+                                    <a href="#" class="btn_course-link">Resume</a>
                                 </div>
                             </div>
                         </div>

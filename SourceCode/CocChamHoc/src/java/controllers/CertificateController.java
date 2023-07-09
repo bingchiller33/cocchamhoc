@@ -32,7 +32,7 @@ public class CertificateController extends HttpServlet {
             request.setAttribute("title", certificateDAO.getTitle(user.getUserID(), id));
             request.setAttribute("issueDate", certificateDAO.getDate(user.getUserID(), id));
             request.setAttribute("userName", user.getFullName());
-            request.getRequestDispatcher("./certificate/certificate.jsp").forward(request, response);
+            request.getRequestDispatcher("/certificate/certificate.jsp").forward(request, response);
         }
     }
 

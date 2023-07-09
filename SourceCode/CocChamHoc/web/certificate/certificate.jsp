@@ -3,7 +3,7 @@
     Created on : Jul 5, 2023, 3:39:28 PM
     Author     : LAPTOP
 --%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,13 +15,10 @@
         <link rel="stylesheet" href="../assets/css/notFound.css">
     </head>
 
-    <body> 
-        <div class="course-editor-header">
-            <%@include file="/components/headerEditCourse.jspf" %>
-        </div>
+    <body>
+        <%@include file="/components/headerCertificate.jspf" %>
         <c:if test="${title != null}"> 
             <div class="back">
-                <h2 class="btn_back" onclick="window.history.back()"><i class="fa-solid fa-arrow-left-long"></i> Back</h2>
             </div>
             <div class="container_certificate"> 
                 <div class="center_space_certificate">

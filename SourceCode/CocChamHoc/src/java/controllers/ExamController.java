@@ -4,6 +4,7 @@
  */
 package controllers;
 
+import dal.CertificateDAO;
 import dal.ChapterDAO;
 import dal.CourseDAO;
 import dal.ExamDAO;
@@ -56,6 +57,7 @@ public class ExamController extends HttpServlet {
             ChapterDAO chapterDAO = new ChapterDAO();
             ExamDAO examDAO = new ExamDAO();
             ExamPapersDAO epd = new ExamPapersDAO();
+            CertificateDAO cd = new CertificateDAO();
             // URL param
             int examId = ParseUtils.parseIntWithDefault(request.getParameter("examId"), -1);
             Exam exam = ed.getExamByID(examId);
@@ -87,6 +89,8 @@ public class ExamController extends HttpServlet {
             request.setAttribute("lessonMap", lessonMap);
             request.setAttribute("exams", exams);            
             // Set Exam INF and Prev Exam attempt data
+            if(cd.hasCertificate(user.getUserID(), courseId))
+                request.setAttribute("toCert", "/certificate?id="+courseId);
             request.setAttribute("questionCount", qd.getQuestionCount(examId));
             if(bestAttempt!=null){
                 request.setAttribute("bestAttempt", bestAttempt);

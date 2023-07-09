@@ -6,7 +6,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     Created on : Jul 8, 2023, 2:08:59 PM
     Author     : Viet
 */
-
+.gotoCert{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0px;
+}
 .EXAM-INF{
     display: flex;
     justify-content: space-between;
@@ -16,6 +20,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     background-color: #FCD980;
     padding: 12px 32px;
     border-radius: 6px;
+}
+.link-special{
+    background-color: #1C1E53;
+    padding: 12px 32px;
+    border-radius: 6px;
+}
+.link-special a{
+    color: white;
 }
 .small{
     font-size: 12px;
