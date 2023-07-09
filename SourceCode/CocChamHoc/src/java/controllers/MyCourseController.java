@@ -4,6 +4,7 @@
  */
 package controllers;
 
+import dal.CourseDAO;
 import dal.MyCourseDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -26,6 +27,9 @@ public class MyCourseController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         MyCourseDAO myCourseDAO = new MyCourseDAO();
+        CourseDAO courseDAO = new CourseDAO();
+        List<Course> courses = courseDAO.getNewestCoursesInfo(5);
+        request.setAttribute("sliderList", courses);
         if (request.getSession().getAttribute("user") != null) {
             User u = (User) request.getSession().getAttribute("user");
             if (u != null) {
