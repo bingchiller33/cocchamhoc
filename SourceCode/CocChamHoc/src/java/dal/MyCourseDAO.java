@@ -20,7 +20,7 @@ import model.Level;
 public class MyCourseDAO extends MyDAO {
 
     public List<Course> listMyCourse(int uId) {
-        List<Course> t = new ArrayList<>();
+        List<Course> t = new ArrayList<>(); 
         xSql = "select * from Courses C inner join UsersEnroll U on  C.CourseID = U.CourseID where U.UserId = ?  and U.[Status] = 'Learning'";
         try {
             ps = con.prepareStatement(xSql);

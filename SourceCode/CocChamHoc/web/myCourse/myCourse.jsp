@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="btn_link_course">
                                     <p class="btn_course-duration"> <span>Duration</span> <span>${item.durationInSeconds}s</span></p>
-                                    <a href="/learn/video?courseId=${item.id}" class="btn_course-link">Resume</a>
+                                    <a href="/gotoLearn?courseId=${item.id}" class="btn_course-link">Resume</a>
                                 </div>
                             </div>
                         </div>

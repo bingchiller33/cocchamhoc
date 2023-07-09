@@ -66,7 +66,7 @@ public class RateDAO extends MyDAO {
         return 0;
     }
 
-    public int getUserRateNo(int cId, int uId) {
+    public int getUserRateNo(int cId, int uId) { 
         try {
             xSql = "select Rating from Ratings where UserID = ? and courseID = ?";
             ps = con.prepareStatement(xSql);
@@ -85,7 +85,7 @@ public class RateDAO extends MyDAO {
     }
 
     public int getSumRateNo(int cId) {
-        int sum = 0;
+        int sum = 0; 
         try {
             xSql = "select sum(Rating) as number\n"
                     + "from Ratings\n"
@@ -224,7 +224,7 @@ public class RateDAO extends MyDAO {
     }
 
     public List<Rate> getReviewRate(int cid) {
-        List<Rate> list = new ArrayList<>();
+        List<Rate> list = new ArrayList<>(); 
         try {
             xSql = "select * from Ratings where Review is not null and CourseID = ? order by RateTime desc";
             ps = con.prepareStatement(xSql);
@@ -242,7 +242,7 @@ public class RateDAO extends MyDAO {
     }
     
     public List<Integer> getCourseId(int uId, int cId){
-        List<Integer> list = new ArrayList<>();
+        List<Integer> list = new ArrayList<>(); 
         try {
             xSql = "select courseId from Ratings where UserID = ? and CourseID = ?";
             ps = con.prepareStatement(xSql);
