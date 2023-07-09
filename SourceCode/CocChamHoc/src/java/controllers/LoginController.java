@@ -25,6 +25,11 @@ import utils.EncryptionUtils;
 public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getSession().getAttribute("user") != null) {
+            User user = (User) request.getSession().getAttribute("user");
+            request.setAttribute("email", user.getEmail());
+            request.setAttribute("password", user.getPassword()); 
+        }
         request.getRequestDispatcher("/login/login.jsp").forward(request, response);
         boolean inValid = "".equals(request.getSession().getAttribute("validate"));
         if (!inValid) {
@@ -42,7 +47,8 @@ public class LoginController extends HttpServlet {
         UserDAO userDAO = new UserDAO();
         EncryptionUtils eu = new EncryptionUtils();
         List<User> isUser = userDAO.checkUser(email, eu.toMD5(password)); 
-        if (!isUser.isEmpty()) {
+        List<User> isUser2 = userDAO.checkUser(email, password);
+        if (!isUser.isEmpty() || !isUser2.isEmpty()) {
             try {
                 request.getSession().setAttribute("user", userDAO.getUser(email, eu.toMD5(password)));
             } catch (SQLException e) {
