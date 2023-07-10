@@ -40,12 +40,12 @@
                     <a class="course-nav" href="${nextUrl}">Next Lesson <i class="fa-solid fa-chevron-right"></i></a>
                 </div>
                 <div class="video-frame" >
-                     <div id="played" ></div>
-<!--                    <iframe id="played" src="${lesson.video}" class="video-frame" frameborder="0"
+                    <div id="played" ></div>
+<!--                    <iframe id="${lesson.video}" src="${lesson.video}" class="video-frame" frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                             allowfullscreen></iframe>-->
-                     <script src="http://www.youtube.com/player_api"></script>
-                          
+                    <script class="video-frame" src="http://www.youtube.com/player_api"></script>
+                         
                     <div id="status" class="incomplete">
                         <span>Play status: </span>
                         <span class="status complete">COMPLETE</span>
@@ -54,6 +54,7 @@
                     </div>
                     <div>
                         <span id="played"></span> 
+                        
                         <!-- <span id="duration"></span> -->
                     </div>
                 </div>
@@ -69,6 +70,7 @@
         </div>
         <script src="/assets/js/base.js"></script>
         <style>
+            
             #status span.status {
                 display: none;
                 font-weight: bold;
@@ -88,12 +90,14 @@
         </style>
         <script>
        // create youtube player
+     
      var player;
      function onYouTubePlayerAPIReady() {
+       
          player = new YT.Player('played', {
-           height: '390',
-           width: '640',
-           videoId: '0Bmhjf0rKe8',
+           height: '100%',
+           width: '100%',
+           videoId: '6Gbxt2Sox7k',
            events: {
              'onReady': onPlayerReady,
              'onStateChange': onPlayerStateChange
