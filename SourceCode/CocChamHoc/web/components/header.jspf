@@ -25,7 +25,6 @@
                     <div class="dropdown-content" id="myDropdown">
                         <a class="dropdown-item" href="/profile"><i class="fa-solid fa-user"></i>  Profile</a>
                         <a class="dropdown-item" href="/mycourse"><i class="fa-solid fa-book"></i>  My Course</a>
-                        
                         <c:if test="${user.role == '3'}">
                             <a class="dropdown-item admin-item" href="admin"><i class="fa-solid fa-pen-to-square"></i> Edit Course</a>
                         </c:if>

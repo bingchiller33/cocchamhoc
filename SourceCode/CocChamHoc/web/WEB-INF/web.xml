@@ -40,10 +40,6 @@
         <servlet-name>ProfileController</servlet-name>
         <servlet-class>controllers.ProfileController</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>InProgressController</servlet-name>
-        <servlet-class>controllers.InProgressController</servlet-class>
-    </servlet>
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.css</url-pattern>
@@ -60,17 +56,13 @@
         <servlet-name>default</servlet-name>
         <url-pattern>*.jpg</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
+     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.mp4</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ProfileController</servlet-name>
         <url-pattern>/profile</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>InProgressController</servlet-name>
-        <url-pattern>/inprogress</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
