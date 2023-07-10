@@ -39,10 +39,25 @@
                     <a class="course-nav" href="${prevUrl}"><i class="fa-solid fa-chevron-left"></i> Previous Lesson</a>
                     <a class="course-nav" href="${nextUrl}">Next Lesson <i class="fa-solid fa-chevron-right"></i></a>
                 </div>
-                <div class="video-frame">
-                    <iframe src="${lesson.video}" class="video-frame" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <div class="video-frame" >
+                     <div id="played" ></div>
+<!--                    <iframe id="played" src="${lesson.video}" class="video-frame" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen></iframe>-->
+                     <script src="http://www.youtube.com/player_api"></script>
+                          
+                    <div id="status" class="incomplete">
+                        <span>Play status: </span>
+                        <span class="status complete">COMPLETE</span>
+                        <span class="status incomplete">INCOMPLETE</span>
+                        <br />
+                    </div>
+                    <div>
+                        <span id="played"></span> 
+                        <!-- <span id="duration"></span> -->
+                    </div>
                 </div>
-                
+
                 <h2>Description</h2>
                 <p>${lesson.description}</p>
                 <br/>
@@ -53,5 +68,50 @@
             </main>
         </div>
         <script src="/assets/js/base.js"></script>
+        <style>
+            #status span.status {
+                display: none;
+                font-weight: bold;
+            }
+            span.status.complete {
+                color: green;
+            }
+            span.status.incomplete {
+                color: red;
+            }
+            #status.complete span.status.complete {
+                display: inline;
+            }
+            #status.incomplete span.status.incomplete {
+                display: inline;
+            }
+        </style>
+        <script>
+       // create youtube player
+     var player;
+     function onYouTubePlayerAPIReady() {
+         player = new YT.Player('played', {
+           height: '390',
+           width: '640',
+           videoId: '0Bmhjf0rKe8',
+           events: {
+             'onReady': onPlayerReady,
+             'onStateChange': onPlayerStateChange
+           }
+         });
+     }
+ 
+     // autoplay video
+     function onPlayerReady(event) {
+         event.target.playVideo();
+     }
+ 
+     // when video ends
+     function onPlayerStateChange(event) {        
+         if(event.data === 0) {            
+            document.getElementById("status").className="complete";
+         }
+     }
+        </script>
     </body>
 </html>
