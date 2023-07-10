@@ -137,36 +137,37 @@
             </div>
         </div> 
         <%@include file="/components/review.jspf" %>
-        <%@include file="/components/footer.jspf" %>
-        <script>
-            function view(obj) {
-                var des = document.getElementById("des");
-                var des2 = document.getElementById("des2");
-                var rev = document.getElementById("rev");
-                var rev2 = document.getElementById("rev2");
-                var syl = document.getElementById("syl");
-                var syl2 = document.getElementById("syl2");
-                if (des.className === "active") {
-                    des.className = "";
-                    des2.className = "hidden";
-                }
-                if (rev.className === "active") {
-                    rev.className = "";
-                    rev2.className = "hidden";
-                }
-                if (syl.className === "active") {
-                    syl.className = "";
-                    syl2.className = "hidden";
-                }
-                obj.className = "active";
-                if (obj === des)
-                    des2.className = "visible";
-                if (obj === rev)
-                    rev2.className = "visible";
-                if (obj === syl)
-                    syl2.className = "visible";
+    </div>
+    <%@include file="/components/footer.jspf" %>
+    <script>
+        function view(obj) {
+            var des = document.getElementById("des");
+            var des2 = document.getElementById("des2");
+            var rev = document.getElementById("rev");
+            var rev2 = document.getElementById("rev2");
+            var syl = document.getElementById("syl");
+            var syl2 = document.getElementById("syl2");
+            if (des.className === "active") {
+                des.className = "";
+                des2.className = "hidden";
             }
-        </script>
-        <script src="/assets/js/rate.js"></script>
-    </body>
+            if (rev.className === "active") {
+                rev.className = "";
+                rev2.className = "hidden";
+            }
+            if (syl.className === "active") {
+                syl.className = "";
+                syl2.className = "hidden";
+            }
+            obj.className = "active";
+            if (obj === des)
+                des2.className = "visible";
+            if (obj === rev)
+                rev2.className = "visible";
+            if (obj === syl)
+                syl2.className = "visible";
+        }
+    </script>
+    <script src="/assets/js/rate.js"></script>
+</body>
 </html>
