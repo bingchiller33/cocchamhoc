@@ -4,6 +4,7 @@
  */
 package controllers;
 
+import dal.CertificateDAO;
 import dal.ExamDAO;
 import dal.ExamPapersDAO;
 import dal.QuestionDAO;
@@ -17,9 +18,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Exam;
 import model.ExamPapers;
 import model.Question;
+import model.User;
 import utils.ParseUtils;
 
 /**
@@ -46,14 +50,24 @@ public class ReviewController extends HttpServlet {
             ExamPapersDAO epd = new ExamPapersDAO();
             UserAnswerDAO uad = new UserAnswerDAO();
             QuestionDAO qd = new QuestionDAO();
-            
+            CertificateDAO cd = new CertificateDAO();
+            // Load questions and user's answers
             int attemptId = ParseUtils.parseIntWithDefault(request.getParameter("attemptId"), -1);          
             ExamPapers exampaper = epd.getExamPaperByID(attemptId);
             int examId = exampaper.getExamID();
             Exam exam = ed.getExamByID(examId);
-            
             List<Question> questionList = qd.getQuestions(examId);
             Map<Question, Integer> userAnswers = uad.getUserAnswers(questionList, attemptId);
+            
+            // Check if the user can get certficate
+            User user = (User)request.getSession().getAttribute("user");
+            int userID = user.getUserID();
+            int courseID = exam.getCourseID();
+            if(!cd.hasCertificate(userID, courseID)){
+                if(cd.isEligibleForCertificate(ed.getPassAttempt(userID, courseID), ed.getExamCount(courseID))){
+                    cd.issueCertificate(user.getUserID(), courseID);
+                }
+            }
             request.setAttribute("backUrl", "/learn/exam?examId="+examId);
             request.setAttribute("state", 2);
             request.setAttribute("exam", exam);
@@ -63,7 +77,7 @@ public class ReviewController extends HttpServlet {
             request.setAttribute("userAnswers", userAnswers);
             request.getRequestDispatcher("/exam/review.jsp").forward(request, response);
         } catch (SQLException ex) {
-            
+            Logger.getLogger(ExamController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

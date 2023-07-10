@@ -8,21 +8,17 @@ import dal.ExamDAO;
 import dal.ExamPapersDAO;
 import dal.QuestionDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.LocalTime;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Exam;
@@ -70,14 +66,12 @@ public class AttemptController extends HttpServlet {
             int attemptID = epd.attempt(user.getUserID(), examId);
             ExamPapers exampaper = epd.getExamPaperByID(attemptID);
             List<Question> questionList = qd.getQuestions(examId);
-            Time currentTime = new Time(System.currentTimeMillis());
-            LocalTime currentLocalTime = currentTime.toLocalTime();
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(exampaper.getTimeStart());
-            calendar.add(Calendar.SECOND, exam.getDuration().toLocalTime().toSecondOfDay());
-            LocalTime timeLimit = (new Timestamp(calendar.getTimeInMillis())).toLocalDateTime().toLocalTime();
-            long differenceInSeconds = java.time.Duration.between(currentLocalTime, timeLimit).toMillis() / 1000;
-
+            
+            Timestamp startTime = exampaper.getTimeStart();
+            Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+            startTime.setTime(startTime.getTime()+(exam.getDuration().toLocalTime().toSecondOfDay()*1000));
+            long differenceInMillis = startTime.getTime() - currentTimestamp.getTime();
+            long differenceInSeconds = TimeUnit.MILLISECONDS.toSeconds(differenceInMillis);
             //set attribute
             request.setAttribute("state", 1);
             request.setAttribute("questionCount", questionList.size());

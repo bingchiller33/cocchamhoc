@@ -96,6 +96,7 @@ public class CourseController extends HttpServlet {
         request.setAttribute("countRating", rateDAO.getQuantityRateNo(courseID));
         request.setAttribute("reviewNo", rateDAO.getQuantityReviewCorse(courseID));
         request.setAttribute("courseID", courseID);
+       
         request.getRequestDispatcher("/courseDetail/courseDetail.jsp").forward(request, response);
     }
 
@@ -125,7 +126,9 @@ public class CourseController extends HttpServlet {
                     rateDAO.insertRatings(courseID, user.getUserID(), rateNo, review);
                 }
                 rateDAO.updateRating(courseID, user.getUserID(), rateNo);
-                rateDAO.updateReview(courseID, user.getUserID(), review);
+                if (!review.trim().isEmpty()) {
+                    rateDAO.updateReview(courseID, user.getUserID(), review);
+                }
                 if (rateNo > 0) {
                     rateDAO.updateTime(courseID, user.getUserID());
                 }

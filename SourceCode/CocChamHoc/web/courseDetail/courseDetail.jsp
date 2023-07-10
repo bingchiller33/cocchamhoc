@@ -101,8 +101,18 @@
                 <div id="des2" class="visible">
                     <p>${courseData.description}</p>
                 </div>
-                <div id="rev2" class="hidden width">
-                    <c:if test="${review!=null}">
+                <div id="rev2" class="hidden">
+                    <c:choose>
+                        <c:when test="${empty lessonData}">
+                            <p>No syllabus available</p>
+                        </c:when>
+                        <c:otherwise>
+                            <%@include file="/components/viewSyllabus.jspf" %>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+                <div id="syl2" class="hidden">
+                    <c:if test="${!review.isEmpty()}">
                         <div class="container_review">
                             <c:forEach var="item" items="${review}">
                                 <div class="review">
@@ -117,56 +127,47 @@
                             </c:forEach>    
                         </div
                     </c:if>
-                    <c:if test="${review==null}">
-                        <p>${Review}</p>
+                    <c:if test="${review.isEmpty()}">
+                        <p>No review available</p>
                     </c:if>
-                </div>
-                <div id="syl2" class="hidden">
-                    <c:choose>
-                        <c:when test="${empty lessonData}">
-                            <p>No syllabus available</p>
-                        </c:when>
-                        <c:otherwise>
-                            <%@include file="/components/viewSyllabus.jspf" %>
-                        </c:otherwise>
-                    </c:choose>
                 </div>
             </div>
             <div class="row">
                 <img src="${courseData.imgUrl}"" alt="Course Image">
             </div>
         </div> 
-        <%@include file="/components/review.jsp" %>
-        <%@include file="/components/footer.jspf" %>
-        <script>
-            function view(obj) {
-                var des = document.getElementById("des");
-                var des2 = document.getElementById("des2");
-                var rev = document.getElementById("rev");
-                var rev2 = document.getElementById("rev2");
-                var syl = document.getElementById("syl");
-                var syl2 = document.getElementById("syl2");
-                if (des.className === "active") {
-                    des.className = "";
-                    des2.className = "hidden";
-                }
-                if (rev.className === "active") {
-                    rev.className = "";
-                    rev2.className = "hidden";
-                }
-                if (syl.className === "active") {
-                    syl.className = "";
-                    syl2.className = "hidden";
-                }
-                obj.className = "active";
-                if (obj === des)
-                    des2.className = "visible";
-                if (obj === rev)
-                    rev2.className = "visible";
-                if (obj === syl)
-                    syl2.className = "visible";
+        <%@include file="/components/review.jspf" %>
+    </div>
+    <%@include file="/components/footer.jspf" %>
+    <script>
+        function view(obj) {
+            var des = document.getElementById("des");
+            var des2 = document.getElementById("des2");
+            var rev = document.getElementById("rev");
+            var rev2 = document.getElementById("rev2");
+            var syl = document.getElementById("syl");
+            var syl2 = document.getElementById("syl2");
+            if (des.className === "active") {
+                des.className = "";
+                des2.className = "hidden";
             }
-        </script>
-        <script src="/assets/js/rate.js"></script>
-    </body>
+            if (rev.className === "active") {
+                rev.className = "";
+                rev2.className = "hidden";
+            }
+            if (syl.className === "active") {
+                syl.className = "";
+                syl2.className = "hidden";
+            }
+            obj.className = "active";
+            if (obj === des)
+                des2.className = "visible";
+            if (obj === rev)
+                rev2.className = "visible";
+            if (obj === syl)
+                syl2.className = "visible";
+        }
+    </script>
+    <script src="/assets/js/rate.js"></script>
+</body>
 </html>

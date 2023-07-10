@@ -34,4 +34,42 @@ public class ExamDAO extends MyDAO{
         return null;
     } 
     
+    public int getPassAttempt(int userId, int courseId) throws SQLException{
+        xSql = "SELECT COUNT(DISTINCT c.ExamID)\n"
+                + "FROM\n"
+                + "(\n"
+                + "    SELECT a.Score,\n"
+                + "           b.ExamID\n"
+                + "    FROM dbo.ExamPapers a\n"
+                + "        FULL JOIN dbo.Exams b\n"
+                + "            ON a.ExamID = b.ExamID\n"
+                + "    WHERE b.ExamID IN\n"
+                + "          (\n"
+                + "              SELECT ExamID FROM dbo.Exams WHERE CourseID = ?\n"
+                + "          )\n"
+                + "          AND a.UserID = ?\n"
+                + "    GROUP BY a.Score,\n"
+                + "             b.ExamID\n"
+                + "    HAVING CEILING(   a.Score /\n"
+                + "                      (\n"
+                + "                          SELECT COUNT(*) FROM dbo.Questions WHERE ExamID = b.ExamID\n"
+                + "                      ) * 100\n"
+                + "                  ) >= 80\n"
+                + ") AS c;";
+        ps = con.prepareStatement(xSql);
+        ps.setInt(1, courseId);
+        ps.setInt(2, userId);
+        rs = ps.executeQuery();
+        rs.next();
+        return rs.getInt(1);
+    }
+    
+    public int getExamCount(int courseID) throws SQLException{
+        xSql = "SELECT COUNT(*) FROM dbo.Exams WHERE CourseID = ?";
+        ps = con.prepareStatement(xSql);
+        ps.setInt(1, courseID);
+        rs = ps.executeQuery();
+        rs.next();
+        return rs.getInt(1);
+    }
 }

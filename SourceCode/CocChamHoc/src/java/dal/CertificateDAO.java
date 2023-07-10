@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Category;
 import model.Course;
+import model.Exam;
 import model.Level;
 
 /**
@@ -81,4 +82,36 @@ public class CertificateDAO extends MyDAO {
         return null;
     }
 
+    public boolean isEligibleForCertificate(int passAttemptCount, int totalExamCount){
+        if(passAttemptCount == totalExamCount)
+            return true;
+        return false;
+    }
+
+    public boolean hasCertificate(int userId, int courseId) throws SQLException {
+        xSql = "SELECT * FROM dbo.Certificates WHERE UserID = ? AND CourseID = ?";
+        ps = con.prepareStatement(xSql);
+        ps.setInt(1, userId);
+        ps.setInt(2, courseId);
+        rs = ps.executeQuery();
+        return rs.next();
+    }
+
+    public void issueCertificate(int userId, int courseId) throws SQLException {
+        xSql = "INSERT INTO dbo.Certificates\n"
+                + "(\n"
+                + "    UserID,\n"
+                + "    CourseID,\n"
+                + "    IssueDate\n"
+                + ")\n"
+                + "VALUES\n"
+                + "(   ?,        -- UserID - int\n"
+                + "    ?,        -- CourseID - int\n"
+                + "    GETDATE() -- IssueDate - date\n"
+                + "    )";
+        ps = con.prepareStatement(xSql);
+        ps.setInt(1, userId);
+        ps.setInt(2, courseId);
+        ps.executeUpdate();
+    }
 }

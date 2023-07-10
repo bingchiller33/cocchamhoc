@@ -143,17 +143,17 @@
             <%
             }
             %>
-        <div class="question-nav">
+            <div class="question-nav">
                 <h3>Exam Navigation</h3>
                 Total Question: <p id="questionCount">${questionCount}</p>
                 <ul>
                     <c:forEach var="i" begin="1" end="${questionCount}">
                         <li><button id="${i}">${i}</button></li>
-                    </c:forEach>
+                        </c:forEach>
                 </ul>
             </div>
         </div>
-        <script>            
+        <script>
             var totalQuestions = document.getElementById('questionCount').textContent;
             for (var i = 1; i <= totalQuestions; i++) {
                 var button = document.getElementById(i.toString());

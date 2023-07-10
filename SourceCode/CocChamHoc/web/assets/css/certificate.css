@@ -1,5 +1,5 @@
 .center_space_certificate {
-    background: url('../assets/img/certificate.png') no-repeat;
+    background: url(../img/certificate.png) no-repeat;
     background-size: contain;
     width: calc(50% - 1px);
     height: 520px;
@@ -9,7 +9,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 85vh;
+    flex:1;
     background-color: #e4e4e4;
 }
 
@@ -52,14 +52,6 @@
 }
 .certificate_title_space {
     width: 32%;
-}
-.back {
-    background-color: #e4e4e4;
-}
-.btn_back {
-    padding: 8px 10px;
-    margin-left: 60px;
-    cursor: pointer;
 }
 .not_found {
     display: flex;

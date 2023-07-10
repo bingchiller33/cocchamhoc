@@ -7,7 +7,7 @@
                 <h2 style="
                     text-align: justify;
                     margin: 0px 10px 0px 15px;
-                    font-size: 2em;
+                    font-size: 1.9em;
                     color: #FCD980;
                     ">COC CHAM HOC</h2>
                 <a href="/"><img src="../assets/img/1498-pepe-studying.png" alt="Ok"></a>
@@ -54,9 +54,9 @@
         <div class="col-3">
             <nav class="nav-footer">
                 <ul>
-                    <li><a href="home">HOME</a></li>
-                    <li><a href="">ABOUT US</a></li>
-                    <li><a href="">COURSE</a></li>
+                    <li><a href="/">HOME</a></li>
+                    <li><a href="profile">PROFILE</a></li>
+                    <li><a href="/mycourse">MY COURSE</a></li>
                 </ul>
             </nav>
         </div>
