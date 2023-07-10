@@ -47,7 +47,7 @@
                     <script class="video-frame" src="http://www.youtube.com/player_api"></script>
                          
                     <div id="status" class="incomplete">
-                        <span>Play status: </span>
+                        <span>Progress status: </span>
                         <span class="status complete">COMPLETE</span>
                         <span class="status incomplete">INCOMPLETE</span>
                         <br />
@@ -88,16 +88,19 @@
                 display: inline;
             }
         </style>
+        
+
+
         <script>
        // create youtube player
-     
+     const youTubeIdFromLink = (url) => url.match(/(?:https?:\/\/)?(?:www\.|m\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\/?\?v=|\/embed\/|\/)([^\s&\?\/\#]+)/)[1];
      var player;
      function onYouTubePlayerAPIReady() {
        
          player = new YT.Player('played', {
            height: '100%',
            width: '100%',
-           videoId: '6Gbxt2Sox7k',
+           videoId: youTubeIdFromLink('${lesson.video}'),
            events: {
              'onReady': onPlayerReady,
              'onStateChange': onPlayerStateChange
