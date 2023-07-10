@@ -32,7 +32,9 @@
                 </div>
             </div>
             <div class="tab_list">
-                <div class="tab_list-desc">My courses</div>
+                
+                <div class="tab_list-desc"><a href="mycourse">My courses</a></div>
+                <div class="tab_list-desc"><a href="inprogress">In Progress</a></div>
             </div>
             <div class="course_body"> 
                 <c:if test="${!listMyCourse.isEmpty()}">
@@ -85,5 +87,10 @@
             </div> 
         </div>
         <%@include file="/components/footer.jspf" %>
+        <style>
+            .tab_list-desc{
+            width: 8%;
+        }
+        </style>
     </body>
 </html>

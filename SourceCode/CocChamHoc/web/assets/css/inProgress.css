@@ -28,6 +28,7 @@ html {
 .header_container-header {
     font-weight: 900;
     font-size: 38px;
+    color: blue;
     margin: 0 0 14px 0;
 }
 
@@ -169,10 +170,10 @@ html {
     .desc_lecturer-title {
         display: none;
     }
-    .btn_course-link {  
-        padding: 6px 10px; 
+    .btn_course-link {
+        padding: 6px 10px;
     }
-    .btn_link_course { 
+    .btn_link_course {
         font-size: 10px;
         width: 86px;
         text-align: center;
@@ -223,10 +224,10 @@ html {
     .desc_lecturer-title {
         display: none;
     }
-    .btn_course-link {  
-        padding: 6px 10px; 
+    .btn_course-link {
+        padding: 6px 10px;
     }
-    .btn_link_course { 
+    .btn_link_course {
         text-align: center;
         font-size: 10px;
         width: 200px;
@@ -276,17 +277,17 @@ html {
     .desc_lecturer-title {
         font-size: 14px;
     }
-    .btn_course-link {  
-        padding: 6px 10px; 
+    .btn_course-link {
+        padding: 6px 10px;
     }
-    .btn_link_course { 
+    .btn_link_course {
         text-align: center;
         font-size: 10px;
         /* margin-right: 26px; */
     }
     .btn_course-duration{
         display: block;
-    } 
+    }
     .header_container > span {
         font-size: 10px;
     }
