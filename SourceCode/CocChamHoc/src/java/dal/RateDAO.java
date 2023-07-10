@@ -4,15 +4,12 @@
  */
 package dal;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import model.Rate;
 
 /**
@@ -33,13 +30,20 @@ public class RateDAO extends MyDAO {
         if ((rateNo < 1 || rateNo > 5)) {
             return;
         }
-        try {
+        if (!review.trim().isEmpty() || review.trim() != null) {
             xSql = "insert into Ratings(UserID, CourseID, Rating, Review) values (?, ?, ?, ?)";
+        }
+        if (review.trim().isEmpty() || review.trim() == null) {
+            xSql = "insert into Ratings(UserID, CourseID, Rating) values (?, ?, ?)";
+        }
+        try {
             ps = con.prepareStatement(xSql);
             ps.setInt(1, uId);
             ps.setInt(2, cId);
             ps.setInt(3, rateNo);
-            ps.setString(4, review);
+            if (!review.trim().isEmpty() || review.trim() != null) {
+                ps.setString(4, review);
+            }
             ps.execute();
             ps.close();
         } catch (Exception e) {
@@ -66,7 +70,7 @@ public class RateDAO extends MyDAO {
         return 0;
     }
 
-    public int getUserRateNo(int cId, int uId) { 
+    public int getUserRateNo(int cId, int uId) {
         try {
             xSql = "select Rating from Ratings where UserID = ? and courseID = ?";
             ps = con.prepareStatement(xSql);
@@ -85,7 +89,7 @@ public class RateDAO extends MyDAO {
     }
 
     public int getSumRateNo(int cId) {
-        int sum = 0; 
+        int sum = 0;
         try {
             xSql = "select sum(Rating) as number\n"
                     + "from Ratings\n"
@@ -191,7 +195,7 @@ public class RateDAO extends MyDAO {
 
     public void updateTime(int cId, int uId) {
         LocalDateTime currentTime = LocalDateTime.now();
-        Timestamp timestamp = Timestamp.valueOf(currentTime); 
+        Timestamp timestamp = Timestamp.valueOf(currentTime);
         try {
             xSql = "update Ratings set RateTime = ? where UserID = ? and CourseID = ?";
             ps = con.prepareStatement(xSql);
@@ -224,7 +228,7 @@ public class RateDAO extends MyDAO {
     }
 
     public List<Rate> getReviewRate(int cid) {
-        List<Rate> list = new ArrayList<>(); 
+        List<Rate> list = new ArrayList<>();
         try {
             xSql = "select * from Ratings where Review is not null and CourseID = ? order by RateTime desc";
             ps = con.prepareStatement(xSql);
@@ -240,16 +244,16 @@ public class RateDAO extends MyDAO {
         }
         return list;
     }
-    
-    public List<Integer> getCourseId(int uId, int cId){
-        List<Integer> list = new ArrayList<>(); 
+
+    public List<Integer> getCourseId(int uId, int cId) {
+        List<Integer> list = new ArrayList<>();
         try {
             xSql = "select courseId from Ratings where UserID = ? and CourseID = ?";
             ps = con.prepareStatement(xSql);
             ps.setInt(1, uId);
             ps.setInt(2, cId);
             rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 list.add(rs.getInt(1));
             }
         } catch (Exception e) {

@@ -6,7 +6,7 @@
         <div class="bold">
             <a href="/">
                 <img class="navbar-logo" src="../assets/img/9716_Pepega.png" alt="alt"s style=""/>
-                <label>CHAM HOC</label>
+                <label style="cursor: pointer;">CHAM HOC</label>
             </a>
         </div>
         <nav class="nav-header">

@@ -28,6 +28,7 @@ public class ProfileController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         User loggedUser = (User) request.getSession().getAttribute("user");
+        request.setAttribute("backUrl", "/");
         CertificateDAO certificateDAO = new CertificateDAO();
         if (loggedUser == null) {
             response.sendRedirect("/login");
@@ -44,7 +45,7 @@ public class ProfileController extends HttpServlet {
                 request.getSession().removeAttribute("wrongPassword");
                 request.getSession().removeAttribute("success");
             }
-            
+
             String url = "/profileDetail/profileDetail.jsp";
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
@@ -131,8 +132,8 @@ public class ProfileController extends HttpServlet {
                         error += "Wrong current password";
                         request.getSession().setAttribute("wrongPassword", error);
                     }
-                    
-                     if (error.length() > 0) {
+
+                    if (error.length() > 0) {
                         error = "";
                         url = "/profile";
                     } else {

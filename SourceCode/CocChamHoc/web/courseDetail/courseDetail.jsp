@@ -101,8 +101,18 @@
                 <div id="des2" class="visible">
                     <p>${courseData.description}</p>
                 </div>
-                <div id="rev2" class="hidden width">
-                    <c:if test="${review!=null}">
+                <div id="rev2" class="hidden">
+                    <c:choose>
+                        <c:when test="${empty lessonData}">
+                            <p>No syllabus available</p>
+                        </c:when>
+                        <c:otherwise>
+                            <%@include file="/components/viewSyllabus.jspf" %>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+                <div id="syl2" class="hidden">
+                    <c:if test="${!review.isEmpty()}">
                         <div class="container_review">
                             <c:forEach var="item" items="${review}">
                                 <div class="review">
@@ -117,19 +127,9 @@
                             </c:forEach>    
                         </div
                     </c:if>
-                    <c:if test="${review==null}">
-                        <p>${Review}</p>
+                    <c:if test="${review.isEmpty()}">
+                        <p>No review available</p>
                     </c:if>
-                </div>
-                <div id="syl2" class="hidden">
-                    <c:choose>
-                        <c:when test="${empty lessonData}">
-                            <p>No syllabus available</p>
-                        </c:when>
-                        <c:otherwise>
-                            <%@include file="/components/viewSyllabus.jspf" %>
-                        </c:otherwise>
-                    </c:choose>
                 </div>
             </div>
             <div class="row">
