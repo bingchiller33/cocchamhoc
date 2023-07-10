@@ -1,5 +1,5 @@
 .center_space_certificate {
-    background: url('/assets/img/certificate.png') no-repeat;
+    background: url(../img/certificate.png) no-repeat;
     background-size: contain;
     width: calc(50% - 1px);
     height: 520px;

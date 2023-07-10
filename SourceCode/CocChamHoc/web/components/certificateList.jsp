@@ -6,6 +6,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>  
+<link rel="stylesheet" href="../assets/css/notFound.css">
 <style>
     .container_certificate {
         display: flex;
@@ -54,7 +55,7 @@
     }
     .name_course:hover, img_link:hover {
         opacity: 0.8;
-    } 
+    }
     .name_link {
         text-decoration: none;
     }
@@ -105,67 +106,93 @@
         font-size: 14px;
         color: rgb(72, 72, 72);
     }
+
+    .not_found-btn {
+        cursor: pointer;
+    }
 </style>   
 <div class="container_certificate">
-    <c:forEach var="item" items="${listCourse}">
-        <div class="item_certificate">
-            <div class="certificate_head">
-                <div class="certificate_img">
-                    <a href="/certificate?id=${item.id}">
-                        <img class="img_link" src="https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://d2j5ihb19pt1hq.cloudfront.net/certificates/cert-specialization.png?auto=format%2Ccompress&dpr=1&w=&h=72" alt="">
-                    </a>
-                </div>
-                <div class="certificate_name">
-                    <div>
-                        <a href="/certificate?id=${item.id}" class="name_link">
-                            <p class="name_course">${item.title}</p>
+    <c:if test="${!listCourse.isEmpty()}">
+        <c:forEach var="item" items="${listCourse}">
+            <div class="item_certificate">
+                <div class="certificate_head">
+                    <div class="certificate_img">
+                        <a href="/certificate?id=${item.id}">
+                            <img class="img_link" src="https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://d2j5ihb19pt1hq.cloudfront.net/certificates/cert-specialization.png?auto=format%2Ccompress&dpr=1&w=&h=72" alt="">
                         </a>
-                        <p class="name_teacher">${item.lecturer}</p>
+                    </div>
+                    <div class="certificate_name">
+                        <div>
+                            <a href="/certificate?id=${item.id}" class="name_link">
+                                <p class="name_course">${item.title}</p>
+                            </a>
+                            <p class="name_teacher">${item.lecturer}</p>
+                        </div>
                     </div>
                 </div>
+                <div class="certificate_body">
+                    <p class="certificate_ins">Instructions</p>
+                    <table> 
+                        <tbody>
+                            <tr>
+                                <td class="title_name">Name:</td>
+                                <td class="name_desc">${item.title}</td>
+                            </tr>
+                            <tr>
+                                <td class="title_name">Issuing Organization:</td>
+                                <td class="name_desc">COK cham hoc</td>
+                            </tr>
+                            <tr>
+                                <td class="title_name">Durations:</td>
+                                <td class="name_desc">${item.durationInSeconds}s</td>
+                            </tr>
+                            <tr>
+                                <td class="title_name">Level:</td>
+                                <td class="name_desc">${item.level.description}</td>
+                            </tr>
+                            <tr>
+                                <td class="title_name">Category:</td>
+                                <td class="name_desc">${item.category.description}</td>
+                            </tr> 
+                        </tbody>
+                    </table>
+                </div>
+                <div class="certificate_footer">
+                    <button class="btn_link-item" onclick="handleClick(event)">Infomation <i class="fa-solid fa-angle-down"></i></button>
+                </div>
             </div>
-            <div class="certificate_body">
-                <p class="certificate_ins">Instructions</p>
-                <table> 
-                    <tbody>
-                        <tr>
-                            <td class="title_name">Name:</td>
-                            <td class="name_desc">${item.title}</td>
-                        </tr>
-                        <tr>
-                            <td class="title_name">Issuing Organization:</td>
-                            <td class="name_desc">COK cham hoc</td>
-                        </tr>
-                        <tr>
-                            <td class="title_name">Durations:</td>
-                            <td class="name_desc">${item.durationInSeconds}s</td>
-                        </tr>
-                        <tr>
-                            <td class="title_name">Level:</td>
-                            <td class="name_desc">${item.level.description}</td>
-                        </tr>
-                        <tr>
-                            <td class="title_name">Category:</td>
-                            <td class="name_desc">${item.category.description}</td>
-                        </tr> 
-                    </tbody>
-                </table>
-            </div>
-            <div class="certificate_footer">
-                <button class="btn_link-item" onclick="handleClick(event)">Infomation <i class="fa-solid fa-angle-down"></i></button>
+        </c:forEach>
+    </c:if>
+    <c:if test="${listCourse.isEmpty()}">
+        <div class="course_list_not_found">
+            <div class="not_found-item">
+                <div class="not_found_item-head">
+                    <h1 class="not_found_item_head-title">
+                        <span class="not_found_item_head-first">4</span><span class="not_found_item_head-second">0</span><span class="not_found_item_head-third">4</span></h1>
+                </div>
+                <div class="not_found_item_body">
+                    <h1 class="not_found_item_body-title">Oops... You have not completed this course</h1>
+                    <p class="not_found_item_body-desc">
+                        <span>Sorry, can't found any certificate, you must enroll some course before and complete it</span> <br/>
+                        <span>Make sure you've taken the course </span>
+                    </p>
+                </div>
+                <div class="not_found-btn">
+                    <a class="not_found_btn-link" onclick="window.history.back()">Back</a>
+                </div>
             </div>
         </div>
-    </c:forEach>
+    </c:if>
 </div>
 <script>
-    function  getParentElement(element, parent){ 
+    function  getParentElement(element, parent) {
         while (element.parentElement) {
             if (element.parentElement.matches(parent)) {
                 return element.parentElement;
                 break
             }
             element = element.parentElement;
-        } 
+        }
     }
     function handleClick(event) {
         var parentElement = getParentElement(event.target, '.item_certificate');
@@ -174,8 +201,8 @@
         var icon = btnParent.querySelector('.fa-solid');
         console.log(icon.className)
         icon.className = icon.className === 'fa-solid fa-angle-down' ? 'fa-solid fa-angle-up' : 'fa-solid fa-angle-down';
-        parentElement.querySelector('.certificate_body').style.display 
-                = getComputedStyle(parentElement.querySelector('.certificate_body')).display 
+        parentElement.querySelector('.certificate_body').style.display
+                = getComputedStyle(parentElement.querySelector('.certificate_body')).display
                 === 'none' ? 'block' : 'none';
     }
 </script>  
