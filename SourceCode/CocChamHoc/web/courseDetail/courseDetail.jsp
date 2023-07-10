@@ -94,8 +94,8 @@
             </div>
             <div class="row">
                 <p id="des" class="active" onclick="view(this)">DESCRIPTION</p>             
-                <p id="rev" onclick="view(this)">REVIEWS</p>
-                <p id="syl" onclick="view(this)">SYLLABUS</p>
+                <p id="rev" onclick="view(this)">SYLLABUS</p>
+                <p id="syl" onclick="view(this)">REVIEW</p>
             </div>
             <div class="row">
                 <div id="des2" class="visible">
