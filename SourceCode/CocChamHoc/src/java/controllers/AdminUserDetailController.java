@@ -28,8 +28,8 @@ import utils.ParseUtils;
  *
  * @author Yui
  */
-@WebServlet(name = "AdminUserDetail", urlPatterns = {"/admin/userDetail"})
-public class AdminUserDetail extends HttpServlet {
+@WebServlet(name = "AdminUserDetailController", urlPatterns = {"/admin/userDetail"})
+public class AdminUserDetailController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -59,7 +59,7 @@ public class AdminUserDetail extends HttpServlet {
 
             request.getRequestDispatcher("/admin/editUser.jsp").include(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(AdminUserDetail.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AdminUserDetailController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -128,7 +128,7 @@ public class AdminUserDetail extends HttpServlet {
             request.setAttribute("restrictStatus", "Restricting user successfully!");
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(AdminUserDetail.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AdminUserDetailController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -143,7 +143,7 @@ public class AdminUserDetail extends HttpServlet {
             request.setAttribute("restrictStatus", "Appeal user successfully!");
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(AdminUserDetail.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AdminUserDetailController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -159,7 +159,7 @@ public class AdminUserDetail extends HttpServlet {
             request.setAttribute("grantRoleStatus", "Grant role successfully!");
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(AdminUserDetail.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AdminUserDetailController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -178,7 +178,7 @@ public class AdminUserDetail extends HttpServlet {
             request.setAttribute("profileStatus", "Update profile successfully!");
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(AdminUserDetail.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AdminUserDetailController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
