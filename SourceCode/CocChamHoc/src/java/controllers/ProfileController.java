@@ -4,6 +4,7 @@
  */
 package controllers;
 
+import dal.CertificateDAO;
 import dal.ProfileDAO;
 import dal.UserDAO;
 import jakarta.servlet.RequestDispatcher;
@@ -27,6 +28,8 @@ public class ProfileController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         User loggedUser = (User) request.getSession().getAttribute("user");
+        request.setAttribute("backUrl", "/");
+        CertificateDAO certificateDAO = new CertificateDAO();
         if (loggedUser == null) {
             response.sendRedirect("/login");
         } else {
@@ -35,12 +38,14 @@ public class ProfileController extends HttpServlet {
             request.setAttribute("gender", loggedUser.isGender());
             request.setAttribute("dob", loggedUser.getDob());
             request.setAttribute("email", loggedUser.getEmail());
+            request.setAttribute("role", loggedUser.getRole());
+            request.setAttribute("listCourse", certificateDAO.getCourseCer(loggedUser.getUserID()));
             if ("success".equals(request.getSession().getAttribute("success"))) {
                 request.getSession().removeAttribute("emailError");
                 request.getSession().removeAttribute("wrongPassword");
                 request.getSession().removeAttribute("success");
             }
-            
+
             String url = "/profileDetail/profileDetail.jsp";
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
@@ -66,7 +71,7 @@ public class ProfileController extends HttpServlet {
 
                     // gender
                     String genderStr = request.getParameter("gender");
-                    boolean gender = false; // Default value for gender is null
+                    boolean gender = false;
 
                     if (genderStr != null && !genderStr.isEmpty()) {
                         if (genderStr.equalsIgnoreCase("male")) {
@@ -84,6 +89,9 @@ public class ProfileController extends HttpServlet {
                         dob = new java.sql.Date(utilDate.getTime());
                     } catch (ParseException e) {
                         e.printStackTrace();
+                    }
+                    if (dao.updateProfile(username, phoneNumber, gender, dob, loggedUser.getUserID())) {
+                        url = "/profile";
                     }
 
                     dao.updateProfile(username, phoneNumber, gender, dob, loggedUser.getUserID());
@@ -124,8 +132,8 @@ public class ProfileController extends HttpServlet {
                         error += "Wrong current password";
                         request.getSession().setAttribute("wrongPassword", error);
                     }
-                    
-                     if (error.length() > 0) {
+
+                    if (error.length() > 0) {
                         error = "";
                         url = "/profile";
                     } else {

@@ -121,7 +121,7 @@ Validator.isEmail = function (selector, msg) {
         selector: selector,
         test: function (value) {
             var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            return regex.test(value) ? undefined : msg || 'Email required to enter!';
+            return regex.test(value) ? undefined : msg || 'Email is not formatted correctly!';
         }
     };
 };

@@ -1,0 +1,82 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : Jul 8, 2023, 2:08:59 PM
+    Author     : Viet
+*/
+.gotoCert{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0px;
+}
+.EXAM-INF{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0px;
+}
+.link{
+    background-color: #FCD980;
+    padding: 12px 32px;
+    border-radius: 6px;
+}
+.link-special{
+    background-color: #1C1E53;
+    padding: 12px 32px;
+    border-radius: 6px;
+}
+.link-special a{
+    color: white;
+}
+.small{
+    font-size: 12px;
+    margin-left: 20px;
+}
+.EXAM-ATTEMPT{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+.EXAM-ATTEMPT div:first-of-type h3{
+    display: inline-block;
+}
+.attempt{
+    display: flex;
+    justify-content: space-between;
+    border-left: 1px solid black;
+}
+.attempt div{
+    margin-left: 20px;
+}
+.EXAM-PREV table{
+    width: 100%;
+}
+.EXAM-PREV table thead tr{
+    background-color: #1C1E53;
+    color: #FFFFFF;
+}
+table th,td{
+    text-align: left;
+    padding: 12px;
+}
+table tr:hover{
+    background-color: #f5e6c0;
+    cursor: pointer;
+}
+.cel-1{
+    width:10%;
+}
+.cel-2{
+    width:40%;
+}
+.cel-3{
+    width:20%;
+}
+cel-4{
+    width:20%;
+}
+.cel-5{
+    width:20%;
+}

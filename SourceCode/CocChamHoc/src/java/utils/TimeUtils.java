@@ -23,8 +23,12 @@ public class TimeUtils {
                 duration += Integer.parseInt(durations[i])*3600;
             if(i==1)
                 duration += Integer.parseInt(durations[i])*60;
-            duration+=Integer.parseInt(durations[i]);
+            else
+                duration+=Integer.parseInt(durations[i]);
         }                    
         return duration;
+    }
+    public static int toMins(int time){
+        return time/60;
     }
 }

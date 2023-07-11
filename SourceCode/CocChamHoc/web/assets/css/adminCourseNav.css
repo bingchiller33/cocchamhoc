@@ -51,6 +51,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     display: flex;
     gap: 0.5rem;
     align-items: flex-start;
+    cursor: pointer;
+}
+
+.admin-course-nav .nav-item-flex:hover {
+    opacity: 0.8;
 }
 
 .admin-course-nav .nav-item-flex i {

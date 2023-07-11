@@ -28,6 +28,11 @@ public class LoginController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getSession().getAttribute("user") != null) {
+            User user = (User) request.getSession().getAttribute("user");
+            request.setAttribute("email", user.getEmail());
+            request.setAttribute("password", user.getPassword()); 
+        }
         request.getRequestDispatcher("/login/login.jsp").forward(request, response);
         boolean inValid = "".equals(request.getSession().getAttribute("validate"));
         if (!inValid) {

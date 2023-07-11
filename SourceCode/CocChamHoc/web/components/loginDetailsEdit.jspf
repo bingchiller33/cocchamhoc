@@ -1,7 +1,40 @@
 <%-- any content can be specified here e.g.: --%>
 <%@ page pageEncoding="UTF-8" %>
+
+<style>
+    .form-container {
+        display: flex;
+        justify-content: space-evenly;
+        margin-bottom: 50px;
+        padding-bottom: 20px;
+    }
+
+    .form-container form {
+        width: 48%;
+    }
+
+    .field-list {
+        margin-bottom: 20px;
+    }
+
+    .form {
+        border: 1px solid blue;
+    }
+
+    .error_msg {
+        color: red;
+    }
+
+    .btn-save {
+    }
+
+    .error-div {
+        display: grid;
+    }
+
+</style>
 <div class="form-container">
-    <form id="changeEmail-form" method="post">
+    <form id="changeEmail-form" method="post" onsubmit="handleSubmitChangeEmail(event)">
         <i class="fa-solid fa-pen-to-square edit-icon" onclick="enableEditingDetail('changeEmail-form')"></i>
         <div class="form-header">
             <h2>Change Email</h2>
@@ -11,18 +44,18 @@
             <label for="changeEmail-email">Email</label>
             <input type="text" id="changeEmail-email" name="email" value="${email}" class="small-input" disabled/>
             <label for="changeEmail-password">Password</label>
-            <input type="text" id="changeEmail-password" name="password" class="small-input" disabled/>
+            <input type="password" id="changeEmail-password" name="password" class="small-input" disabled/>
         </div>
-        <div>            
+        <div class="error-div">            
             <span id="password-error" class="error_msg"></span>
+            <span class="error_msg">${emailError}</span>
         </div>
         <div class="action-container">
             <input type="hidden" name="formId" value="changeEmailForm">
-            <span class="error_msg">${emailError}</span>
             <input type="submit" name="action" value="Save" class="btn-save align-right" disabled/>
         </div>
     </form>
-    <form id="changePassword-form" method="post" onsubmit="handleSubmit(event)">
+    <form id="changePassword-form" method="post" onsubmit="handleSubmitChangePassword(event)">
         <i class="fa-solid fa-pen-to-square edit-icon" onclick="enableEditingDetail('changePassword-form')"></i>
         <div class="form-header">
             <h2>Change Password</h2>
@@ -62,7 +95,7 @@
         saveButton.style.display = 'inline-block';
         saveButton.disabled = false;
     }
-    function handleSubmit(event) {
+    function handleSubmitChangePassword(event) {
         var newPasswordInput = document.getElementById('changePassword-newPassword').value;
         var newPasswordError = document.getElementById('new-password-error');
         if (newPasswordInput.length === 0) {
@@ -77,34 +110,31 @@
 
     }
 
+    function handleSubmitChangeEmail(event) {
+        var passwordInput = document.getElementById('changeEmail-password').value;
+        var emailInput = document.getElementById('changeEmail-email').value;
+        var passwordError = document.getElementById('password-error');
 
+        if (passwordInput.length === 0 || emailInput.length === 0) {
+            passwordError.textContent = 'Do not leave the field empty';
+            event.preventDefault();
+        } else if (!isValidEmail(emailInput)) {
+            passwordError.textContent = 'Email should be in correct format!';
+            event.preventDefault();
+        } else if (passwordInput.length < 9) {
+            passwordError.textContent = 'Password should be at least 9 characters long';
+            event.preventDefault();
+        } else {
+            passwordError.textContent = '';
+        }
+
+    }
+    
+    function isValidEmail(email) {
+    // Regular expression for email validation
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
 
 </script>
 
-<style>
-    .form-container {
-        display: flex;
-        justify-content: space-evenly;
-        margin-bottom: 50px;
-        padding-bottom: 20px;
-    }
-
-    .form-container form {
-        width: 48%;
-    }
-
-    .field-list {
-        margin-bottom: 20px;
-    }
-
-    .form {
-        border: 1px solid blue;
-    }
-
-    .error_msg {
-        color: red;
-    }
-
-    .btn-save {
-    }
-</style>

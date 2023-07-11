@@ -110,7 +110,7 @@ public class AdminFilter implements Filter {
         HttpSession session = req.getSession();
         User user = (User)session.getAttribute("user");
         if(user == null || user.getRole() == 1){
-            req.getRequestDispatcher("/components/Denied.jsp").forward(request, response);
+            req.getRequestDispatcher("/components/denied.jsp").forward(request, response);
         }
         
 	Throwable problem = null;

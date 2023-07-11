@@ -1,23 +1,23 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.*" %> 
+<%@ page import="utils.*" %>
 <%@ page import="model.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>My Course</title>
+        <%@include file="/components/headCommon.jspf" %>
+        <link rel="stylesheet" href="../assets/css/sliderStyle3.css"/>
         <link rel="stylesheet" href="../assets/css/myCourse.css">
         <link rel="stylesheet" href="../assets/css/notFound.css">
         <link rel="stylesheet" href="../assets/css/base.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
     <body>
         <%  
-            User user                 = (User)         request.getSession().getAttribute("user");
+            User user = (User) request.getSession().getAttribute("user");
         %>
         <c:set var="listMyCourse" value="${listMyCourse}" />
         <c:set var="noCourse" value="${noCourse}" />
@@ -39,7 +39,7 @@
                         <div class="course_item">
                             <div class="course_component">
                                 <div class="course_item-img">
-                                    <img src="https://files.fullstack.edu.vn/f8-prod/courses/2.png" alt="" class="item_img-detail" />
+                                    <img src="${item.imgUrl}" alt="" class="item_img-detail" />
                                 </div>
                                 <div class="course_item-desc">
                                     <div>
@@ -54,8 +54,8 @@
                                     </div>
                                 </div>
                                 <div class="btn_link_course">
-                                    <p class="btn_course-duration"> <span>Duration</span> <span>${item.durationInSeconds}s</span></p>
-                                    <a href="#" class="btn_course-link">Resum</a>
+                                    <p class="btn_course-duration"> <span>Duration</span> <span>${TimeUtils.intToTime(item.durationInSeconds)}</span></p>
+                                    <a href="/gotoLearn?courseId=${item.id}" class="btn_course-link">Resume</a>
                                 </div>
                             </div>
                         </div>

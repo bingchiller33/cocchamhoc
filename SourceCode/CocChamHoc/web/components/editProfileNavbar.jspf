@@ -11,7 +11,7 @@
                 <p class="nav-item-flex" onclick="showLoginDetailsEdit()"><i class="fa-solid fa-shield-halved"></i>Security&Login Information</p>
             </li>
             <li class="nav-item nav-item-headerless">
-                <a href="/certificate" class="nav-item-flex"><i class="fa-solid fa-certificate"></i>Certificate</a>
+                <p class="nav-item-flex" onclick="showCertificate()"><i class="fa-solid fa-certificate"></i>Certificate</p>
             </li>
         </ul>
     </div>
@@ -21,10 +21,17 @@
     function showProfileEdit() {
         document.getElementById("profileEditSection").style.display = "block";
         document.getElementById("loginDetailsEditSection").style.display = "none";
+        document.getElementById("certificate").style.display = "none";
     }
 
     function showLoginDetailsEdit() {
         document.getElementById("profileEditSection").style.display = "none";
         document.getElementById("loginDetailsEditSection").style.display = "block";
+        document.getElementById("certificate").style.display = "none";
+    }
+    function showCertificate() {
+        document.getElementById("profileEditSection").style.display = "none";
+        document.getElementById("loginDetailsEditSection").style.display = "none";
+        document.getElementById("certificate").style.display = "block";
     }
 </script>
