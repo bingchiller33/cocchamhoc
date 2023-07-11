@@ -18,11 +18,7 @@
         <%@include file="/components/header.jspf" %>
         <div class="article">
             <div class="row">
-                <div class="admin-sidebar">
-                    <a href="/admin"><i class="fa-solid fa-book-open"></i> Course Management</a>
-                    <a href="/admin/users"><i class="fa-solid fa-users"></i>  User Management</a>
-                    <a href="/admin/certificates"><i class="fa-solid fa-certificate"></i>  Certificate Management</a>
-                </div>
+                <%@include file="/components/adminNavBar.jspf" %>
                 <div class="admin-content">
                     <div class="form-container">
                         <div class="title">
