@@ -46,8 +46,4 @@ public class ChoiceDAO extends MyDAO {
         ps.setInt(4, choiceId);
         ps.executeUpdate();
     }
-    public static void main(String[] args) throws SQLException {
-        ChoiceDAO choiceDAO = new ChoiceDAO();
-        choiceDAO.updateChoice("Test Choice",true,81,203);
-    }
 }
