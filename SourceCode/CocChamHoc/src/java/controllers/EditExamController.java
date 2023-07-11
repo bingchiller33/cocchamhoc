@@ -5,9 +5,13 @@
 package controllers;
 
 import dal.ChapterDAO;
+import dal.ChoiceDAO;
 import dal.CourseDAO;
+import dal.ExamCRUDDAO;
 import dal.LessonDAO;
+import dal.QuestionCRUDDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -19,15 +23,18 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Chapter;
+import model.ChoiceCRUD;
+import model.ExamCRUD;
 import model.Lesson;
+import model.QuestionCRUD;
 import utils.ParseUtils;
 
 /**
  *
- * @author Yui
+ * @author Phuoc
  */
-@WebServlet(name = "EditLessonController", urlPatterns = {"/admin/edit-lesson"})
-public class EditLessonController extends HttpServlet {
+@WebServlet(name = "EditExamController", urlPatterns = {"/admin/edit-exam"})
+public class EditExamController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,49 +47,45 @@ public class EditLessonController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         try {
             int courseId = ParseUtils.parseIntWithDefault(request.getParameter("courseId"), -1);
             int chapterId = ParseUtils.parseIntWithDefault(request.getParameter("chapterId"), -1);
-            int lessonNumber = ParseUtils.parseIntWithDefault(request.getParameter("lessonNumber"), -1);
-
+            int chapterNumber = ParseUtils.parseIntWithDefault(request.getParameter("chapterNumber"), -1);
+            int examId = ParseUtils.parseIntWithDefault(request.getParameter("examId"), -1);
             CourseDAO courseDAO = new CourseDAO();
             ChapterDAO chapterDAO = new ChapterDAO();
             LessonDAO lessonDAO = new LessonDAO();
+            ExamCRUDDAO examDAO = new ExamCRUDDAO();
+            QuestionCRUDDAO questionDAO = new QuestionCRUDDAO();
             List<Chapter> chapters = chapterDAO.getCourseChapters(courseId);
+            List<QuestionCRUD> questions = questionDAO.getQuestion(examId);
             if (chapters.isEmpty()) {
                 response.sendRedirect("/admin/courses");
                 return;
             }
-
             Map<Chapter, List<Lesson>> lessonMap = chapterDAO.getGroupedLesson(chapters);
-            if (lessonMap.isEmpty()) {
-                response.sendRedirect("/admin/edit-course?courseId=" + courseId);
-                return;
-            }
 
-                List<Lesson> lessons = lessonDAO.findLessons(lessonMap, chapterId);
-            if (lessons.isEmpty()) {
-                response.sendRedirect("/admin/edit-chapter?courseId=" + courseId + "&chapterId=" + chapterId);
-                return;
-            }
+            List<Lesson> lessons = lessonDAO.findLessons(lessonMap, chapterId);
 
-            Lesson lesson = lessonDAO.findLesson(lessons, lessonNumber);
-            if (lesson == null) {
-                response.sendRedirect("/admin/edit-chapter?courseId=" + courseId + "&chapterId=" + chapterId);
-                return;
-            }
+            List<ExamCRUD> exams = examDAO.getExam(courseId);
 
-            Lesson prevLesson = lessonDAO.findPrevLesson(lessons, lesson);
+            ExamCRUD exam = examDAO.getExamById(examId, courseId);
 
+            Map<QuestionCRUD, List<ChoiceCRUD>> choiceMap = questionDAO.getGroupChoice(questions);
+
+            Chapter chapter = chapterDAO.getChapterByID(courseId, chapterNumber);
             request.setAttribute("backUrl", "/admin");
             request.setAttribute("course", courseDAO.getCourseById(courseId));
             request.setAttribute("chapters", chapters);
+            request.setAttribute("chapter", chapter);
             request.setAttribute("lessonMap", lessonMap);
             request.setAttribute("lessons", lessons);
-            request.setAttribute("lesson", lesson);
-            request.setAttribute("prev", prevLesson);
-
-            request.getRequestDispatcher("/courseEditor/editLesson.jsp").include(request, response);
+            request.setAttribute("exams", exams);
+            request.setAttribute("exam", exam);
+            request.setAttribute("questions", questions);
+            request.setAttribute("choiceMap", choiceMap);
+            request.getRequestDispatcher("/courseEditor/editExam.jsp").include(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(EditLessonController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -134,68 +137,60 @@ public class EditLessonController extends HttpServlet {
             throws ServletException, IOException {
         try {
             int courseId = ParseUtils.parseIntWithDefault(request.getParameter("courseId"), -1);
-            int chapterId = ParseUtils.parseIntWithDefault(request.getParameter("chapterId"), -1);
-            int lessonNumber = ParseUtils.parseIntWithDefault(request.getParameter("lessonNumber"), -1);
+            String examName = request.getParameter("ExamName");
+            String duration = request.getParameter("ExamDuration");
+            int examId = ParseUtils.parseIntWithDefault(request.getParameter("examId"), -1);
+            ExamCRUDDAO examDAO = new ExamCRUDDAO();
+            QuestionCRUDDAO questionDAO = new QuestionCRUDDAO();
+            ChoiceDAO choiceDAO = new ChoiceDAO();
 
-            String name = ParseUtils.defaultIfEmpty(request.getParameter("lessonName"), "");
-            if (name.length() > 60) {
-                request.setAttribute("status", "Name cannot be longer than 60 characters!");
-                processRequest(request, response);
-                return;
+            examDAO.updateExam(examName, duration, courseId, examId);
+            // Update QuestionCRUD
+//            int i = 0;
+//            while (request.getParameter("ExamQuestionDetail" + i) != null) {
+//                String questionDetail = request.getParameter("ExamQuestionDetail" + i);
+//                int questionId = Integer.parseInt(request.getParameter("QuestionId" + i));
+//                questionDAO.updateQuestion(questionId, examId, questionDetail);
+//                i++;
+//            }
+            // Update ChoiceCRUD
+            int i = 0;
+            while (request.getParameter("ExamQuestionDetail" + i) != null) {
+                String questionDetail = request.getParameter("ExamQuestionDetail" + i);
+                int questionId = Integer.parseInt(request.getParameter("QuestionId" + i));
+                questionDAO.updateQuestion(questionId, examId, questionDetail);
+
+                // Update ChoiceCRUD for each question
+                int j = 0;
+                while (request.getParameter("QuestionChoiceDetail" + i + "-" + j) != null) {
+                    String choiceDetail = request.getParameter("QuestionChoiceDetail" + i + "-" + j);
+                    String isTrueAnswer = request.getParameter("IsTrueAnswer" + i + "-" + j);
+                    int choiceId = Integer.parseInt(request.getParameter("ChoiceId"  + i + "-" + j));
+                    choiceDAO.updateChoice(choiceDetail, Boolean.parseBoolean(isTrueAnswer), questionId, choiceId);
+                    j++;
+                }
+
+                i++;
             }
-
-            int lessonPrev = ParseUtils.parseIntWithDefault(request.getParameter("lessonPrev"), 0);
-            if (lessonPrev == lessonNumber) {
-                request.setAttribute("status", "Previous lesson cannot be the same lesson!");
-                processRequest(request, response);
-                return;
-            }
-            
-            String video = ParseUtils.defaultIfEmpty(request.getParameter("lessonVid"), "");
-            if (video.length() > 500) {
-                request.setAttribute("status", "Video Url cannot be longer than 500 characters!");
-                processRequest(request, response);
-                return;
-            }
-            
-            String desc = request.getParameter("lessonDesc");
-
-            LessonDAO lessonDAO = new LessonDAO();
-            lessonDAO.updateLesson(chapterId, lessonNumber, name, video, desc);
-
-            if (lessonPrev + 1 != lessonNumber) {
-                lessonDAO.reorderLesson(chapterId, lessonNumber, lessonPrev);
-                response.sendRedirect("/admin/edit-lesson?courseId=" + courseId + "&chapterId=" + chapterId + "&lessonNumber=" + (lessonPrev + 1));
-                return;
-            }
-
-            request.setAttribute("status", "Saved Successfully!");
             processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(EditLessonController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException e) {
+            Logger.getLogger(EditChapterController.class.getName()).log(Level.SEVERE, null, e);
         }
+
     }
 
     private void processDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             int courseId = ParseUtils.parseIntWithDefault(request.getParameter("courseId"), -1);
-            int chapterId = ParseUtils.parseIntWithDefault(request.getParameter("chapterId"), -1);
-            int lessonNumber = ParseUtils.parseIntWithDefault(request.getParameter("lessonNumber"), -1);
-
-            LessonDAO lessonDAO = new LessonDAO();
-            if (lessonNumber > 0) {
-                lessonDAO.deleteLession(chapterId, lessonNumber);
-
-                if (lessonNumber == 1) {
-                    response.sendRedirect("/admin/edit-course?courseId=" + courseId);
-                } else {
-                    response.sendRedirect("/admin/edit-lesson?courseId=" + courseId + "&chapterId=" + chapterId + "&lessonNumber=" + (lessonNumber - 1));
-                }
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(EditLessonController.class.getName()).log(Level.SEVERE, null, ex);
+            int examId = ParseUtils.parseIntWithDefault(request.getParameter("examId"), -1);
+            ExamCRUDDAO examDAO = new ExamCRUDDAO();
+            examDAO.deleteExam(courseId, examId);
+            processRequest(request, response);
+        } catch (SQLException e) {
+            Logger.getLogger(EditChapterController.class.getName()).log(Level.SEVERE, null, e);
         }
+
     }
 
     /**

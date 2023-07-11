@@ -12,19 +12,22 @@ import java.sql.Date;
  * @author LAPTOP
  */
 public class User {
-    private int     userID;
-    private String  fullName;
-    private String  email;
-    private String  password;
+
+    private int userID;
+    private String fullName;
+    private String email;
+    private String password;
     private int role;
-    private Date    dob;
+    private Date dob;
     private boolean gender;
-    private String  phoneNumber;
+    private String phoneNumber;
+    private Date restrictUntil;
+    private String restrictReason;
 
     public User() {
     }
 
-    public User(int userID, String fullName, String email, String password, int role, Date dob, boolean gender, String phoneNumber) {
+    public User(int userID, String fullName, String email, String password, int role, Date dob, boolean gender, String phoneNumber, Date restrictUntil, String restrictReason) {
         this.userID = userID;
         this.fullName = fullName;
         this.email = email;
@@ -33,7 +36,9 @@ public class User {
         this.dob = dob;
         this.gender = gender;
         this.phoneNumber = phoneNumber;
-    }
+        this.restrictUntil = restrictUntil;
+        this.restrictReason = restrictReason;
+    }   
 
     public int getUserID() {
         return userID;
@@ -98,7 +103,22 @@ public class User {
     public void setRole(int role) {
         this.role = role;
     }
-    
+
+    public Date getRestrictUntil() {
+        return restrictUntil;
+    }
+
+    public void setRestrictUntil(Date restrictUntil) {
+        this.restrictUntil = restrictUntil;
+    }
+
+    public String getRestrictReason() {
+        return restrictReason;
+    }
+
+    public void setRestrictReason(String restrictReason) {
+        this.restrictReason = restrictReason;
+    }
     
     public String toMD5(String password) {
         String salt = "emwkqnahd:;wmdLDk";
@@ -135,5 +155,5 @@ public class User {
         // Return null if an exception occurs
         return result;
     }
-    
+
 }

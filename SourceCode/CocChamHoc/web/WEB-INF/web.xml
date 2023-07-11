@@ -61,6 +61,10 @@
         <url-pattern>*.mp4</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>java</servlet-name>
+        <url-pattern>/java</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ProfileController</servlet-name>
         <url-pattern>/profile</url-pattern>
     </servlet-mapping>

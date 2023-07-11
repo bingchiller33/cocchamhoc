@@ -7,6 +7,7 @@ package controllers;
 import dal.CategoryDAO;
 import dal.ChapterDAO;
 import dal.CourseDAO;
+import dal.ExamCRUDDAO;
 import dal.LevelDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -25,6 +26,7 @@ import java.util.logging.Logger;
 import model.Category;
 import model.Chapter;
 import model.Course;
+import model.ExamCRUD;
 import model.Lesson;
 import model.User;
 import utils.ParseUtils;
@@ -54,6 +56,7 @@ public class EditCourseController extends HttpServlet {
             CategoryDAO categoryDAO = new CategoryDAO();
             LevelDAO levelDAO = new LevelDAO();
             ChapterDAO chapterDAO = new ChapterDAO();
+            ExamCRUDDAO examDAO = new ExamCRUDDAO();
             List<Chapter> chapters = chapterDAO.getCourseChapters(courseId);
             Map<Chapter, List<Lesson>> lessonMap = chapterDAO.getGroupedLesson(chapters);
 
@@ -65,6 +68,7 @@ public class EditCourseController extends HttpServlet {
 
             List<Category> categories = categoryDAO.getAllCategories();
             List<model.Level> levels = levelDAO.getAllLevels();
+            List<ExamCRUD> exams = examDAO.getExam(courseId);
 
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute("user");
@@ -75,6 +79,7 @@ public class EditCourseController extends HttpServlet {
             request.setAttribute("course", course);
             request.setAttribute("categories", categories);
             request.setAttribute("levels", levels);
+            request.setAttribute("exams", exams);
             request.setAttribute("admin", user != null && user.getRole() == 3);
 
             request.getRequestDispatcher("/courseEditor/editCourse.jsp").include(request, response);
