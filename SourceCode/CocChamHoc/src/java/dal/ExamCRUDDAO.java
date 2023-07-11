@@ -26,7 +26,9 @@ public class ExamCRUDDAO extends MyDAO {
         ps = con.prepareStatement(xSql);
         ps.setString(1, "Default Exam");
         ps.setInt(2, courseId);
-        ps.setInt(3, 1000);
+        String timeString = "00:30:00";
+        Time time = Time.valueOf(timeString);
+        ps.setTime(3, time);
         ps.execute();
     }
 
