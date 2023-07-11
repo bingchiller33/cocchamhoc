@@ -60,7 +60,7 @@ public class EditLessonController extends HttpServlet {
                 return;
             }
 
-            List<Lesson> lessons = lessonDAO.findLessons(lessonMap, chapterId);
+                List<Lesson> lessons = lessonDAO.findLessons(lessonMap, chapterId);
             if (lessons.isEmpty()) {
                 response.sendRedirect("/admin/edit-chapter?courseId=" + courseId + "&chapterId=" + chapterId);
                 return;
