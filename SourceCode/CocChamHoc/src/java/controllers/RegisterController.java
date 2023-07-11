@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Date;
 import model.User;
 import utils.EncryptionUtils;
 
@@ -51,7 +52,7 @@ public class RegisterController extends HttpServlet {
         if (error.length() > 0) {
             url = "/login/register.jsp";
         } else {
-            User user = new User(0, fullname, email, password, 1, null, false, null);
+            User user = new User(0, fullname, email, password, 1, null, false, null, Date.valueOf("2000-01-01"), "");
             dao.insertUser(user);
             url = "/login/login.jsp";
         }

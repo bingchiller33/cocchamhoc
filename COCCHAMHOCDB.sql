@@ -106,6 +106,9 @@ CREATE TABLE [Users]
     DOB DATE,
     Gender BIT,
     PhoneNumber VARCHAR(69),
+
+    RestrictedUntil DATETIME DEFAULT '2000-01-01 00:00:00',
+    RestrictedReason NVARCHAR(420) NULL,
 );
 CREATE TABLE [UsersEnroll]
 (
@@ -246,6 +249,14 @@ values ('devdesigner', 'designer@gmail.com', '6a5aeb1ea832832a9969a562357994ba',
 
 insert into Users(Username, Email, Password, Role)
 values ('devuser', 'user@gmail.com', '6a5aeb1ea832832a9969a562357994ba', 1)
+
+insert into UsersEnroll(UserID, CourseID, Status) values 
+(3, 1, 'Learning'),
+(3, 2, 'Learning'),
+(3, 3, 'Learning'),
+(3, 4, 'Learning'),
+(3, 5, 'Learning'),
+
 
 INSERT INTO dbo.Exams(ExamName, CourseID, Duration)VALUES( N'Module 1 Exam', 1, '00:30:00')
 

@@ -20,11 +20,7 @@
         <%@include file="/components/header.jspf" %>
         <div class="article">
             <div class="row">
-                <div class="admin-sidebar">
-                    <a href="/admin"><i class="fa-solid fa-book-open"></i> Course Management</a>
-                    <a href="/admin/users"><i class="fa-solid fa-users"></i>  User Management</a>
-                    <a href="/admin/certificates"><i class="fa-solid fa-certificate"></i>  Certificate Management</a>
-                </div>
+                <%@include file="/components/adminNavBar.jspf" %>
                 <div class="admin-content">
                     <h1>User management</h1>
                     <div class="filters">
@@ -48,6 +44,7 @@
                                 <th>Username</th>
                                 <th>Email</th>
                                 <th>Role</th>
+                                <th>Banned Until</th>
                                 <th>Enrolled</th>
                                 <th>Action</th>
                             </tr>
@@ -59,8 +56,9 @@
                                     <td>${x.fullName}</td>
                                     <td>${x.email}</td>
                                     <td>${UserUtils.getRoleName(x.role)}</td>
+                                    <td>${x.restrictUntil}</td>
                                     <td>${enrollMap[x.userID]} course</td>
-                                    <td><a class="btn-detail" href="#">Detail</a></td>
+                                    <td><a class="btn-detail" href="/admin/userDetail?id=${x.userID}">Detail</a></td>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -100,7 +98,7 @@
         #user-table tr:nth-child(even) {
             background-color: #f2f2f2;
         }
-        
+
         #user-table thead {
             background-color: #1C1E53;
             color: white;
