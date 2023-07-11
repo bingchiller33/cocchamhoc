@@ -30,7 +30,7 @@
             </li>
         </c:forEach>
     </ul>
-
+            
     <p class="filter-group-title">Duration</p>
     <ul class="filter-group"> 
         <li>

@@ -41,17 +41,17 @@
                             <p class="right-desc">Fill your info</p>
                         </div>
                         <div class="form-group">
-                            <input id="email" name="email" value="" type="text" placeholder="Email" class="form-control">
+                            <input id="email" name="email" value="${email==null?'':email}" type="text" placeholder="Email" class="form-control">
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
-                            <input id="password" name="password" value="" type="password" placeholder="Password" class="form-control">
+                            <input id="password" name="password" value="${password==null?'':password}" type="password" placeholder="Password" class="form-control">
                             <span class="form-message"></span>
                         </div>
                         <span class="validate-message">${validate}</span>
                         <div class="form-remember">
                             <input id="remember-account" name="remember-account" type="checkbox" checked value="on" class="check-remember">
-                            <label for="remember-account" class="remember-detail"> Remember this account</label>
+                            <label for="remember-account" class="remember-detail"> Remember me</label>
                         </div>
                         <button id="form-submit" class="form-submit">Login</button>
                         <div class="logreg-link">

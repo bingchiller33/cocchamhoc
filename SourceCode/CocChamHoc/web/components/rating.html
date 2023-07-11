@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>rate</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+            * {
+                font-family: Poppins, sans-serif;
+            }
+
+            body,
+            html {
+                padding: 0;
+                margin: 0;
+            }
+
+
+            div,
+            .full {
+                margin: 0;
+                padding: 0;
+            }
+
+            /****** Style Star Rating_1 Widget *****/
+            #rating_1 {
+                float: left;
+                border: 2px solid white;
+                margin-bottom: 24px;
+                margin-left: 16px;
+            }
+
+            #rating_1:hover {
+                cursor: pointer;
+            }
+
+            #rating_1>input {
+                display: none;
+                font-size: 14px;
+            }
+
+            /*ẩn input radio - vì chúng ta đã có .full là GUI*/
+            #rating_1>.full::before {
+                padding: 5px;
+                font-size: 1.25em;
+                font-family: FontAwesome;
+                display: inline-block;
+                content: "\f005";
+                cursor: pointer;
+            }
+
+            /*0.5 ngôi sao*/
+            #rating_1>.full {
+                color: #ddd;
+                float: right;
+            }
+
+            /*float:right để lật ngược các ngôi sao lại đúng theo thứ tự trong thực tế*/
+            /*thêm màu cho sao đã chọn và các ngôi sao phía trước*/
+            /*,
+            */
+            #rating_1:not(:checked)>.full:hover,
+            #rating_1:not(:checked)>.full:hover~.full,
+            #rating_1>input:checked~.full {
+                color: #FFD700;
+            }
+
+            /* Hover vào các sao phía trước ngôi sao đã chọn*/
+            #rating_1>input:checked+.full:hover,
+            #rating_1>input:checked~.full:hover,
+            #rating_1>.full:hover~input:checked~.full,
+            #rating_1>input:checked~.full:hover~.full {
+                color: #f1cd00;
+            }
+
+            .containerRate {
+                display: none;
+                position: fixed;
+                background-color: rgba(0, 0, 0, 0.2);
+                right: 0;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                z-index: 999;
+            }
+
+            #formRate_1 {
+                background-color: white;
+                width: 580px;
+                max-height: 342px;
+                overflow-y: auto;
+                margin: 6% auto;
+            }
+
+            .rate-title {
+                padding: 20px 16px 16px 8px;
+                margin: 0;
+                font-size: 22px;
+            }
+
+            .rate-guid {
+                margin-left: 8px;
+            }
+
+            .review-area {
+                padding: 8px;
+                resize: none;
+                margin-left: 21px;
+            }
+
+            .submit-desc {
+                font-size: 10px;
+                width: 400px;
+                color: rgb(116, 112, 112);
+            }
+            .btn-submit:hover {
+                background-color: #094687;
+            }
+            .btn-submit {
+                background-color: #0a67ca;
+                border: none;
+                border-radius: 2px;
+                padding: 6px 8px;
+                color: #ddd;
+                cursor: pointer;
+            }
+
+            .btn-review {
+                display: flex;
+                padding: 12px 22px;
+                justify-content: space-between;
+            }
+            #formRate_1>.head {
+                display: flex;
+                justify-content: space-between;
+            }
+            .cancel {
+                font-size: 32px;
+                padding: 0px 10px 4px;
+                line-height: 32px;
+                cursor: pointer;
+            }
+            .head>div {
+                margin: 8px 4px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="containerRate">
+            <form id="formRate_1">
+                <div class="head">
+                    <span class="rate-title">ten khoa hojc khoa hojc </span>
+                    <div>
+                        <span class="cancel">&times;</span>
+                    </div>
+                </div>
+                <small class="rate-guid">Your review</small>
+                <br />
+                <div id="rating_1">
+                    <input type="radio" id="star5" name="rating_1" value="5" />
+                    <label class="full" for="star5" title="Awesome - 5 stars"></label>
+
+                    <input type="radio" id="star4" name="rating_1" value="4" />
+                    <label class="full" for="star4" title="Pretty good - 4 stars"></label>
+
+                    <input type="radio" id="star3" name="rating_1" value="3" />
+                    <label class="full" for="star3" title="Meh - 3 stars"></label>
+
+                    <input type="radio" id="star2" name="rating_1" value="2" />
+                    <label class="full" for="star2" title="Kinda bad - 2 stars"></label>
+
+                    <input type="radio" id="star1" name="rating_1" value="1" />
+                    <label class="full" for="star1" title="Sucks big time - 1 star"></label>
+                </div>
+                <br />
+                <textarea placeholder="Write your review (optional)" class="review-area" id="review" name="review" rows="5" cols="76"></textarea>
+                <div class="btn-review">
+                    <span class="submit-desc">By clicking Submit, I agree that my feedback may be viewed by the COK community, in compliance with the COK Terms of Use and My Profile privacy settings.</span>
+                    <div>
+                        <input disabled class="btn-submit" type="submit">
+                    </div>
+                </div>
+            </form>
+            <span class="your-rate"></span>
+        </div>
+        <script>
+
+            document.querySelector('.cancel').addEventListener('click', (e) => {
+                const cancel = document.querySelector('.containerRate');
+                cancel.style.display = 'none'
+            });
+        </script>
+    </body>
+
+</html>

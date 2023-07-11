@@ -6,14 +6,14 @@
         <div class="bold">
             <a href="/">
                 <img class="navbar-logo" src="../assets/img/9716_Pepega.png" alt="alt"s style=""/>
-                <label>CHAM HOC</label>
+                <label style="cursor: pointer;">CHAM HOC</label>
             </a>
         </div>
         <nav class="nav-header">
             <ul>
                 <li><a href="/">HOME</a></li>
                 <li><a href="/">ABOUT US</a></li>
-                <li><a href="mycourse">MY COURSE</a></li>
+                <li><a href="/mycourse">MY COURSE</a></li>
             </ul>
         </nav>
         <div class="user-items">
@@ -23,8 +23,8 @@
                         ${user.getFullName()}
                     </button>
                     <div class="dropdown-content" id="myDropdown">
-                        <a class="dropdown-item" href="profile"><i class="fa-solid fa-user"></i>  Profile</a>
-                        <a class="dropdown-item" href="mycourse"><i class="fa-solid fa-book"></i>  My Course</a>
+                        <a class="dropdown-item" href="/profile"><i class="fa-solid fa-user"></i>  Profile</a>
+                        <a class="dropdown-item" href="/mycourse"><i class="fa-solid fa-book"></i>  My Course</a>
                         <c:if test="${user.role == '3'}">
                             <a class="dropdown-item admin-item" href="admin"><i class="fa-solid fa-pen-to-square"></i> Edit Course</a>
                         </c:if>

@@ -37,7 +37,6 @@ public class ChapterDAO extends MyDAO {
                 return c;
             }
         }
-
         return null;
     }
 
@@ -60,7 +59,6 @@ public class ChapterDAO extends MyDAO {
         while (rs.next()) {
             result.add(fromResultSet(rs));
         }
-
         return result;
     }
     //

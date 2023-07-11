@@ -1,0 +1,60 @@
+<%@page import="utils.TimeUtils" %>
+<%@ page pageEncoding="UTF-8" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<div class="header-container">
+    <div class="navbar">
+        <c:if test="${state==1}">
+        <div class="exam-inf">
+            <h1>${exam.examName}</h1>
+            <p>Time Limit: <span>${TimeUtils.toMins(TimeUtils.timeToInt(exam.getDuration().toString()))} mins</span></p>
+        </div>
+        <div class="nav-header">
+            Time Left<p id="timer"></p>
+        </div>
+        </c:if>
+        <c:if test="${state==2}">
+        <div class="course-title-container bold">
+            <a href="${backUrl}" class="back-btn"> <i class="fa-solid fa-arrow-left"></i> Back</a>
+        </div>
+        <div class="exam-inf">
+            <h1>${exam.examName}</h1>
+            <p>Time Limit: <span>${TimeUtils.toMins(TimeUtils.timeToInt(exam.getDuration().toString()))} mins</span></p>
+        </div>
+        <div>
+            
+        </div>
+        <div class="nav-header">
+            <p>Marks ${paper.score}/${questionCount}</p>
+            <p>Grade ${Math.ceil((paper.score/questionCount)*100)}%</p>
+        </div>
+        <div class="time-completion">
+            <p>Started on <fmt:formatDate value="${paper.timeStart}" pattern="dd-MMM-yyyy h:mm a" /></p>
+            <p>Completed on <fmt:formatDate value="${paper.timeEnd}" pattern="dd-MMM-yyyy h:mm a" /></p>
+        </div>
+        </c:if>
+    </div>
+</div>
+<style>
+    .header-container{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+    .exam-inf {
+        margin-left: 40px;
+    }
+    .exam-inf h1{
+        font-size: 16px;
+    }
+    .exam-inf p {
+        font-size: 12px;
+    }
+    .nav-header p {
+        font-size: 16px;
+    }
+    .time-completion p{
+        font-size: 16px;
+    }
+</style>
