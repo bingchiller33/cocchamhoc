@@ -11,6 +11,9 @@
 <c:set var="courseId" value="${empty param.courseId ? -1 : param.courseId}"></c:set>
 <c:set var="chapterId" value="${empty param.chapterId ? -1 : param.chapterId}"></c:set>
 <c:set var="lessonNumber" value="${empty param.lessonNumber ? -1 : param.lessonNumber}"></c:set>
+<c:set var="status" value="${status}" />
+<c:set var="progressd" value="${progressd}" />
+<c:set var="u" value="${u}" />
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -19,6 +22,7 @@
         <link rel="stylesheet" href="/assets/css/learnVideo.css"/>
     </head>
     <body>
+
         <div class="course-editor-frame">
             <div class="course-editor-header">
                 <%@include file="/components/headerEditCourse.jspf" %>
@@ -46,11 +50,14 @@
                             allowfullscreen></iframe>-->
                     <script class="video-frame" src="http://www.youtube.com/player_api"></script>
                          
-                    <div id="status" class="incomplete">
+                     <div id="status" class="incomplete"> 
                         <span>Progress status: </span>
-                        <span class="status complete">COMPLETE</span>
-                        <span class="status incomplete">INCOMPLETE</span>
-                        <br />
+                         
+<!--                         <c:if test="${progressd}">  
+                           </c:if> -->
+                        <span name="progressd" value="1" class="status complete">Complete</span>
+                      <span name="progressd" value="0" class="status incomplete">Incomplete</span>
+                      
                     </div>
                     <div>
                         <span id="played"></span> 
@@ -97,6 +104,7 @@
      var player;
      function onYouTubePlayerAPIReady() {
        
+       
          player = new YT.Player('played', {
            height: '100%',
            width: '100%',
@@ -117,6 +125,7 @@
      function onPlayerStateChange(event) {        
          if(event.data === 0) {            
             document.getElementById("status").className="complete";
+            window.location.href="/update-progress?courseId=${courseId}&chapterId=${chapterId}&lessonNumber=${lessonNumber}";
          }
      }
         </script>

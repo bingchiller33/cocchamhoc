@@ -5,95 +5,51 @@
 package dal;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import model.Category;
-import model.Chapter;
-
-import model.Course;
-import model.Lesson;
-
-import model.Level;
-
 /**
  *
  * @author LAPTOP
  */
 public class ProgressDAO extends MyDAO {
-    
-    public List<Course> listProgressCourse(int uId) {
-        List<Course> t = new ArrayList<>();
-        xSql = "select * from Courses C inner join UsersEnroll U on  C.CourseID = U.CourseID where U.UserId = ?  and U.[Status] = 'Learning'";
-        try {
+
+    public boolean getLessonProgress(int chapterId ,int lessonId, int userId) throws SQLException {
+        xSql = "select * from Progress where UserID = ? and LessonNumber = ? and ChapterID = ?";
             ps = con.prepareStatement(xSql);
-            ps.setInt(1, uId);
+            ps.setInt(1, chapterId);
+            ps.setInt(2, lessonId);
+            ps.setInt(3, userId);
             rs = ps.executeQuery();
-            while (rs.next()) {
-                Level level = new Level(rs.getInt(1), rs.getString(2));
-                Category category = new Category(rs.getInt(1), rs.getString(2));
-                t.add(new Course(rs.getInt("CourseID"),
-                        rs.getString("Title"),
-                        rs.getString("courseDescription"),
-                        rs.getString("CourseBannerImage"),
-                        rs.getDate("PublishDate"),
-                        rs.getString("Lecturer"),
-                        level,
-                        category,
-                        rs.getInt("DurationInSeconds")));
-            }
+            if (rs.next()) {
+                return rs.getBoolean("State");
+            } else {
+                
+                 xSql = "INSERT [dbo].[Progress] ([ChapterID], [LessonNumber], [UserID] , [State]) VALUES (?, ?, ?,?)";
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, chapterId);
+            ps.setInt(2, lessonId);
+            ps.setInt(3, userId);
+            ps.setBoolean(4, false);
             ps.execute();
-            ps.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return t;
-    }
-  public List<Lesson> getLessonData(int courseId) throws SQLException {
-        ArrayList<Lesson> lessons = new ArrayList<>();
-        xSql = "SELECT *\n"
-                + "FROM Lessons l\n"
-                + "JOIN Chapters c ON l.ChapterID = c.ChapterID\n"
-                + "JOIN Courses cr ON c.CourseID = cr.CourseID\n"
-                + "WHERE cr.CourseID = ?\n"
-                + "ORDER BY c.ChapterID ASC, l.LessonNumber;";
-        try {
-            ps = con.prepareStatement(xSql);
-            ps.setInt(1, courseId);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                Lesson l = new Lesson(
-                        rs.getInt("ChapterID"),
-                        rs.getInt("LessonNumber"),
-                        rs.getString("LessonName"),
-                        rs.getString("LessonDescription"),
-                        rs.getString("LessonVideo"));
-                lessons.add(l);
+            return false;
             }
-            ps.execute();
-            ps.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return lessons;
+       
+               
     }
-    public int quantityCourse(int uId) {
-        int quantityCourse = 0;
-        xSql = "select COUNT(*) as quantityCourses\n"
-                + "from Courses C inner join UsersEnroll U \n"
-                + "on  C.CourseID = U.CourseID \n"
-                + "where U.UserId = ?  and U.[Status] = 'Learning'\n"
-                + "group by U.UserId";
-        try {
+
+    public boolean setLessonProgress(int chapterId, int lessonId, int userId, boolean isComplete) throws SQLException {
+        getLessonProgress(chapterId, lessonId, userId);
+        xSql = "update Progress set State=? where UserID = ? and LessonNumber = ? and ChapterID = ?";
+        
             ps = con.prepareStatement(xSql);
-            ps.setInt(1, uId);
-            rs = ps.executeQuery();
-            while(rs.next()){
-                quantityCourse = rs.getInt(1);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return quantityCourse;
+            ps.setBoolean(1, isComplete);
+            ps.setInt(2, chapterId);
+            ps.setInt(3, lessonId);
+            ps.setInt(4, userId);
+            ps.executeUpdate();
+            
+          
+            
+        return true;
     }
-   
+
+
 }
