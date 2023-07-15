@@ -48,7 +48,13 @@
         </div>
         <div class="error-div">            
             <span id="password-error" class="error_msg"></span>
-            <span class="error_msg">${emailError}</span>
+            <% String emailMsg = (String) request.getSession().getAttribute("emailError"); %>
+            <% if (emailMsg != null) { %>
+            <div class="error_msg">
+                <%= emailMsg %>
+            </div>
+            <% request.getSession().removeAttribute("emailError"); %>
+            <% } %>
         </div>
         <div class="action-container">
             <input type="hidden" name="formId" value="changeEmailForm">
@@ -72,7 +78,13 @@
         </div>
         <div class="action-container">
             <input type="hidden" name="formId" value="changePasswordForm">
-            <span class="error_msg">${wrongPassword}</span>
+            <% String passwordMsg = (String) request.getSession().getAttribute("wrongPassword"); %>
+            <% if (passwordMsg != null) { %>
+            <div class="error_msg">
+                <%= passwordMsg %>
+            </div>
+            <% request.getSession().removeAttribute("wrongPassword"); %>
+            <% } %>
             <input type="submit" name="action" value="Save" class="btn-save align-right" disabled/>
         </div>
     </form>
@@ -95,19 +107,19 @@
         saveButton.style.display = 'inline-block';
         saveButton.disabled = false;
     }
+    
     function handleSubmitChangePassword(event) {
         var newPasswordInput = document.getElementById('changePassword-newPassword').value;
         var newPasswordError = document.getElementById('new-password-error');
         if (newPasswordInput.length === 0) {
             newPasswordError.textContent = 'Do not leave the field empty';
             event.preventDefault();
-        } else if (newPasswordInput.length < 9) {
-            newPasswordError.textContent = 'Password should be at least 9 characters long';
+        } else if (newPasswordInput.length < 8) {
+            newPasswordError.textContent = 'Password should be at least 8 characters long';
             event.preventDefault();
         } else {
             newPasswordError.textContent = '';
         }
-
     }
 
     function handleSubmitChangeEmail(event) {
@@ -121,20 +133,20 @@
         } else if (!isValidEmail(emailInput)) {
             passwordError.textContent = 'Email should be in correct format!';
             event.preventDefault();
-        } else if (passwordInput.length < 9) {
-            passwordError.textContent = 'Password should be at least 9 characters long';
+        } else if (passwordInput.length < 8) {
+            passwordError.textContent = 'Password should be at least 8 characters long';
             event.preventDefault();
         } else {
             passwordError.textContent = '';
         }
 
     }
-    
+
     function isValidEmail(email) {
-    // Regular expression for email validation
-    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
+        // Regular expression for email validation
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
 
 </script>
 
