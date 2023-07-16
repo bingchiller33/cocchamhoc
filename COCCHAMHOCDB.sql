@@ -38,12 +38,14 @@ CREATE TABLE Courses
     [CourseDescription] NTEXT NOT NULL,
     PublishDate DATE
         DEFAULT NULL,
+    IsDiscontinued BIT DEFAULT 0,
     Lecturer NVARCHAR(69) NOT NULL,
     DurationInSeconds INT NOT NULL,
     LevelID INT
         FOREIGN KEY REFERENCES dbo.Levels (LevelID),
     CategoryID INT
         FOREIGN KEY REFERENCES dbo.Categories (CategoryID),
+    NewVersionID INT FOREIGN KEY REFERENCES Courses(CourseID),
 );
 GO
 CREATE TABLE Chapters
@@ -118,6 +120,7 @@ CREATE TABLE [UsersEnroll]
         FOREIGN KEY REFERENCES dbo.Courses (CourseID),
     Status VARCHAR(100) CHECK (Status IN ( 'Learning', 'Complete' ))
         DEFAULT 'Learning',
+	Progress INT,
     PRIMARY KEY (
                     UserId,
                     CourseID
@@ -258,7 +261,7 @@ insert into UsersEnroll(UserID, CourseID, Status) values
 (3, 2, 'Learning'),
 (3, 3, 'Learning'),
 (3, 4, 'Learning'),
-(3, 5, 'Learning'),
+(3, 5, 'Learning')
 
 
 INSERT INTO dbo.Exams(ExamName, CourseID, Duration)VALUES( N'Module 1 Exam', 1, '00:30:00')

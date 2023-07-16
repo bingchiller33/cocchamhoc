@@ -24,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Chapter;
 import model.ChoiceCRUD;
+import model.Course;
 import model.ExamCRUD;
 import model.Lesson;
 import model.QuestionCRUD;
@@ -73,10 +74,11 @@ public class EditExamController extends HttpServlet {
             ExamCRUD exam = examDAO.getExamById(examId, courseId);
 
             Map<QuestionCRUD, List<ChoiceCRUD>> choiceMap = questionDAO.getGroupChoice(questions);
+            Course course = courseDAO.getCourseById(courseId);
 
             Chapter chapter = chapterDAO.getChapterByID(courseId, chapterNumber);
             request.setAttribute("backUrl", "/admin");
-            request.setAttribute("course", courseDAO.getCourseById(courseId));
+            request.setAttribute("course", course);
             request.setAttribute("chapters", chapters);
             request.setAttribute("chapter", chapter);
             request.setAttribute("lessonMap", lessonMap);
@@ -85,6 +87,7 @@ public class EditExamController extends HttpServlet {
             request.setAttribute("exam", exam);
             request.setAttribute("questions", questions);
             request.setAttribute("choiceMap", choiceMap);
+            request.setAttribute("showAdd", course.getPublishDate() == null);
             request.getRequestDispatcher("/courseEditor/editExam.jsp").include(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(EditLessonController.class.getName()).log(Level.SEVERE, null, ex);
