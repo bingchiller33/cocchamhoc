@@ -8,7 +8,6 @@ package controllers;
 import dal.MyCourseDAO;
 import dal.UserDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -46,7 +45,6 @@ public class UserManagementController extends HttpServlet {
             String userSearch = ParseUtils.defaultIfEmpty(request.getParameter("search"), "");
             
             UserDAO userDAO = new UserDAO();
-            
             
             List<User> users = userDAO.searchUsers(userSearch, role, page, size);
             Map<Integer, Integer> map = getCourseEnrolled(users);

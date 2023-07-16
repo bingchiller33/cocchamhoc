@@ -11,16 +11,22 @@ import java.util.Date;
  * @author LAPTOP
  */
 public class Rate {
+    private int ratingId;
     private int userId;
     private int courseId;
     private int rateNo;
+
+    public int getRatingId() {
+        return ratingId;
+    }
     private Date rateDate;
     private String review;
 
     public Rate() {
     }
 
-    public Rate(int userId, int courseId, int rateNo, Date rateDate, String review) {
+    public Rate(int ratingId, int userId, int courseId, int rateNo, Date rateDate, String review) {
+        this.ratingId = ratingId;
         this.userId = userId;
         this.courseId = courseId;
         this.rateNo = rateNo;
