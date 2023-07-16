@@ -38,12 +38,14 @@ CREATE TABLE Courses
     [CourseDescription] NTEXT NOT NULL,
     PublishDate DATE
         DEFAULT NULL,
+    IsDiscontinued BIT DEFAULT 0,
     Lecturer NVARCHAR(69) NOT NULL,
     DurationInSeconds INT NOT NULL,
     LevelID INT
         FOREIGN KEY REFERENCES dbo.Levels (LevelID),
     CategoryID INT
         FOREIGN KEY REFERENCES dbo.Categories (CategoryID),
+    NewVersionID INT FOREIGN KEY REFERENCES Courses(CourseID),
 );
 GO
 CREATE TABLE Chapters

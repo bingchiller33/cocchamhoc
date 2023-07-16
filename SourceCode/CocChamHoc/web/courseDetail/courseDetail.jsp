@@ -56,6 +56,21 @@
                 object-fit: contain;
                 border-radius: 10px;
             }
+
+            a.new-course-link {
+                text-decoration: unset;
+                color: rgb(0, 0, 238);
+            }
+            a.new-course-link:hover {
+                text-decoration: underline;
+            }
+
+            a.disabled[disabled] {
+                background: gray !important;
+                opacity: 0.8;
+                cursor: unset;
+            }
+
         </style>
     </head>
     <body>
@@ -89,9 +104,22 @@
                     <div><a href="/gotoLearn?courseId=${courseID}">Go To Course</a></div>
                 </c:if>
                 <c:if test="${isEnroll == false}">
-                    <div><a href="enroll?id=${courseID}">Enroll Now</a></div>
+                    <div>
+                        <c:if test="${courseData.isDiscontinued == false}">
+                            <a href="enroll?id=${courseID}">Enroll Now</a>
+                        </c:if>
+                        <c:if test="${courseData.isDiscontinued == true}">
+                            <a href="#" class="disabled" disabled><i class="fa-solid fa-lock"></i> Discontinued</a>
+                        </c:if>
+                    </div>
                 </c:if>
             </div>
+            <c:if test="${courseData.newVersionId > 0}">
+                <p><i class="fa-sharp fa-solid fa-lightbulb"></i> New version of this course <a class="new-course-link" href="/course?id=${courseData.newVersionId}">here</a>!</p>
+            </c:if>
+
+
+
             <div class="row">
                 <p id="des" class="active" onclick="view(this)">DESCRIPTION</p>             
                 <p id="rev" onclick="view(this)">SYLLABUS</p>
