@@ -8,6 +8,7 @@ import dal.CategoryDAO;
 import dal.ChapterDAO;
 import dal.CourseDAO;
 import dal.ExamCRUDDAO;
+import dal.LessonDAO;
 import dal.LevelDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -28,6 +29,7 @@ import model.Chapter;
 import model.Course;
 import model.ExamCRUD;
 import model.Lesson;
+import model.LessonLocation;
 import model.User;
 import utils.ParseUtils;
 
@@ -62,7 +64,7 @@ public class EditCourseController extends HttpServlet {
 
             Course course = courseDAO.getCourseById(courseId);
             if (course == null) {
-                response.sendRedirect("/admin/courses");
+                response.sendRedirect("/admin");
                 return;
             }
 
@@ -74,6 +76,7 @@ public class EditCourseController extends HttpServlet {
             User user = (User) session.getAttribute("user");
 
             request.setAttribute("backUrl", "/admin");
+            request.setAttribute("nextCourses", courseDAO.getCourse());
             request.setAttribute("chapters", chapters);
             request.setAttribute("lessonMap", lessonMap);
             request.setAttribute("course", course);
@@ -81,6 +84,7 @@ public class EditCourseController extends HttpServlet {
             request.setAttribute("levels", levels);
             request.setAttribute("exams", exams);
             request.setAttribute("admin", user != null && user.getRole() == 3);
+            request.setAttribute("showAdd", course.getPublishDate() == null);
 
             request.getRequestDispatcher("/courseEditor/editCourse.jsp").include(request, response);
         } catch (SQLException ex) {
@@ -138,13 +142,74 @@ public class EditCourseController extends HttpServlet {
 
         switch (action) {
             case "Save":
-            case "Publish":
-            case "Unpublish":
                 processSave(request, response);
+                break;
+            case "Publish":
+                processPublish(request, response);
+                break;
+            case "Discontinue":
+                processDiscontinue(request, response);
+                break;
+            case "Recontinue":
+                processRecontinue(request, response);
                 break;
             case "Delete":
                 processDelete(request, response);
                 break;
+        }
+    }
+
+    
+    private void processRecontinue(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            int courseId = ParseUtils.parseIntWithDefault(request.getParameter("courseId"), -1);
+            CourseDAO courseDAO = new CourseDAO();
+            courseDAO.setCourseDiscontinue(courseId, false);
+            request.setAttribute("status", "Recontinue course successfully!");
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(EditCourseController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void processDiscontinue(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            int courseId = ParseUtils.parseIntWithDefault(request.getParameter("courseId"), -1);
+            CourseDAO courseDAO = new CourseDAO();
+            courseDAO.setCourseDiscontinue(courseId, true);
+            request.setAttribute("status", "Discontinue course successfully!");
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(EditCourseController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void processPublish(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            int courseId = ParseUtils.parseIntWithDefault(request.getParameter("courseId"), -1);
+            CourseDAO courseDAO = new CourseDAO();
+            LessonLocation loc = courseDAO.getFirstLesson(courseId);
+
+            if (loc == null) {
+                request.setAttribute("status", "Please add a lesson before publish the course!");
+                processRequest(request, response);
+                return;
+            }
+
+            ExamCRUDDAO examDAO = new ExamCRUDDAO();
+            List<ExamCRUD> exams = examDAO.getExam(courseId);
+            if (exams.isEmpty()) {
+                request.setAttribute("status", "Please add an exam before publish the course!");
+                processRequest(request, response);
+                return;
+            }
+
+            request.setAttribute("status", "Publish successfully!");
+            processSave(request, response);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(EditCourseController.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -154,6 +219,7 @@ public class EditCourseController extends HttpServlet {
             String action = request.getParameter("action");
 
             int courseId = ParseUtils.parseIntWithDefault(request.getParameter("courseId"), -1);
+            int newVersionId = ParseUtils.parseIntWithDefault(request.getParameter("newVersionId"), -1);
             if (courseId == -1) {
                 response.sendRedirect("/admin/courses");
                 return;
@@ -178,10 +244,12 @@ public class EditCourseController extends HttpServlet {
                 publishDate = null;
             }
 
-            courseDAO.updateCourse(courseId, name, categoryId, levelId, lecturer, courseImgUrl, courseDesc, publishDate);
+            courseDAO.updateCourse(courseId, name, categoryId, levelId, newVersionId, lecturer, courseImgUrl, courseDesc, publishDate);
             processRequest(request, response);
+
         } catch (SQLException ex) {
-            Logger.getLogger(EditCourseController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditCourseController.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -195,8 +263,10 @@ public class EditCourseController extends HttpServlet {
             }
 
             response.sendRedirect("/admin");
+
         } catch (SQLException ex) {
-            Logger.getLogger(EditCourseController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditCourseController.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -16,6 +16,8 @@ public class Course {
     private String description;
     private String imgUrl;
     private Date publishDate;
+    private boolean isDiscontinued;
+    private int newVersionId;
     private int durationInSeconds;
     private String lecturer;
     private Level level;
@@ -24,12 +26,14 @@ public class Course {
     public Course() {
     }
 
-    public Course(int id, String title, String description, String imgUrl, Date publishDate, String lecturer, Level level, Category category, int durationInSeconds) {
+    public Course(int id, String title, String description, String imgUrl, Date publishDate, boolean isDiscontinued, int newVersionId, String lecturer, Level level, Category category, int durationInSeconds) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.imgUrl = imgUrl;
         this.publishDate = publishDate;
+        this.isDiscontinued = isDiscontinued;
+        this.newVersionId = newVersionId;
         this.lecturer = lecturer;
         this.level = level;
         this.category = category;
@@ -110,6 +114,24 @@ public class Course {
         this.durationInSeconds = durationInSeconds;
     }
 
+    public boolean isIsDiscontinued() {
+        return isDiscontinued;
+    }
+
+    public void setIsDiscontinued(boolean isDiscontinued) {
+        this.isDiscontinued = isDiscontinued;
+    }
+
+    public int getNewVersionId() {
+        return newVersionId;
+    }
+
+    public void setNewVersionId(int newVersionId) {
+        this.newVersionId = newVersionId;
+    }
+
+    
+    
     @Override
     public String toString() {
         return "Course{" + "id=" + id + ", title=" + title + ", description=" + description + ", imgUrl=" + imgUrl + ", publishDate=" + publishDate + ", duration=" + durationInSeconds + ", lecturer=" + lecturer + ", level=" + level + ", category=" + category + '}';

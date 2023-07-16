@@ -20,6 +20,7 @@ import model.Level;
 public class MyCourseDAO extends MyDAO {
 
     public List<Course> listMyCourse(int uId) {
+        CourseDAO courseDAO = new CourseDAO();
         List<Course> t = new ArrayList<>(); 
         xSql = "select * from Courses C inner join UsersEnroll U on  C.CourseID = U.CourseID where U.UserId = ?  and U.[Status] = 'Learning'";
         try {
@@ -27,17 +28,7 @@ public class MyCourseDAO extends MyDAO {
             ps.setInt(1, uId);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Level level = new Level(rs.getInt(1), rs.getString(2));
-                Category category = new Category(rs.getInt(1), rs.getString(2));
-                t.add(new Course(rs.getInt("CourseID"),
-                        rs.getString("Title"),
-                        rs.getString("courseDescription"),
-                        rs.getString("CourseBannerImage"),
-                        rs.getDate("PublishDate"),
-                        rs.getString("Lecturer"),
-                        level,
-                        category,
-                        rs.getInt("DurationInSeconds")));
+                t.add(courseDAO.fromResultSet(rs));
             }
             ps.execute();
             ps.close();
