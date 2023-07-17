@@ -4,6 +4,7 @@
  */
 package controllers;
 
+import dal.CertificateDAO;
 import dal.MyCourseDAO;
 import dal.UserDAO;
 import dal.UserEnrollDAO;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Certificates;
 import model.Course;
 import model.User;
 import utils.ParseUtils;
@@ -48,15 +50,17 @@ public class AdminUserDetailController extends HttpServlet {
             UserDAO userDAO = new UserDAO();
             MyCourseDAO myCourseDAO = new MyCourseDAO();
             UserEnrollDAO userEnrollDAO = new UserEnrollDAO();
-
+ 
+            CertificateDAO certificateDAO = new CertificateDAO();
             User u = userDAO.getUserById(id);
             List<Course> courses = myCourseDAO.listMyCourse(id);
+            List<Certificates> listCer = certificateDAO.getStatusCer(u.getUserID()); 
             Map<Integer, String> statMap = userEnrollDAO.getEnrollmentStatus(id);
-
             request.setAttribute("userd", u);
             request.setAttribute("courses", courses);
             request.setAttribute("statusMap", statMap);
-
+            request.setAttribute("id", id);
+            request.setAttribute("statusCer", listCer);
             request.getRequestDispatcher("/admin/editUser.jsp").include(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(AdminUserDetailController.class.getName()).log(Level.SEVERE, null, ex);
@@ -89,7 +93,13 @@ public class AdminUserDetailController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        CertificateDAO certificateDAO = new CertificateDAO();
         String action = ParseUtils.defaultIfEmpty(request.getParameter("action"), "");
+        int id = ParseUtils.parseIntWithDefault(request.getParameter("id"), -1);
+        int cId = ParseUtils.parseIntWithDefault(request.getParameter("cId"), -1);
+        int uId = ParseUtils.parseIntWithDefault(request.getParameter("uId"), -1);
+        System.out.println(cId);
+        certificateDAO.UpdateStatusCer(uId, cId); 
         switch (action) {
             case "Restrict":
                 processRestrict(request, response);
@@ -104,6 +114,7 @@ public class AdminUserDetailController extends HttpServlet {
                 processSaveProfile(request, response);
                 break;
         }
+        response.sendRedirect("/admin/userDetail?id=" + id);
     }
 
     /**

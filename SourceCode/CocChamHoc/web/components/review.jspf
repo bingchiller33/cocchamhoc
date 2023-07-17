@@ -1,6 +1,6 @@
 
 <div class="containerRate">
-    <form id="formRate_1" action="/course" method="POST">
+    <div id="formRate_1"  >
         <div class="head">
             <span class="rate-title">${titleName}</span>
             <div>
@@ -24,16 +24,16 @@
 
             <input type="radio" class="rate" id="star1-1" name="rating_1" value="1" />
             <label class="full" id="label-5" for="star1-1" title="Sucks big time - 1 star"></label>
-            <input type="hidden" id="id" name="id" value="${id}">
+            <!--<input type="hidden" id="id" name="id" value="${id}">-->
         </div>
         <br />
         <textarea placeholder="Write your review (optional)" class="review-area" id="review" name="review" rows="5" cols="76"></textarea>
         <div class="btn-review">
-            <span class="submit-desc">By clicking Submit, I agree that my feedback may be viewed by the COK community, in compliance with the COK Terms of Use and My Profile privacy settings.</span>
+            <span class="submit-desc">By clicking Submit, I agree that my feedback may be viewed by the COC community, in compliance with the COC Terms of Use and My Profile privacy settings.</span>
             <div>
                 <button disabled id="btn-submit" class="btn-submit_o">submit</button>
             </div>
         </div>
-    </form>
+    </div>
     <span class="your-rate"></span>
 </div> 
