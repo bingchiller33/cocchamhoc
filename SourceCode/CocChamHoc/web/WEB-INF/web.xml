@@ -40,6 +40,18 @@
         <servlet-name>ProfileController</servlet-name>
         <servlet-class>controllers.ProfileController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ReviewManagementController</servlet-name>
+        <servlet-class>controllers.ReviewManagementController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReviewManagementController</servlet-name>
+        <url-pattern>/admin/declineReport</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReviewManagementController</servlet-name>
+        <url-pattern>/admin/approveReport</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.css</url-pattern>
@@ -56,7 +68,7 @@
         <servlet-name>default</servlet-name>
         <url-pattern>*.jpg</url-pattern>
     </servlet-mapping>
-     <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.mp4</url-pattern>
     </servlet-mapping>

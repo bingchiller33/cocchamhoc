@@ -12,12 +12,16 @@ import java.util.Date;
  */
 public class Rate {
 
+    private int ratingId;
     private int userId;
     private int courseId;
     private int rateNo;
+
+    public int getRatingId() {
+        return ratingId;
+    }
     private Date rateDate;
-    private String review;
-    private int ratingId;
+    private String review; 
     private boolean isReported;
 
     public Rate() {

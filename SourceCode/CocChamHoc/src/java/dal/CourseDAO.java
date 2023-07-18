@@ -7,6 +7,7 @@ package dal;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import model.Category;
@@ -47,10 +48,11 @@ public class CourseDAO extends MyDAO {
      * @throws SQLException If an error occurs while executing the SQL query
      */
     public List<Course> searchCourses(
-            String searchQuery, int categoryId, int levelId, int durationLow, int durationHigh,
-            String sortName, String sortDuration, String sortPublishDate,
+            String searchQuery, int categoryId, int levelId, int durationLow, int durationHigh, boolean showHiddenCourses,
+            String sortName, String sortDuration, String sortPublishDate, 
             int page, int pageSize) throws SQLException {
         xSql = "select * " + searchCourseQuery
+                + (showHiddenCourses ? " " : " and c.IsDiscontinued = 0 and c.PublishDate is not null ")
                 + "order by " + getSortQuery(sortName, sortDuration, sortPublishDate) + " "
                 + "offset ? rows fetch next ? rows only";
 
@@ -124,10 +126,7 @@ public class CourseDAO extends MyDAO {
             ps = con.prepareStatement(xSql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Level level = new Level(rs.getInt("LevelID"), rs.getString("LevelDescription"));
-                Category cat = new Category(rs.getInt("CategoryID"), rs.getString("CategoryDescription"));
-                Course c = new Course(rs.getInt("CourseID"), rs.getString("Title"), rs.getString("CourseDescription"), rs.getString("CourseBannerImage"), rs.getDate("PublishDate"), rs.getString("Lecturer"), level, cat, rs.getInt("DurationInSeconds"));
-                list.add(c);
+                list.add(fromResultSet(rs));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -151,9 +150,10 @@ public class CourseDAO extends MyDAO {
      * @return
      * @throws SQLException
      */
-    public int searchCoursesCount(String searchQuery, int categoryId, int levelId, int durationLow, int durationHigh)
+    public int searchCoursesCount(String searchQuery, int categoryId, int levelId, int durationLow, int durationHigh, boolean showHiddenCourses)
             throws SQLException {
-        xSql = "select count(*) " + searchCourseQuery;
+        xSql = "select count(*) " + searchCourseQuery
+                + (showHiddenCourses ? "" : " and IsDiscontinued = 0 and PublishDate is not null ");
         ps = con.prepareStatement(xSql);
         ps.setString(1, searchQuery);
         ps.setString(2, "%" + searchQuery + "%");
@@ -170,7 +170,7 @@ public class CourseDAO extends MyDAO {
         rs.next();
         return rs.getInt(1);
     }
-    
+
     public Course getCourseById(int id) throws SQLException {
         xSql = "Select * from Courses c "
                 + "inner join Categories cat on c.CategoryID = cat.CategoryID "
@@ -213,19 +213,34 @@ public class CourseDAO extends MyDAO {
         return rs.getInt("CourseId");
     }
 
-    public void updateCourse(int courseId, String name, int categoryId, int levelId, String lecturer, String imgUrl, String description, Date publishDate) throws SQLException {
-        xSql = "update Courses set Title = ?, CategoryID = ?, LevelID = ?, Lecturer = ?, CourseBannerImage = ?, CourseDescription = ?, PublishDate = ? "
+    public void updateCourse(int courseId, String name, int categoryId, int levelId, int newVersionId, String lecturer, String imgUrl, String description, Date publishDate) throws SQLException {
+        xSql = "update Courses set Title = ?, CategoryID = ?, LevelID = ?, Lecturer = ?, NewVersionID = ?, CourseBannerImage = ?, CourseDescription = ?, PublishDate = ? "
                 + "where CourseId = ?";
         ps = con.prepareStatement(xSql);
         ps.setString(1, name);
         ps.setInt(2, categoryId);
         ps.setInt(3, levelId);
         ps.setString(4, lecturer);
-        ps.setString(5, imgUrl);
-        ps.setString(6, description);
-        ps.setDate(7, publishDate);
-        ps.setInt(8, courseId);
 
+        if (newVersionId < 1) {
+            ps.setNull(5, Types.INTEGER);
+        } else {
+            ps.setInt(5, newVersionId);
+        }
+
+        ps.setString(6, imgUrl);
+        ps.setString(7, description);
+        ps.setDate(8, publishDate);
+        ps.setInt(9, courseId);
+
+        ps.execute();
+    }
+
+    public void setCourseDiscontinue(int courseId, boolean isDiscontinued) throws SQLException {
+        xSql = "Update Courses set IsDiscontinued = ? where CourseID = ?";
+        ps = con.prepareStatement(xSql);
+        ps.setBoolean(1, isDiscontinued);
+        ps.setInt(2, courseId);
         ps.execute();
     }
 
@@ -244,12 +259,12 @@ public class CourseDAO extends MyDAO {
                 + "where c.CourseID = ?\n"
                 + "order by p.ChapterID asc, l.LessonNumber asc\n"
                 + "offset 0 row fetch next 1 row only";
-        
+
         ps = con.prepareStatement(xSql);
         ps.setInt(1, courseId);
         rs = ps.executeQuery();
-        
-        if(rs.next()) {
+
+        if (rs.next()) {
             return new LessonLocation(courseId, rs.getInt("ChapterId"), rs.getInt("LessonNumber"));
         }
         return null;
@@ -259,7 +274,7 @@ public class CourseDAO extends MyDAO {
         // Must join with category and level
         Level level = new Level(rs.getInt("LevelID"), rs.getString("LevelDescription"));
         Category cat = new Category(rs.getInt("CategoryID"), rs.getString("CategoryDescription"));
-        Course c = new Course(rs.getInt("CourseID"), rs.getString("Title"), rs.getString("CourseDescription"), rs.getString("CourseBannerImage"), rs.getDate("PublishDate"), rs.getString("Lecturer"), level, cat, rs.getInt("DurationInSeconds"));
+        Course c = new Course(rs.getInt("CourseID"), rs.getString("Title"), rs.getString("CourseDescription"), rs.getString("CourseBannerImage"), rs.getDate("PublishDate"), rs.getBoolean("IsDiscontinued"), rs.getInt("NewVersionID"), rs.getString("Lecturer"), level, cat, rs.getInt("DurationInSeconds"));
         return c;
     }
 
@@ -272,18 +287,7 @@ public class CourseDAO extends MyDAO {
             ps = con.prepareStatement(xSql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Level level = new Level(rs.getInt(1), rs.getString(2));
-                Category cat = new Category(rs.getInt(1), rs.getString(2));
-                Course c = new Course(rs.getInt("CourseID"),
-                        rs.getString("Title"),
-                        rs.getString("CourseDescription"),
-                        rs.getString("CourseBannerImage"),
-                        rs.getDate("PublishDate"),
-                        rs.getString("Lecturer"),
-                        level,
-                        cat,
-                        rs.getInt("DurationInSeconds"));
-                courses.add(c);
+                courses.add(new Course(rs.getInt("CourseID"), rs.getString("Title"), rs.getString("CourseDescription"), rs.getString("CourseBannerImage"), rs.getDate("PublishDate"), rs.getBoolean("IsDiscontinued"), rs.getInt("NewVersionID"), rs.getString("Lecturer"), null, null, rs.getInt("DurationInSeconds")));
             }
             ps.execute();
             ps.close();

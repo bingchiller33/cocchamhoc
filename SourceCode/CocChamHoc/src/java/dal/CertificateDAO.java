@@ -22,6 +22,7 @@ public class CertificateDAO extends MyDAO {
 
     public List<Course> getCourseCer(int uId) {
         List<Course> list = new ArrayList<>();
+        CourseDAO dao = new CourseDAO();
         xSql = "SELECT * \n"
                 + "FROM dbo.Courses JOIN dbo.Levels ON Levels.LevelID = Courses.LevelID \n"
                 + "JOIN dbo.Categories ON Categories.CategoryID = Courses.CategoryID \n"
@@ -32,10 +33,7 @@ public class CertificateDAO extends MyDAO {
             ps.setInt(1, uId);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Level level = new Level(rs.getInt("LevelID"), rs.getString("LevelDescription"));
-                Category cat = new Category(rs.getInt("CategoryID"), rs.getString("CategoryDescription"));
-                Course c = new Course(rs.getInt("CourseID"), rs.getString("Title"), rs.getString("CourseDescription"), rs.getString("CourseBannerImage"), rs.getDate("PublishDate"), rs.getString("Lecturer"), level, cat, rs.getInt("DurationInSeconds"));
-                list.add(c);
+                list.add(dao.fromResultSet(rs));
             }
         } catch (SQLException e) {
             e.printStackTrace();

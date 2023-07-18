@@ -38,12 +38,14 @@ CREATE TABLE Courses
     [CourseDescription] NTEXT NOT NULL,
     PublishDate DATE
         DEFAULT NULL,
+    IsDiscontinued BIT DEFAULT 0,
     Lecturer NVARCHAR(69) NOT NULL,
     DurationInSeconds INT NOT NULL,
     LevelID INT
         FOREIGN KEY REFERENCES dbo.Levels (LevelID),
     CategoryID INT
         FOREIGN KEY REFERENCES dbo.Categories (CategoryID),
+    NewVersionID INT FOREIGN KEY REFERENCES Courses(CourseID),
 );
 GO
 CREATE TABLE Chapters
@@ -162,6 +164,8 @@ CREATE TABLE Certificates
 );
 CREATE TABLE Ratings
 (
+    RatingID INT IDENTITY(1, 1),
+
     UserID INT
         FOREIGN KEY REFERENCES dbo.Users (UserID) ON DELETE CASCADE,
     CourseID INT
@@ -172,8 +176,9 @@ CREATE TABLE Ratings
     RateTime DATETIME
         DEFAULT GETDATE(),
     Review NTEXT,
+	IsReport BIT DEFAULT 0,
     PRIMARY KEY (
-                    UserID,
+         UserID,
                     CourseID
                 )
 );
