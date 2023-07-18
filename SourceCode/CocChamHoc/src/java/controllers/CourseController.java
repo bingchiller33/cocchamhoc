@@ -88,7 +88,6 @@ public class CourseController extends HttpServlet {
         List<Rate> list = rateDAO.getReviewRate(courseID, filterRate, pagination - 1, pageSize);
         int listCount = rateDAO.getSizeFilter(courseID, filterRate);
         int pageCount = (int) Math.ceil(listCount / (float) pageSize);
-        System.out.println(pagination);
         try {
             request.setAttribute("lessonData", lesson.getLessonData(courseID));
             request.setAttribute("courseData", cd.getCourseById(courseID));
@@ -156,13 +155,16 @@ public class CourseController extends HttpServlet {
             }
         }
         int rId = ParseUtils.parseIntWithDefault(request.getParameter("rId"), -1);
+        String reviewReport = request.getParameter("reviewReport");
         RateDAO rateDAO = new RateDAO();
         User user = (User) request.getSession().getAttribute("user");
         int userRateNo = 0;
         if (user != null && courseID > 0) {
             userRateNo = rateDAO.getUserRateNo(courseID, user.getUserID());
         }
-        if (rateNo <= 0 && user == null || rateNo > 0 && user != null || userRateNo != 0) {
+        if (user == null && status != null) {
+            response.sendRedirect("/login");
+        } else if (rateNo <= 0 && user == null || rateNo > 0 && user != null || userRateNo != 0) {
             if (user != null && courseID > 0) {
                 if (rateDAO.getCourseId(user.getUserID(), courseID).isEmpty()) {
                     rateDAO.insertRatings(courseID, user.getUserID(), rateNo, review);
@@ -187,6 +189,9 @@ public class CourseController extends HttpServlet {
             response.sendRedirect("/course?id=" + courseID);
         } else if (user == null && rateNo > 0) {
             response.sendRedirect("/login");
+        } else if (user != null && status != null) {
+            rateDAO.updateReport(courseID, rId);
+            response.sendRedirect("/course?id=" + courseID);
         }
     }
 
