@@ -22,9 +22,9 @@ public class RateDAO extends MyDAO {
         return new Rate(rs.getInt(1),
                 rs.getInt(2),
                 rs.getInt(3),
-                rs.getDate(4),
-                rs.getString(5),
-                rs.getInt(6),
+                rs.getInt(4),
+                rs.getDate(5),
+                rs.getString(6),
                 rs.getBoolean(7));
     }
 
