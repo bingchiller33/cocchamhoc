@@ -272,7 +272,7 @@ public class RateDAO extends MyDAO {
     }
 
     public void updateReport(int cId, int rId) {
-        xSql = "update Ratings set IsReported = 1 where CourseId = ? and RatingID = ?";
+        xSql = "update Ratings set IsReport = 1 where CourseId = ? and RatingID = ?";
         try {
             ps = con.prepareStatement(xSql);
             ps.setInt(1, cId);
@@ -386,10 +386,11 @@ public class RateDAO extends MyDAO {
         }
         return 0;
     }
-        public int getSizeFilter(int cid, int rateNo) {
+
+    public int getSizeFilter(int cid, int rateNo) {
         xSql = "select Count(*) from Ratings where Review is not null and CourseID = ? and (-1 = ? or Rating = ?) ";
         try {
-            ps = con.prepareStatement(xSql); 
+            ps = con.prepareStatement(xSql);
             ps.setInt(1, cid);
             ps.setInt(2, rateNo);
             ps.setInt(3, rateNo);
@@ -402,4 +403,79 @@ public class RateDAO extends MyDAO {
         }
         return 0;
     }
+
+    public List<Rate> getReportedList(int page, int size) {
+        List<Rate> list = new ArrayList<>();
+        try {
+            int offset = (page - 1) * size;
+            offset = offset < 0 ? 0 : offset;
+            xSql = "SELECT * FROM Ratings WHERE IsReported = 1 ORDER BY RatingID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, offset);
+            ps.setInt(2, size);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                list.add(rateResultSet(rs));
+
+            }
+
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public int getQuantityReport() {
+        int quantityReport = 0;
+        xSql = "SELECT COUNT(*) AS RecordCount\n"
+                + "FROM Ratings\n"
+                + "WHERE IsReported = 1";
+        try {
+            ps = con.prepareStatement(xSql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                quantityReport = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return quantityReport;
+    }
+
+    public boolean deleteRatingById(int ratingId) {
+        boolean result = false;
+        xSql = "DELETE FROM Ratings WHERE RatingID = ?";
+        try {
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, ratingId);
+            int rowsAffected = ps.executeUpdate();
+
+            if (rowsAffected > 0) {
+                result = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public boolean updateIsReportedById(int ratingId) {
+        boolean result = false;
+        xSql = "UPDATE Ratings SET IsReported = 0 WHERE RatingID = ?";
+        try {
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, ratingId);
+            int rowsAffected = ps.executeUpdate();
+
+            if (rowsAffected > 0) {
+                result = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 }

@@ -21,24 +21,20 @@ public class Rate {
         return ratingId;
     }
     private Date rateDate;
-    private String review; 
+    private String review;
     private boolean isReported;
 
     public Rate() {
     }
 
-    public Rate(int userId, int courseId, int rateNo, Date rateDate, String review, int ratingId, boolean isReported) {
+    public Rate(int ratingId, int userId, int courseId, int rateNo, Date rateDate, String review, boolean isReported) {
+        this.ratingId = ratingId;
         this.userId = userId;
         this.courseId = courseId;
         this.rateNo = rateNo;
         this.rateDate = rateDate;
         this.review = review;
-        this.ratingId = ratingId;
         this.isReported = isReported;
-    }
-
-    public int getRatingId() {
-        return ratingId;
     }
 
     public void setRatingId(int ratingId) {
