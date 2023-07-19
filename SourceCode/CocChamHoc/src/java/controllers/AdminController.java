@@ -47,7 +47,7 @@ public class AdminController extends HttpServlet {
 
         // Designer courses data
         User loggedUser = (User) request.getSession().getAttribute("user");
-        List<Course> courseByIdData = cd.getGetCourseById(loggedUser.getUserID());
+        List<Course> courseByIdData = cd.getAssignedCoursesById(loggedUser.getUserID());
         String filterValue = request.getParameter("filterValue");
 
         // Admin courses data

@@ -44,7 +44,6 @@
     <body>
         <%@include file="/components/header.jspf" %>
         <div class="article">
-
             <c:if test="${user.role == '3'}">
                 <div class="row">
                     <%@include file="/components/adminNavBar.jspf" %>
@@ -72,6 +71,7 @@
                                         <td>
                                             <a href="/admin/edit-course?courseId=${i.id}">Edit</a>
                                             <a href="/admin/edit-course?courseId=${i.id}&action=Delete">Delete</a>
+                                            <a style="background-color: beige" href="/admin/assign-course?courseId=${i.id}">Assign</a>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -108,7 +108,7 @@
                                             <c:when test="${filterValue == 'assigned'}">
                                             <th>Option</th>
                                             </c:when>
-                                    </c:choose>
+                                        </c:choose>
                                 </tr>
                                 <c:choose>
                                     <c:when test="${filterValue eq 'assigned'}">
@@ -161,8 +161,6 @@
 </html>
 
 <script>
-
-    // JavaScript
     document.addEventListener('DOMContentLoaded', function () {
         // Gắn sự kiện nghe (event listener) cho các phần tử filter
         const filterButtons = document.querySelectorAll('[name="filterValue"]');

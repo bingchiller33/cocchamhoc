@@ -162,6 +162,7 @@ CREATE TABLE Certificates
         FOREIGN KEY REFERENCES dbo.Courses (CourseID) ON DELETE CASCADE,
     IssueDate DATE NOT NULL,
 );
+GO
 CREATE TABLE Ratings
 (
     RatingID INT IDENTITY(1, 1),
@@ -176,19 +177,19 @@ CREATE TABLE Ratings
     RateTime DATETIME
         DEFAULT GETDATE(),
     Review NTEXT,
-	IsReport BIT DEFAULT 0,
+	IsReported BIT DEFAULT 0,
     PRIMARY KEY (
          UserID,
                     CourseID
                 )
 );
-
+GO
 CREATE TABLE CourseAssignment (
   UserId INT,
   CourseId INT,
   PRIMARY KEY (UserId, CourseId),
-  FOREIGN KEY (UserId) REFERENCES Users(UserID),
-  FOREIGN KEY (CourseId) REFERENCES Courses(CourseID)
+  FOREIGN KEY (UserId) REFERENCES Users(UserID) ON DELETE CASCADE,
+  FOREIGN KEY (CourseId) REFERENCES Courses(CourseID)ON DELETE CASCADE,
 );
 
 GO

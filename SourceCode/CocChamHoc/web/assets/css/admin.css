@@ -47,7 +47,7 @@ body{
     margin: 0 10%;
 }
 .title {
-    display: flex;    
+    display: flex;
     width: inherit;
 }
 .form-container img{

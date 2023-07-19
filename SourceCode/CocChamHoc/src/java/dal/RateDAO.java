@@ -272,7 +272,7 @@ public class RateDAO extends MyDAO {
     }
 
     public void updateReport(int cId, int rId) {
-        xSql = "update Ratings set IsReport = 1 where CourseId = ? and RatingID = ?";
+        xSql = "update Ratings set IsReported = 1 where CourseId = ? and RatingID = ?";
         try {
             ps = con.prepareStatement(xSql);
             ps.setInt(1, cId);

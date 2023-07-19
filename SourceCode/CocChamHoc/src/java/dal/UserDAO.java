@@ -12,7 +12,6 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  *
  * @author LAPTOP
@@ -50,7 +49,7 @@ public class UserDAO extends MyDAO {
         xSql = "select * from Users";
         try {
             ps = con.prepareStatement(xSql);
-            rs = ps.executeQuery(); 
+            rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(fromResultSet(rs));
             }
@@ -260,5 +259,47 @@ public class UserDAO extends MyDAO {
         }
 
         ps.execute();
+    }
+
+    public List getUnassignedDesigners(int courseId) {
+        List<User> list = new ArrayList<>();
+        xSql = "SELECT *\n"
+                + "FROM Users\n"
+                + "WHERE Role = 2 AND UserID NOT IN (\n"
+                + "    SELECT UserId\n"
+                + "    FROM CourseAssignment\n"
+                + "    WHERE CourseId = ?\n"
+                + ");";
+        try {
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, courseId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(fromResultSet(rs));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List getAssignedDesigners(int courseId) {
+        List<User> list = new ArrayList<>();
+        xSql = "SELECT *\n"
+                + "FROM Users\n"
+                + "INNER JOIN CourseAssignment "
+                + "ON Users.UserID = CourseAssignment.UserId\n"
+                + "WHERE CourseAssignment.CourseId = ? AND Users.Role = 2";
+        try {
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, courseId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(fromResultSet(rs));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }
