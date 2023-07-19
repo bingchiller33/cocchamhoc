@@ -49,7 +49,7 @@ public class CourseDAO extends MyDAO {
      */
     public List<Course> searchCourses(
             String searchQuery, int categoryId, int levelId, int durationLow, int durationHigh, boolean showHiddenCourses,
-            String sortName, String sortDuration, String sortPublishDate, 
+            String sortName, String sortDuration, String sortPublishDate,
             int page, int pageSize) throws SQLException {
         xSql = "select * " + searchCourseQuery
                 + (showHiddenCourses ? " " : " and c.IsDiscontinued = 0 and c.PublishDate is not null ")
@@ -295,6 +295,30 @@ public class CourseDAO extends MyDAO {
             e.printStackTrace();
         }
         return courses;
+    }
+
+    public List<Course> getGetCourseById(int userID) {
+        ArrayList<Course> list = new ArrayList<>();
+        xSql = "SELECT *\n"
+                + "FROM Courses\n"
+                + "JOIN Levels ON Levels.LevelID = Courses.LevelID\n"
+                + "JOIN Categories ON Categories.CategoryID = Courses.CategoryID\n"
+                + "WHERE Courses.CourseId IN (\n"
+                + "  SELECT CourseId\n"
+                + "  FROM CourseAssignment\n"
+                + "  WHERE UserId = ?\n"
+                + ");";
+        try {
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, userID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(fromResultSet(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
 }

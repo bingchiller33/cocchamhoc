@@ -182,6 +182,15 @@ CREATE TABLE Ratings
                     CourseID
                 )
 );
+
+CREATE TABLE CourseAssignment (
+  UserId INT,
+  CourseId INT,
+  PRIMARY KEY (UserId, CourseId),
+  FOREIGN KEY (UserId) REFERENCES Users(UserID),
+  FOREIGN KEY (CourseId) REFERENCES Courses(CourseID)
+);
+
 GO
 INSERT [dbo].[Categories] ([CategoryDescription]) VALUES (N'Programing')
 INSERT [dbo].[Categories] ([CategoryDescription]) VALUES (N'Design')
