@@ -47,31 +47,45 @@
                             <input class="btn-save" type="submit" name="action" value="Save Profile"/>
                         </div>
                     </form>
-
-                    <h2 style="margin-top: 1rem">Course Enrolled (${courses.size()})</h2>
-                    <table id="user-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Publish date</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="x" items="${courses}">
+                    <form method="POST" action="/admin/userDetail" id="formRevork">
+                        <h2 style="margin-top: 1rem">Course Enrolled (${courses.size()})</h2>
+                        <table id="user-table">
+                            <thead>
                                 <tr>
-                                    <th>${x.id}</th>
-                                    <th>${x.title}</th>
-                                    <th>${x.publishDate}</th>
-                                    <th>${statusMap[x.id]}</th>
-                                    <th><a class="btn-del" href="#">Unenroll</a></th>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Publish date</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-
+                            </thead>
+                            <tbody>
+                                <c:forEach var="x" items="${courses}">
+                                    <tr class="courseRow">
+                                        <th class="course_id">${x.id}</th>
+                                        <th>${x.title}</th>
+                                        <th>${x.publishDate}</th>
+                                        <th>${statusMap[x.id]}</th>
+                                        <th>
+                                            <c:if test="${statusMap[x.id]=='Complete'}" >
+                                                <c:forEach var="s" items="${statusCer}">   
+                                                    <c:if test="${s.status=='Revork'&& s.courseId == x.id }">
+                                                        <span onclick="handleClick(event)" class="btn-del">Revorked</span> 
+                                                    </c:if>
+                                                    <c:if test="${s.status=='Normal'&& s.courseId == x.id }">
+                                                        <span onclick="handleClick(event)" class="btn-del">Revork</span> 
+                                                    </c:if>
+                                                </c:forEach>
+                                            </c:if>
+                                        </th>
+                                    </tr> 
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                        <input type="hidden" value="" class="cId" name="cId"/>
+                        <input type="hidden" value="${id}" class="id" name="id"/> 
+                        <input type="hidden" name="uId" value="${userd.userID}"/>
+                    </form>
                     <h2 style="margin-top: 1rem">Role assignment</h2>
                     <form method="POST">
                         <p>Account <strong style="color: red">${userd.email}</strong> is currently <strong style="color: red">${UserUtils.getRoleName(userd.role)}</strong>:</p>
@@ -108,6 +122,7 @@
             </div>
         </div>
         <%@include file="/components/footer.jspf" %>
+        <<script src="../assets/js/revork.js"></script>
     </body>
     <style>
         #user-table {
@@ -128,5 +143,5 @@
             background-color: #1C1E53;
             color: white;
         }
-    </style>
+    </style> 
 </html>

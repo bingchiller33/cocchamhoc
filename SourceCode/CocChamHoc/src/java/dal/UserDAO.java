@@ -45,6 +45,21 @@ public class UserDAO extends MyDAO {
         return users;
     }
 
+    public List<User> getUsers() {
+        List<User> list = new ArrayList<>();
+        xSql = "select * from Users";
+        try {
+            ps = con.prepareStatement(xSql);
+            rs = ps.executeQuery(); 
+            while (rs.next()) {
+                list.add(fromResultSet(rs));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public int searchUserCount(String name, int role) throws SQLException {
         xSql = "select Count(*) from Users\n"
                 + "where (-1 = ? or Role = ?)\n"

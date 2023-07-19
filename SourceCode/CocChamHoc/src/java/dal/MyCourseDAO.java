@@ -18,11 +18,11 @@ import model.Level;
  * @author LAPTOP
  */
 public class MyCourseDAO extends MyDAO {
-
+//  and U.[Status] = 'Learning'
     public List<Course> listMyCourse(int uId) {
         CourseDAO courseDAO = new CourseDAO();
         List<Course> t = new ArrayList<>(); 
-        xSql = "select * from Courses C inner join UsersEnroll U on  C.CourseID = U.CourseID where U.UserId = ?  and U.[Status] = 'Learning'";
+        xSql = "select * from Courses C inner join UsersEnroll U on  C.CourseID = U.CourseID where U.UserId = ?";
         try {
             ps = con.prepareStatement(xSql);
             ps.setInt(1, uId);

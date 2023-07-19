@@ -38,4 +38,86 @@ document.querySelector('.cancel').addEventListener('click', (e) => {
 });
 
 var id = window.location.href.split("=");
-document.getElementById('id').value = id[1]; 
+document.getElementById('id').value = id[1];
+const getParentElement = (element, parent) => {
+    while (element.parentElement) {
+        if (element.parentElement.matches(parent)) {
+            return element.parentElement;
+        }
+        element = element.parentElement;
+    }
+};
+const handleClickChoice = (event) => {
+    let userChoice_item = getParentElement(event.target, '.user_choice').querySelector('.user_choice_item');
+    if (userChoice_item.style.display !== 'block') {
+        userChoice_item.style.display = 'block';
+    } else {
+        userChoice_item.style.display = 'none';
+    }
+};
+const handleChocie = (event) => {
+    console.log(event.target);
+    let userChoice_item = getParentElement(event.target, '.review').querySelector('.user_choice_item');
+    let bodyContent = getParentElement(event.target, '.review').querySelector('.body-content');
+    let reviewUpdate = getParentElement(event.target, '.review').querySelector('.reviewUpdate');
+    let formStatus = document.querySelector('#form_status');
+    if (event.target.innerText === 'Report') {
+        document.querySelector('#status').value = event.target.innerText;
+        formStatus.submit();
+    }
+    if (event.target.innerText === 'Edit') {
+        reviewUpdate.type = 'text';
+        reviewUpdate.value = bodyContent.innerText;
+        reviewUpdate.focus();
+        reviewUpdate.setSelectionRange(reviewUpdate.value.length, reviewUpdate.value.length);
+        if (userChoice_item.style.display !== 'none') {
+            userChoice_item.style.display = 'none';
+        }
+        reviewUpdate.addEventListener('keydown', (kevent) => {
+            if (kevent.key === 'Enter') {
+                formStatus.submit();
+            }
+        });
+        reviewUpdate.addEventListener('blur', () => {
+            if (reviewUpdate.type === 'text') {
+                reviewUpdate.value = "";
+                reviewUpdate.type = 'hidden';
+            }
+        });
+    }
+    if (event.target.innerText === 'Delete') {
+        document.querySelector('#status').value = event.target.innerText;
+        formStatus.submit();
+    }
+};
+const hanleFilterStar = (event) => {
+    let formStatus = document.querySelector('#form_status');
+    let filterRate = getParentElement(event.target, '.search_rate_star').querySelector('.filterRate');
+    if (event.target.innerText === 'All') {
+        filterRate.value = -1;
+        formStatus.submit();
+    } else if (event.target.innerText === '5 Star') {
+        filterRate.value = 5;
+        formStatus.submit();
+    } else if (event.target.innerText === '4 Star') {
+        filterRate.value = 4;
+        formStatus.submit();
+    } else if (event.target.innerText === '3 Star') {
+        filterRate.value = 3;
+        formStatus.submit();
+    } else if (event.target.innerText === '2 Star') {
+        filterRate.value = 2;
+        formStatus.submit();
+    } else if (event.target.innerText === '1 Star') {
+        filterRate.value = 1;
+        formStatus.submit();
+    }
+    console.log(filterRate.value)
+};
+const selectFilterRate = (e) => {
+    let formStatus = document.querySelector('#form_status');
+    let pagination = getParentElement(event.target, '.course-pagination').querySelector('.pagination');
+    pagination.value = e.value;
+    console.log(e.value);
+    formStatus.submit();
+}
