@@ -7,7 +7,6 @@ package controllers;
 import dal.CourseDAO;
 import dal.UserDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,23 +29,24 @@ public class AssignCourseController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try {
             int courseId = ParseUtils.parseIntWithDefault(request.getParameter("courseId"), -1);
+            int assignedPage = ParseUtils.parseIntWithDefault(request.getParameter("assignedPage"), -1);
+            int unassignedPage = ParseUtils.parseIntWithDefault(request.getParameter("unassignedPage"), -1);
 
-            UserDAO userDAO = new UserDAO();
             CourseDAO courseDAO = new CourseDAO();
             List<Course> courseData = courseDAO.getCourse();
-            List unassignedList = userDAO.getUnassignedDesigners(courseId);
-            List assignedList = userDAO.getAssignedDesigners(courseId);
             Course course = courseDAO.getCourseById(courseId);
             if (course == null) {
                 response.sendRedirect("/admin");
                 return;
             }
-            
-            request.setAttribute("assignedList", assignedList);
+
+            displayAssignedDesignersList(request, assignedPage, courseId);
+            displayUnassignedDesignersList(request, unassignedPage, courseId);
+
+            request.setAttribute("backName", "admin");
             request.setAttribute("backUrl", "/admin");
             request.setAttribute("course", course);
             request.setAttribute("courseData", courseData);
-            request.setAttribute("unassignedList", unassignedList);
             request.getRequestDispatcher("/admin/assignCourse.jsp").include(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(EditCourseController.class.getName()).log(Level.SEVERE, null, ex);
@@ -72,8 +72,40 @@ public class AssignCourseController extends HttpServlet {
                 courseDAO.assignCourseToDesigner(courseId, designerId);
             }
         }
-        
+
         response.sendRedirect(request.getContextPath() + "/admin/assign-course?courseId=" + courseId);
+    }
+
+    private void displayAssignedDesignersList(HttpServletRequest request, int page, int courseId) {
+        int size = 5;
+        String searchAssigned = ParseUtils.defaultIfEmpty(request.getParameter("searchAssigned"), "");
+
+        UserDAO userDAO = new UserDAO();
+
+        List assignedList = userDAO.getAssignedDesigners(page, size, courseId, searchAssigned);
+
+        int totalCount = userDAO.getAssignedDesignersCount(courseId);
+        int pageCount = (int) Math.ceil((double) totalCount / size);
+
+        request.setAttribute("assignedPageCount", pageCount);
+        request.setAttribute("assignedListCount", size);
+        request.setAttribute("assignedList", assignedList);
+    }
+
+    private void displayUnassignedDesignersList(HttpServletRequest request, int page, int courseId) {
+        int size = 5;
+        String searchUnassigned = ParseUtils.defaultIfEmpty(request.getParameter("searchUnassigned"), "");
+
+        UserDAO userDAO = new UserDAO();
+
+        List unassignedList = userDAO.getUnassignedDesigners(page, size, courseId, searchUnassigned);
+
+        int totalCount = userDAO.getUnassignedDesignersCount(courseId);
+        int pageCount = (int) Math.ceil((double) totalCount / size);
+
+        request.setAttribute("unassignedPageCount", pageCount);
+        request.setAttribute("unassignedListCount", size);
+        request.setAttribute("unassignedList", unassignedList);
     }
 
 }
