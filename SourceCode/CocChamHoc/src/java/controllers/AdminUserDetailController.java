@@ -46,7 +46,7 @@ public class AdminUserDetailController extends HttpServlet {
             throws ServletException, IOException {
         try {
             int id = ParseUtils.parseIntWithDefault(request.getParameter("id"), -1);
-
+            System.out.println(id);
             UserDAO userDAO = new UserDAO();
             MyCourseDAO myCourseDAO = new MyCourseDAO();
             UserEnrollDAO userEnrollDAO = new UserEnrollDAO();
