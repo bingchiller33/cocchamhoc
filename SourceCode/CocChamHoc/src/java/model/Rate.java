@@ -11,6 +11,7 @@ import java.util.Date;
  * @author LAPTOP
  */
 public class Rate {
+
     private int ratingId;
     private int userId;
     private int courseId;
@@ -21,17 +22,31 @@ public class Rate {
     }
     private Date rateDate;
     private String review;
+    private boolean isReported;
 
     public Rate() {
     }
 
-    public Rate(int ratingId, int userId, int courseId, int rateNo, Date rateDate, String review) {
+    public Rate(int ratingId, int userId, int courseId, int rateNo, Date rateDate, String review, boolean isReported) {
         this.ratingId = ratingId;
         this.userId = userId;
         this.courseId = courseId;
         this.rateNo = rateNo;
         this.rateDate = rateDate;
         this.review = review;
+        this.isReported = isReported;
+    }
+
+    public void setRatingId(int ratingId) {
+        this.ratingId = ratingId;
+    }
+
+    public boolean isIsReported() {
+        return isReported;
+    }
+
+    public void setIsReported(boolean isReported) {
+        this.isReported = isReported;
     }
 
     public int getUserId() {
@@ -73,7 +88,5 @@ public class Rate {
     public void setRateNo(int rateNo) {
         this.rateNo = rateNo;
     }
-    
-    
-    
+
 }

@@ -18,7 +18,7 @@ import model.Level;
  * @author LAPTOP
  */
 public class MyCourseDAO extends MyDAO {
-
+//  and U.[Status] = 'Learning'
     public List<Course> listMyCourse(int uId) {
         CourseDAO courseDAO = new CourseDAO();
         List<Course> t = new ArrayList<>();

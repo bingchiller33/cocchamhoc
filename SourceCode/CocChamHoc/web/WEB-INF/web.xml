@@ -44,6 +44,10 @@
         <servlet-name>ReviewManagementController</servlet-name>
         <servlet-class>controllers.ReviewManagementController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AssignCourseController</servlet-name>
+        <servlet-class>controllers.AssignCourseController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ReviewManagementController</servlet-name>
         <url-pattern>/admin/declineReport</url-pattern>
@@ -79,6 +83,10 @@
     <servlet-mapping>
         <servlet-name>ProfileController</servlet-name>
         <url-pattern>/profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AssignCourseController</servlet-name>
+        <url-pattern>/admin/assign-course</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

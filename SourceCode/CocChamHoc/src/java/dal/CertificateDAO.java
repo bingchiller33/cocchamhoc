@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Category;
+import model.Certificates;
 import model.Course;
 import model.Exam;
 import model.Level;
@@ -111,5 +112,38 @@ public class CertificateDAO extends MyDAO {
         ps.setInt(1, userId);
         ps.setInt(2, courseId);
         ps.executeUpdate();
+    }
+    public void UpdateStatusCer(int uId, int cId){
+        xSql = "update Certificates set Status='Revork' where CourseID = ? and UserID = ?";
+        try {
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, cId);
+            ps.setInt(2, uId);
+            ps.execute();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public List<Certificates> getStatusCer(int uId){
+        List<Certificates> list = new ArrayList<>();
+        xSql = "select * from Certificates where UserID = ?";
+        try {
+            ps = con.prepareStatement(xSql); 
+            ps.setInt(1, uId);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                list.add(new Certificates(rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getDate(3),
+                        rs.getString(4)));
+            }
+            ps.execute();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }
