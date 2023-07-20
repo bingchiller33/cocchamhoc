@@ -1,0 +1,28 @@
+<%-- any content can be specified here e.g.: --%>
+<%@page pageEncoding="UTF-8" %>
+<%@page import="java.util.*" %>
+<%@page import="utils.*" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<form class="course-pagination">
+    <p>Page: ${param.page} </p>
+    <c:set var="page" value="${empty param.page ? 1 : param.page}"></c:set>
+    <c:set var="pages" value="${PaginationUtils.getWindow(page, pageCount, 5)}"></c:set>
+    <c:if test="${!PaginationUtils.contains(pages, 1)}">
+        <input class="d-none" type="radio" name="page" value="1" id="pagination-choice-1" onclick="selectFilter(event)" ${page == 1 ? "checked" : ""}/> 
+        <label for="pagination-choice-1">1</label>
+    </c:if>
+    <c:if test="${PaginationUtils.includeDots(pages, pageCount, 2)}">
+        <span>...</span>
+    </c:if>
+    <c:forEach var="item" items="${pages}">
+        <input class="d-none" type="radio" name="page" value="${item}" id="pagination-choice-${item}" onclick="selectFilter(event)" ${page == item ? "checked" : ""}/> 
+        <label for="pagination-choice-${item}">${item}</label>
+    </c:forEach>
+    <c:if test="${PaginationUtils.includeDots(pages, pageCount, pageCount - 1)}">
+        <span>...</span>
+    </c:if>
+    <c:if test="${!PaginationUtils.contains(pages, pageCount)}">
+        <input class="d-none" type="radio" name="page" value="${pageCount}" id="pagination-choice-${pageCount}" onclick="selectFilter(event)" ${page == pageCount ? "checked" : ""}/> 
+        <label for="pagination-choice-${pageCount}">${pageCount}</label>
+    </c:if>
+</form>
