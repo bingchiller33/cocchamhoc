@@ -19,23 +19,23 @@ import model.Rate;
 public class RateDAO extends MyDAO {
 
     public Rate rateResultSet(ResultSet rs) throws SQLException {
-        return new Rate(
-                rs.getInt(1),
+        return new Rate(rs.getInt(1),
                 rs.getInt(2),
                 rs.getInt(3),
                 rs.getInt(4),
                 rs.getDate(5),
-                rs.getString(6));
+                rs.getString(6),
+                rs.getBoolean(7));
     }
 
     public void insertRatings(int cId, int uId, int rateNo, String review) {
         if ((rateNo < 1 || rateNo > 5)) {
             return;
         }
-        if (!review.trim().isEmpty() || review.trim() != null) {
+        if (!review.trim().isEmpty()) {
             xSql = "insert into Ratings(UserID, CourseID, Rating, Review) values (?, ?, ?, ?)";
         }
-        if (review.trim().isEmpty() || review.trim() == null) {
+        if (review.trim().isEmpty()) {
             xSql = "insert into Ratings(UserID, CourseID, Rating) values (?, ?, ?)";
         }
         try {
@@ -43,7 +43,7 @@ public class RateDAO extends MyDAO {
             ps.setInt(1, uId);
             ps.setInt(2, cId);
             ps.setInt(3, rateNo);
-            if (!review.trim().isEmpty() || review.trim() != null) {
+            if (!review.trim().isEmpty()) {
                 ps.setString(4, review);
             }
             ps.execute();
@@ -229,12 +229,19 @@ public class RateDAO extends MyDAO {
         return null;
     }
 
-    public List<Rate> getReviewRate(int cid) {
+    public List<Rate> getReviewRate(int cid, int rateNo, int page, int pageSize) {
         List<Rate> list = new ArrayList<>();
+        int offset = page * pageSize;
         try {
-            xSql = "select * from Ratings where Review is not null and CourseID = ? order by RateTime desc";
+            xSql = "select * from Ratings "
+                    + "where Review is not null and CourseID = ? and (-1 = ? or Rating = ?) "
+                    + "order by RateTime desc offset ? rows fetch next ? rows only";
             ps = con.prepareStatement(xSql);
             ps.setInt(1, cid);
+            ps.setInt(2, rateNo);
+            ps.setInt(3, rateNo);
+            ps.setInt(4, offset);
+            ps.setInt(5, pageSize);
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(rateResultSet(rs));
@@ -262,6 +269,139 @@ public class RateDAO extends MyDAO {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public void updateReport(int cId, int rId) {
+        xSql = "update Ratings set IsReported = 1 where CourseId = ? and RatingID = ?";
+        try {
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, cId);
+            ps.setInt(2, rId);
+            ps.execute();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteRate(int cId, int uId) {
+        xSql = "delete Ratings where CourseID = ? and UserId = ?";
+        try {
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, cId);
+            ps.setInt(2, uId);
+            ps.execute();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getQuantity5(int cId) {
+        xSql = "select Count(*) from Ratings where Rating = 5 and CourseID = ?";
+        try {
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, cId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getQuantity4(int cId) {
+        xSql = "select Count(*) from Ratings where Rating = 4 and CourseID = ?";
+        try {
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, cId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getQuantity3(int cId) {
+        xSql = "select Count(*) from Ratings where Rating = 3 and CourseID = ?";
+        try {
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, cId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getQuantity2(int cId) {
+        xSql = "select Count(*) from Ratings where Rating = 2 and CourseID = ?";
+        try {
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, cId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getQuantity1(int cId) {
+        xSql = "select Count(*) from Ratings where Rating = 1 and CourseID = ?";
+        try {
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, cId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getQuantityAll(int cId) {
+        xSql = "select Count(*) from Ratings where CourseID = ?";
+        try {
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, cId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getSizeFilter(int cid, int rateNo) {
+        xSql = "select Count(*) from Ratings where Review is not null and CourseID = ? and (-1 = ? or Rating = ?) ";
+        try {
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, cid);
+            ps.setInt(2, rateNo);
+            ps.setInt(3, rateNo);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public List<Rate> getReportedList(int page, int size) {
@@ -321,7 +461,6 @@ public class RateDAO extends MyDAO {
         return result;
     }
 
-    
     public boolean updateIsReportedById(int ratingId) {
         boolean result = false;
         xSql = "UPDATE Ratings SET IsReported = 0 WHERE RatingID = ?";
@@ -338,5 +477,5 @@ public class RateDAO extends MyDAO {
         }
         return result;
     }
-    
+
 }

@@ -40,7 +40,10 @@ label {
     content: "☆";
     cursor: pointer;
 }
-
+.page {
+    position: absolute;
+    left: -9999px;
+}
 /*0.5 ngôi sao*/
 #rating>label {
     color: #000;
@@ -217,9 +220,7 @@ div,
 .container_review {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
-    max-height: 524px;
-    overflow-y: auto;
+    flex-wrap: wrap; 
 }
 .container_review::-webkit-scrollbar {
     display: none;
@@ -228,7 +229,7 @@ div,
 .review {
     width: 60%;
     background-color: rgb(246, 247, 249);
-    padding: 8px 12px 8px;
+    padding: 8px 52px 8px;
 }
 
 .header-user {
@@ -244,22 +245,155 @@ div,
     width: 32px;
     height: 30px;
 }
-.user-name {
+.user-icon {
     margin: 0;
+    font-size: 18px;
+}
+.user-name {
+    margin-top: 6px;
+    font-size: 13px;
+}
+.header-item {
+    display: flex;
+    justify-content: space-between;
+}
+.user_choice {
+    position: relative;
 }
 .header-time {
-    font-size: 12px;
+    font-size: 9px;
+    padding-right: 12px;
 }
-
+#form_status {
+    width: 100%;
+}
+.reviewUpdate {
+    width: 100%;
+    height: 40px;
+    padding-left: 19px;
+    border-radius: 12px;
+}
+.user_choice-icon_label {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.user_choice-icon {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.user_choice_item {
+    position: absolute;
+    font-size: 12px;
+    top: 27px;
+    right: 9px;
+    background-color: #FFF;
+    display: none;
+}
+.user_choice-edit {
+    cursor: pointer;
+    padding: 4px 22px 0px;
+}
+.user_choice-report {
+    cursor: pointer;
+    padding: 0px 22px 4px;
+}
+.user_choice-edit:hover, .user_choice-report:hover {
+    opacity: 0.8;
+}
 .review-body {
     font-size: 14px;
-    margin-left: 48px;
 }
-
+.item-head {
+    display: flex;
+}
 .body-content {
     margin: 8px 0 0 0;
 }
-
+.hidden-input {
+    /*    position: absolute;
+        left: -9999px;*/
+}
 .width {
     width: 100%
+}
+.review-header {
+    /*display: flex;*/
+}
+.rate_infor {
+    display: flex;
+}
+#rating_2 {
+    float: left;
+    line-height: -1px;
+}
+
+#rating_2:hover {
+    cursor: pointer;
+}
+
+#rating_2>.rate {
+    display: none;
+    font-size: 14px;
+}
+
+#rating_2>.full_1::before {
+    font-size: 0.8em;
+    font-family: FontAwesome;
+    display: inline-block;
+    content: "☆";
+    cursor: pointer;
+}
+
+#rating_2>.full_1 {
+    color: #000;
+    float: right;
+}
+
+#rating_2:not(:checked)>.full_1:hover::before,
+#rating_2:not(:checked)>.full_1:hover~.full_1::before,
+#rating_2>.rate:checked~.full_1::before {
+    color: #FFD700;
+    content: "★";
+}
+
+#rating_2>.rate:checked+.full_1:hover,
+#rating_2>.rate:checked~.full_1:hover,
+#rating_2>.full_1-1:hover~.rate:checked~.full_1,
+#rating_2>.rate:checked~.full_1:hover~.full_1 {
+    color: #f1cd00;
+}
+
+/*.containerRate {
+    display: none;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.2);
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 999;
+}*/
+
+/*#formRate_1 {
+    background-color: white;
+    width: 580px;
+    max-height: 342px;
+    overflow-y: auto;
+    margin: 6% auto;
+}*/
+.search_rate_star_list {
+    display: flex;
+    justify-content: center;
+}
+.search_rate_star_item {
+    padding: 2px 4px;
+    cursor: pointer;
+    border-left: 0.5px solid #CCC; 
+    margin-bottom: 24px;
+}
+.search_rate_star_item1 {
+    border-right: 0.5px solid #CCC;
+}
+#form_status {
+    margin-bottom: 40px;
 }

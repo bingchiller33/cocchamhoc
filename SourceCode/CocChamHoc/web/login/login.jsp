@@ -41,11 +41,11 @@
                             <p class="right-desc">Fill your info</p>
                         </div>
                         <div class="form-group">
-                            <input id="email" name="email" value="${email==null?'':email}" type="text" placeholder="Email" class="form-control">
+                            <input id="email" name="email" value="${email==null?'admin@gmail.com':email}" type="text" placeholder="Email" class="form-control">
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
-                            <input id="password" name="password" value="${password==null?'':password}" type="password" placeholder="Password" class="form-control">
+                            <input id="password" name="password" value="${password==null?'12345678':password}" type="password" placeholder="Password" class="form-control">
                             <span class="form-message"></span>
                         </div>
                         <span class="validate-message">${validate}</span>

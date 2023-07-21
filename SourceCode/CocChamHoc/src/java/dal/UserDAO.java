@@ -12,7 +12,6 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  *
  * @author LAPTOP
@@ -43,6 +42,21 @@ public class UserDAO extends MyDAO {
         }
 
         return users;
+    }
+
+    public List<User> getUsers() {
+        List<User> list = new ArrayList<>();
+        xSql = "select * from Users";
+        try {
+            ps = con.prepareStatement(xSql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(fromResultSet(rs));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
     public int searchUserCount(String name, int role) throws SQLException {
@@ -245,5 +259,129 @@ public class UserDAO extends MyDAO {
         }
 
         ps.execute();
+    }
+
+    public List<User> getUnassignedDesigners(int page, int size, int courseId, String search) {
+        List<User> list = new ArrayList<>();
+        int offset = (page - 1) * size;
+        offset = offset < 0 ? 0 : offset;
+
+        xSql = "SELECT *\n"
+                + "FROM Users\n"
+                + "WHERE Role = 2 AND UserID NOT IN (\n"
+                + "    SELECT UserId\n"
+                + "    FROM CourseAssignment\n"
+                + "    WHERE CourseId = ?\n"
+                + ")";
+
+        // Add the search condition if the search value is not empty
+        if (search != null && !search.trim().isEmpty()) {
+            xSql += " AND (Users.UserName LIKE ?)";
+        }
+        xSql += " ORDER BY Users.UserID" // Move the ORDER BY clause here
+                + " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        try {
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, courseId);
+            int paramIndex = 2;
+
+            if (search != null && !search.trim().isEmpty()) {
+                ps.setString(paramIndex, "%" + search + "%");
+                paramIndex++;
+            }
+
+            ps.setInt(paramIndex++, offset); // Set the offset parameter
+            ps.setInt(paramIndex, size);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(fromResultSet(rs));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<User> getAssignedDesigners(int page, int size, int courseId, String search) {
+        List<User> list = new ArrayList<>();
+        int offset = (page - 1) * size;
+        offset = offset < 0 ? 0 : offset;
+        // SQL query with the search condition
+        xSql = "SELECT *\n"
+                + "FROM Users\n"
+                + "INNER JOIN CourseAssignment "
+                + "ON Users.UserID = CourseAssignment.UserId\n"
+                + "WHERE CourseAssignment.CourseId = ? AND Users.Role = 2";
+
+        // Add the search condition if the search value is not empty
+        if (search != null && !search.trim().isEmpty()) {
+            xSql += " AND (Users.UserName LIKE ?)";
+        }
+        xSql += " ORDER BY Users.UserID" // Move the ORDER BY clause here
+                + " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        try {
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, courseId);
+            int paramIndex = 2;
+
+            if (search != null && !search.trim().isEmpty()) {
+                ps.setString(paramIndex, "%" + search + "%");
+                paramIndex++;
+            }
+
+            ps.setInt(paramIndex++, offset); // Set the offset parameter
+            ps.setInt(paramIndex, size);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(fromResultSet(rs));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public int getAssignedDesignersCount(int courseId) {
+        int count = 0;
+        xSql = "SELECT COUNT(*) AS count "
+                + "FROM Users\n"
+                + "INNER JOIN CourseAssignment "
+                + "ON Users.UserID = CourseAssignment.UserId\n"
+                + "WHERE CourseAssignment.CourseId = ? AND Users.Role = 2";
+        try {
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, courseId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    public int getUnassignedDesignersCount(int courseId) {
+        int count = 0;
+        xSql = "SELECT COUNT(*) AS count "
+                + "FROM Users\n"
+                + "WHERE Role = 2 AND UserID NOT IN (\n"
+                + "    SELECT UserId\n"
+                + "    FROM CourseAssignment\n"
+                + "    WHERE CourseId = ?\n"
+                + ")";
+        try {
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, courseId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return count;
     }
 }

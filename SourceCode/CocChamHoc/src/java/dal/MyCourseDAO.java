@@ -18,11 +18,20 @@ import model.Level;
  * @author LAPTOP
  */
 public class MyCourseDAO extends MyDAO {
-
+//  and U.[Status] = 'Learning'
     public List<Course> listMyCourse(int uId) {
         CourseDAO courseDAO = new CourseDAO();
-        List<Course> t = new ArrayList<>(); 
-        xSql = "select * from Courses C inner join UsersEnroll U on  C.CourseID = U.CourseID where U.UserId = ?  and U.[Status] = 'Learning'";
+        List<Course> t = new ArrayList<>();
+        xSql = "SELECT *\n"
+                + "FROM dbo.Courses\n"
+                + "    JOIN dbo.UsersEnroll\n"
+                + "        ON UsersEnroll.CourseID = Courses.CourseID\n"
+                + "    JOIN dbo.Categories\n"
+                + "        ON Categories.CategoryID = Courses.CategoryID\n"
+                + "    JOIN dbo.Levels\n"
+                + "        ON Levels.LevelID = Courses.LevelID\n"
+                + "WHERE UserId = ?\n"
+                + "      AND Status = 'Learning'";
         try {
             ps = con.prepareStatement(xSql);
             ps.setInt(1, uId);
@@ -49,7 +58,7 @@ public class MyCourseDAO extends MyDAO {
             ps = con.prepareStatement(xSql);
             ps.setInt(1, uId);
             rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 quantityCourse = rs.getInt(1);
             }
         } catch (Exception e) {

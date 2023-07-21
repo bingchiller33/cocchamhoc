@@ -1,0 +1,44 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<div class="search">
+    <form action="/admin/unassign-course" method="post" class="form" onsubmit="event.preventDefault()" style="--height:5px;width: 90%;">
+        <label for="search">
+            <input
+                autocomplete="off"
+                placeholder="Name"
+                id="search"
+                type="text"
+                name="searchAssigned"
+                value="${param.searchAssigned}"
+                onkeypress="handleSearch(event)"
+                />
+            <div class="icon">
+                <svg
+                    stroke-width="2"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="swap-off"
+                    >
+                    <path
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                        stroke-linejoin="round"
+                        stroke-linecap="round"
+                        ></path>
+                </svg>
+            </div>
+        </label>
+    </form>
+</div>
+<script>
+    function handleSearch(e) {
+        if (e.key === "Enter") {
+            const target = e.target;
+            const name = target.getAttribute("name");
+            const value = target.value;
+            applyFilter(name, value);
+        }
+    }
+</script>

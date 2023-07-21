@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
 <%@page import="java.util.*" %>
+<%@page import="utils.*" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -73,17 +74,7 @@
 
         </style>
     </head>
-    <body>
-        <%! 
-            Random random = new Random();
-            public String getNameRandom() {
-                int randomIndex1 = random.nextInt(26);
-                int randomIndex2 = random.nextInt(26);
-                char randomLetter1 = (char) ('A' + randomIndex1);
-                char randomLetter2 = (char) ('A' + randomIndex2);
-                return randomLetter1 + "" + randomLetter2;
-            }
-        %>
+    <body> 
         <%@include file="/components/header.jspf" %>
         <div class="courseDetail-container">
             <div class="row">
@@ -138,64 +129,162 @@
                             <%@include file="/components/viewSyllabus.jspf" %>
                         </c:otherwise>
                     </c:choose>
-                </div>
-                <div id="syl2" class="hidden">
-                    <c:if test="${!review.isEmpty()}">
-                        <div class="container_review">
-                            <c:forEach var="item" items="${review}">
-                                <div class="review">
-                                    <div class="review-header">
-                                        <div class="header-user"><p class="user-name"><%=getNameRandom()%></p></div>
-                                        <span class="header-time">${item.rateDate}</span>
-                                    </div>
-                                    <div class="review-body">
-                                        <p class="body-content">${item.review}</p>
-                                    </div>
-                                </div>
-                            </c:forEach>    
-                        </div
-                    </c:if>
-                    <c:if test="${review.isEmpty()}">
-                        <p>No review available</p>
-                    </c:if>
-                </div>
+                </div> 
+                <form action="/course" method="POST" id="form_status"> 
+                    <%@include file="/components/review.jspf" %>
+                    <div id="syl2" class="hidden">
+                        <input type="hidden" id="id" name="id" value="${id}"> 
+                        <div>
+                            <div class="search_rate_star">
+                                <ul class="search_rate_star_list">
+                                    <li class="search_rate_star_item"><span onclick="hanleFilterStar(event)" class="rate_star_item">All</span>(${all})</li>                                  
+                                    <li class="search_rate_star_item"><span onclick="hanleFilterStar(event)" class="rate_star_item">5 Star</span>(${five})</li>
+                                    <li class="search_rate_star_item"><span onclick="hanleFilterStar(event)" class="rate_star_item">4 Star</span>(${four})</li>
+                                    <li class="search_rate_star_item"><span onclick="hanleFilterStar(event)" class="rate_star_item">3 Star</span>(${three})</li>
+                                    <li class="search_rate_star_item"><span onclick="hanleFilterStar(event)" class="rate_star_item">2 Star</span>(${two})</li>
+                                    <li class="search_rate_star_item search_rate_star_item1"><span onclick="hanleFilterStar(event)" class="rate_star_item">1 Star</span>(${one})</li>
+                                    <input type="hidden" value="" name="filterRate" class="filterRate"/>
+                                </ul>
+                            </div>
+                        </div>
+                        <c:if test="${!review.isEmpty()}"> 
+                            <div class="container_review"> 
+                                <c:forEach var="itemU" items="${users}">
+                                    <c:forEach var="item" items="${review}" varStatus="i">
+                                        <c:if test="${itemU.userID==item.userId}">
+                                            <div class="review">
+                                                <div class="review-header">
+                                                    <div class="header-item"> 
+                                                        <div class="item-head">
+                                                            <div class="header-user">
+                                                                <p class="user-icon"><i class="fa-solid fa-user"></i></p>
+                                                            </div>
+                                                            <div> 
+                                                                <p class="user-name">
+                                                                    ${itemU.fullName} 
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="user_choice">
+                                                            <div onclick="handleClickChoice(event)" class="">
+                                                                <i class="fa-solid fa-ellipsis user_choice-icon"></i>
+                                                            </div>
+                                                            <ul class="user_choice_item">
+                                                                <c:if test="${itemU.userID==userId}">
+                                                                    <li onclick="handleChocie(event)" class="user_choice-edit">Edit</li>
+                                                                    </c:if> 
+                                                                <li onclick="handleChocie(event)" class="user_choice-report">Report</li> 
+                                                                    <c:if test="${itemU.userID==userId}">
+                                                                    <li onclick="handleChocie(event)" class="user_choice-report">Delete</li>
+                                                                    </c:if> 
+                                                            </ul>
+                                                            <input type="hidden" value="" name="status" id="status"/>  
+                                                            <input type="hidden" id="rId" name="rId" value="${item.ratingId}">     
+                                                        </div>
+                                                    </div>
+                                                    <div class="rate_infor">
+                                                        <div>
+                                                            <span class="header-time">${item.rateDate}</span>
+                                                        </div>
+                                                        <div id="rating_2">
+                                                            <input type="radio" class="rate" id="star5-2" disabled ${item.rateNo==5?"checked":""} name=${i.index} value="5" />
+                                                            <label class="full_1" id="label-1_1" for="star5-2" title="Awesome - 5 stars"></label>
+
+                                                            <input type="radio" class="rate" id="star4-2" disabled ${item.rateNo==4?"checked":""} name=${i.index} value="4" />
+                                                            <label class="full_1" id="label-2_1" for="star4-2" title="Pretty good - 4 stars"></label>
+
+                                                            <input type="radio" class="rate" id="star3-2" disabled ${item.rateNo==3?"checked":""} name=${i.index} value="3" />
+                                                            <label class="full_1" id="label-3_1" for="star3-2" title="Meh - 3 stars"></label>
+
+                                                            <input type="radio" class="rate" id="star2-2" disabled ${item.rateNo==2?"checked":""} name=${i.index} value="2" />
+                                                            <label class="full_1" id="label-4_1" for="star2-2" title="Kinda bad - 2 stars"></label>
+
+                                                            <input type="radio" class="rate" id="star1-2" disabled ${item.rateNo==1?"checked":""} name=${i.index} value="1" />
+                                                            <label class="full_1" id="label-5_1" for="star1-2" title="Sucks big time - 1 star"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="review-body">
+                                                    <div> 
+                                                        <p class="body-content">${item.review}</p>
+                                                    </div>
+                                                    <div>
+                                                        <input type="hidden" value="" name='reviewUpdate' class="reviewUpdate" id="reviewUpdate"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </c:if>
+                                    </c:forEach>  
+                                </c:forEach>    
+                            </div>
+                        </c:if> 
+                        <c:if test="${review.isEmpty()}">
+                            <p>No review available</p>
+                        </c:if> 
+                        <c:if test="${!review.isEmpty()}">
+                            <div class="course-pagination">
+                                <p>Page: </p> 
+                                <c:set var="page" value="${empty review ? 0 : pagination}"></c:set>
+                                <c:set var="pages" value="${PaginationUtils.getWindow(page, pageCount, 5)}"></c:set>
+                                <c:if test="${!PaginationUtils.contains(pages, 1)}">
+                                    <input class="d-none" type="radio" name="page" value="1" id="pagination-choice-1" onfocus="selectFilterRate(this)" ${page == 1 ? "checked" : ""}/> 
+                                    <label for="pagination-choice-1">1</label>
+                                </c:if>
+                                <c:if test="${PaginationUtils.includeDots(pages, pageCount, 2)}">
+                                    <span>...</span>
+                                </c:if>
+                                <c:forEach var="item" items="${pages}">
+                                    <input type="radio" name="page" class="page" value="${item}" id="pagination-choice-${item}" onfocus="selectFilterRate(this)" ${page == item ? "checked" : ""}/> 
+                                    <label for="pagination-choice-${item}">${item}</label>
+                                </c:forEach>
+                                <c:if test="${PaginationUtils.includeDots(pages, pageCount, pageCount - 1)}">
+                                    <span>...</span>
+                                </c:if>
+                                <c:if test="${!PaginationUtils.contains(pages, pageCount)}">
+                                    <input type="radio" name="page" class="page" value="${pageCount}" id="pagination-choice-${pageCount}" onfocus="selectFilterRate(this)" ${page == pageCount ? "checked" : ""}/> 
+                                    <label for="pagination-choice-${pageCount}">${pageCount}</label>
+                                </c:if>
+                                <input type="hidden" value="" name="pagination" class="pagination"/>
+                            </div>
+                        </c:if> 
+                    </div>
+                </form>
             </div>
             <div class="row">
                 <img src="${courseData.imgUrl}"" alt="Course Image">
             </div>
-        </div> 
-        <%@include file="/components/review.jspf" %>
-    </div>
-    <%@include file="/components/footer.jspf" %>
-    <script>
-        function view(obj) {
-            var des = document.getElementById("des");
-            var des2 = document.getElementById("des2");
-            var rev = document.getElementById("rev");
-            var rev2 = document.getElementById("rev2");
-            var syl = document.getElementById("syl");
-            var syl2 = document.getElementById("syl2");
-            if (des.className === "active") {
-                des.className = "";
-                des2.className = "hidden";
+            <!--</div>--> 
+        </div>
+        <%@include file="/components/footer.jspf" %>
+        <script>
+            function view(obj) {
+                var des = document.getElementById("des");
+                var des2 = document.getElementById("des2");
+                var rev = document.getElementById("rev");
+                var rev2 = document.getElementById("rev2");
+                var syl = document.getElementById("syl");
+                var syl2 = document.getElementById("syl2");
+                if (des.className === "active") {
+                    des.className = "";
+                    des2.className = "hidden";
+                }
+                if (rev.className === "active") {
+                    rev.className = "";
+                    rev2.className = "hidden";
+                }
+                if (syl.className === "active") {
+                    syl.className = "";
+                    syl2.className = "hidden";
+                }
+                obj.className = "active";
+                if (obj === des)
+                    des2.className = "visible";
+                if (obj === rev)
+                    rev2.className = "visible";
+                if (obj === syl)
+                    syl2.className = "visible";
             }
-            if (rev.className === "active") {
-                rev.className = "";
-                rev2.className = "hidden";
-            }
-            if (syl.className === "active") {
-                syl.className = "";
-                syl2.className = "hidden";
-            }
-            obj.className = "active";
-            if (obj === des)
-                des2.className = "visible";
-            if (obj === rev)
-                rev2.className = "visible";
-            if (obj === syl)
-                syl2.className = "visible";
-        }
-    </script>
-    <script src="/assets/js/rate.js"></script>
-</body>
+        </script>
+        <script src="/assets/js/rate.js"></script>
+    </body>
 </html>
