@@ -5,6 +5,7 @@
 package controllers;
 
 import dal.ProgressDAO;
+import dal.UserEnrollDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -43,11 +44,13 @@ public class UpdateProgressController extends HttpServlet {
             int chapterId = ParseUtils.parseIntWithDefault(request.getParameter("chapterId"), -1);
             int lessonNumber = ParseUtils.parseIntWithDefault(request.getParameter("lessonNumber"), -1);
             ProgressDAO progressDAO = new ProgressDAO();
+            UserEnrollDAO ued = new UserEnrollDAO();
             User u = (User) request.getSession().getAttribute("user");
             
             progressDAO.setLessonProgress(chapterId, lessonNumber, u.getUserID(), true);
+            ued.trackProgress(u.getUserID(), courseId);
             String redirect = "/learn/video?courseId=" + courseId + "&chapterId=" + chapterId + "&lessonNumber=" + lessonNumber;
-          
+            
             response.sendRedirect(redirect);
         } catch (SQLException ex) {
             Logger.getLogger(UpdateProgressController.class.getName()).log(Level.SEVERE, null, ex);

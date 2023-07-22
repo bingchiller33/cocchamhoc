@@ -20,7 +20,7 @@
         <%@include file="/components/headCommon.jspf" %>
         <link rel="stylesheet" href="/assets/css/learnVideo.css"/>
     </head>
-    <body>
+    <body onload="onYouTubePlayerAPIReady()">
 
         <div class="course-editor-frame">
             <div class="course-editor-header">
@@ -44,37 +44,21 @@
                 </div>
                 <div class="video-frame" >
                     <div id="played" ></div>
-<!--                    <iframe id="${lesson.video}" src="${lesson.video}" class="video-frame" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                            allowfullscreen></iframe>-->
                     <script class="video-frame" src="http://www.youtube.com/player_api"></script>
 
-
-                        <span>Progress status: </span>
-
-                        <c:if test="${progress == true}">  
-
-                            <span name="progressd" value="1" class="status complete">Complete</span>
-                        </c:if> 
-                        <c:if test="${progress == false}">  
-
-                            <span name="progressd" value="0" class="status incomplete">Incomplete</span>
-                        </c:if> 
+                        <input type="hidden" id="isCompleted" value="${progress}" />
                         </div>
                         <div>
                             <span id="played"></span> 
-
-                            <!-- <span id="duration"></span> -->
                         </div>
-                    </div>
-
-                    <h2>Description</h2>
+                            <h2>Description</h2>
                     <p>${lesson.description}</p>
                     <br/>
                     <div class="course-nav-ctn" >
                         <a class="course-nav" href="${prevUrl}"><i class="fa-solid fa-chevron-left"></i>Previous Lesson</a>
                         <a class="course-nav" href="${nextUrl}">Next Lesson <i class="fa-solid fa-chevron-right"></i></a>
                     </div>
+                    </div>                    
                 </main>
             </div>
             <script src="/assets/js/base.js"></script>
@@ -125,9 +109,12 @@
 
                     // when video ends
                     function onPlayerStateChange(event) {
-                        if (event.data === 0) {
-//                            
-                            window.location.href = "/update-progress?courseId=${courseId}&chapterId=${chapterId}&lessonNumber=${lessonNumber}";
+                        var isCompleted = document.getElementById("isCompleted").value;
+                        console.log(isCompleted)
+                        if(isCompleted === 'false'){
+                            if (event.data === 0) {
+                                window.location.href = "/update-progress?courseId=${courseId}&chapterId=${chapterId}&lessonNumber=${lessonNumber}";
+                            }
                         }
                     }
             </script>
