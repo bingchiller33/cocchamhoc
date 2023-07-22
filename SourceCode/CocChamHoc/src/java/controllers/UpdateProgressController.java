@@ -36,15 +36,15 @@ public class UpdateProgressController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
+   
+       try {
             response.setContentType("text/html;charset=UTF-8");
             int courseId = ParseUtils.parseIntWithDefault(request.getParameter("courseId"), -1);
             int chapterId = ParseUtils.parseIntWithDefault(request.getParameter("chapterId"), -1);
             int lessonNumber = ParseUtils.parseIntWithDefault(request.getParameter("lessonNumber"), -1);
-            
             ProgressDAO progressDAO = new ProgressDAO();
             User u = (User) request.getSession().getAttribute("user");
-
+            
             progressDAO.setLessonProgress(chapterId, lessonNumber, u.getUserID(), true);
             String redirect = "/learn/video?courseId=" + courseId + "&chapterId=" + chapterId + "&lessonNumber=" + lessonNumber;
           

@@ -10,13 +10,18 @@ import java.sql.SQLException;
  * @author LAPTOP
  */
 public class ProgressDAO extends MyDAO {
+    
+    public static void main(String[] args) throws SQLException {
+        ProgressDAO dao = new ProgressDAO();
+        System.out.println(dao.getLessonProgress(3, 1, 3));
+    }
 
     public boolean getLessonProgress(int chapterId ,int lessonId, int userId) throws SQLException {
         xSql = "select * from Progress where UserID = ? and LessonNumber = ? and ChapterID = ?";
             ps = con.prepareStatement(xSql);
-            ps.setInt(1, chapterId);
+            ps.setInt(1, userId);
             ps.setInt(2, lessonId);
-            ps.setInt(3, userId);
+            ps.setInt(3, chapterId);
             rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getBoolean("State");
