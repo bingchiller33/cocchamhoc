@@ -92,7 +92,7 @@ public class LessonDAO extends MyDAO {
     public int createDefaultLesson(int chapterId) throws SQLException {
         int nextNumber = getNextLessonNumber(chapterId);
         xSql = "INSERT INTO Lessons (LessonNumber, ChapterID, LessonName, LessonVideo) "
-                + "VALUES (?, ?, ?, 'https://www.youtube.com/watch?v=dQw4w9WgXcQ') ";
+                + "VALUES (?, ?, ?, 'https://www.youtube.com/embed/dQw4w9WgXcQ') ";
 
         ps = con.prepareStatement(xSql);
         ps.setInt(1, nextNumber);

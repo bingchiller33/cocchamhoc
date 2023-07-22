@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Chapter;
+import model.Course;
 import model.Lesson;
 import utils.ParseUtils;
 
@@ -57,14 +58,16 @@ public class EditChapterController extends HttpServlet {
             Map<Chapter, List<Lesson>> lessonMap = chapterDAO.getGroupedLesson(chapters);
 
             List<Lesson> lessons = lessonDAO.findLessons(lessonMap, chapterId);
+            Course course = courseDAO.getCourseById(courseId);
 
             Chapter chapter = chapterDAO.getChapterByID(courseId, chapterNumber);
             request.setAttribute("backUrl", "/admin");
-            request.setAttribute("course", courseDAO.getCourseById(courseId));
+            request.setAttribute("course", course);
             request.setAttribute("chapters", chapters);
             request.setAttribute("chapter", chapter);
             request.setAttribute("lessonMap", lessonMap);
             request.setAttribute("lessons", lessons);
+            request.setAttribute("showAdd", course.getPublishDate() == null);
             request.getRequestDispatcher("/courseEditor/editChapter.jsp").include(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(EditLessonController.class.getName()).log(Level.SEVERE, null, ex);

@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Chapter;
+import model.Course;
 import model.Lesson;
 import utils.ParseUtils;
 
@@ -60,7 +61,7 @@ public class EditLessonController extends HttpServlet {
                 return;
             }
 
-            List<Lesson> lessons = lessonDAO.findLessons(lessonMap, chapterId);
+                List<Lesson> lessons = lessonDAO.findLessons(lessonMap, chapterId);
             if (lessons.isEmpty()) {
                 response.sendRedirect("/admin/edit-chapter?courseId=" + courseId + "&chapterId=" + chapterId);
                 return;
@@ -73,14 +74,16 @@ public class EditLessonController extends HttpServlet {
             }
 
             Lesson prevLesson = lessonDAO.findPrevLesson(lessons, lesson);
+            Course course = courseDAO.getCourseById(courseId);
 
             request.setAttribute("backUrl", "/admin");
-            request.setAttribute("course", courseDAO.getCourseById(courseId));
+            request.setAttribute("course", course);
             request.setAttribute("chapters", chapters);
             request.setAttribute("lessonMap", lessonMap);
             request.setAttribute("lessons", lessons);
             request.setAttribute("lesson", lesson);
             request.setAttribute("prev", prevLesson);
+            request.setAttribute("showAdd", course.getPublishDate() == null);
 
             request.getRequestDispatcher("/courseEditor/editLesson.jsp").include(request, response);
         } catch (SQLException ex) {

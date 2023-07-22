@@ -18,26 +18,25 @@ import model.Level;
  * @author LAPTOP
  */
 public class MyCourseDAO extends MyDAO {
-
+//  and U.[Status] = 'Learning'
     public List<Course> listMyCourse(int uId) {
-        List<Course> t = new ArrayList<>(); 
-        xSql = "select * from Courses C inner join UsersEnroll U on  C.CourseID = U.CourseID where U.UserId = ?  and U.[Status] = 'Learning'";
+        CourseDAO courseDAO = new CourseDAO();
+        List<Course> t = new ArrayList<>();
+        xSql = "SELECT *\n"
+                + "FROM dbo.Courses\n"
+                + "    JOIN dbo.UsersEnroll\n"
+                + "        ON UsersEnroll.CourseID = Courses.CourseID\n"
+                + "    JOIN dbo.Categories\n"
+                + "        ON Categories.CategoryID = Courses.CategoryID\n"
+                + "    JOIN dbo.Levels\n"
+                + "        ON Levels.LevelID = Courses.LevelID\n"
+                + "WHERE UserId = ?";
         try {
             ps = con.prepareStatement(xSql);
             ps.setInt(1, uId);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Level level = new Level(rs.getInt(1), rs.getString(2));
-                Category category = new Category(rs.getInt(1), rs.getString(2));
-                t.add(new Course(rs.getInt("CourseID"),
-                        rs.getString("Title"),
-                        rs.getString("courseDescription"),
-                        rs.getString("CourseBannerImage"),
-                        rs.getDate("PublishDate"),
-                        rs.getString("Lecturer"),
-                        level,
-                        category,
-                        rs.getInt("DurationInSeconds")));
+                t.add(courseDAO.fromResultSet(rs));
             }
             ps.execute();
             ps.close();
@@ -58,7 +57,7 @@ public class MyCourseDAO extends MyDAO {
             ps = con.prepareStatement(xSql);
             ps.setInt(1, uId);
             rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 quantityCourse = rs.getInt(1);
             }
         } catch (Exception e) {

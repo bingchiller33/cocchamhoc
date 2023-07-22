@@ -8,7 +8,6 @@ package controllers;
 import dal.MyCourseDAO;
 import dal.UserDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -40,13 +39,12 @@ public class UserManagementController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         try {
-            int size = 10;
+            int size = 5;
             int page = ParseUtils.parseIntWithDefault(request.getParameter("page"), 1) - 1;
             int role = ParseUtils.parseIntWithDefault(request.getParameter("role"), -1);
             String userSearch = ParseUtils.defaultIfEmpty(request.getParameter("search"), "");
             
             UserDAO userDAO = new UserDAO();
-            
             
             List<User> users = userDAO.searchUsers(userSearch, role, page, size);
             Map<Integer, Integer> map = getCourseEnrolled(users);

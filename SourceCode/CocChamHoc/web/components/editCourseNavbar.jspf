@@ -27,27 +27,36 @@
                                 <a href="/admin/edit-lesson?courseId=${course.id}&chapterId=${chapter.id}&lessonNumber=${lesson.lessonNumber}" class="nav-item-flex"> <i class="fa-regular fa-circle-play"></i> ${lesson.name}</a>
                             </li>
                         </c:forEach>
-                        <li class="nav-item">
-                            <a href="/admin/create-lesson?courseId=${course.id}&chapterId=${chapter.id}" class="nav-item-flex"> <i class="fa fa-plus"></i> Add new Lesson</a>
-                        </li>
+                        <c:if test="${showAdd}">
+                            <li class="nav-item">
+                                <a href="/admin/create-lesson?courseId=${course.id}&chapterId=${chapter.id}" class="nav-item-flex"> <i class="fa fa-plus"></i> Add new Lesson</a>
+                            </li>
+                        </c:if>
+
                     </ul>
                 </li>
             </c:forEach>
+            <c:if test="${showAdd}">
                 <li class="course-nav-header">
                     <a href="/admin/create-chapter?courseId=${course.id}" class="nav-item-flex"> Add new Chapter</a>
                 </li>
+            </c:if>    
         </ul>
 
         <div class="hsep"></div>
 
         <div  class="course-nav-header"><p>Exams</p></div>
         <ul>
-            <li class="nav-item nav-item-headerless">
-                <a href="#" class="nav-item-flex"><i class="fa-solid fa-pen-to-square"></i> Exam 1</a>
-            </li>
-            <li class="nav-item nav-item-headerless">
-                <a href="#" class="nav-item-flex"><i class="fa-solid fa-pen-to-square"></i> Exam 2</a>
-            </li>
+            <c:forEach var="exam" items="${exams}">
+                <li class="nav-item">
+                    <a href="/admin/edit-exam?courseId=${course.id}&examId=${exam.id}" class="nav-item-flex"> <i class="fa-regular fa-circle-play"></i>${exam.examName}</a>
+                </li>
+            </c:forEach>
+            <c:if test="${showAdd}">
+                <li class="nav-item nav-item-headerless">
+                    <a href="/admin/create-exam?courseId=${course.id}" class="nav-item-flex"><i class="fa-solid fa-pen-to-square"></i>Add New Exam</a>
+                </li>
+            </c:if>
         </ul>
     </div>
 </nav>

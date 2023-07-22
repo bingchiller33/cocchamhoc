@@ -9,16 +9,13 @@ import dal.ChapterDAO;
 import dal.CourseDAO;
 import dal.ExamDAO;
 import dal.ExamPapersDAO;
-import dal.LessonDAO;
 import dal.QuestionDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -27,7 +24,6 @@ import model.Chapter;
 import model.Exam;
 import model.ExamPapers;
 import model.Lesson;
-import model.Question;
 import model.User;
 import utils.ParseUtils;
 
@@ -55,7 +51,6 @@ public class ExamController extends HttpServlet {
             CourseDAO courseDAO = new CourseDAO();
             QuestionDAO qd = new QuestionDAO();
             ChapterDAO chapterDAO = new ChapterDAO();
-            ExamDAO examDAO = new ExamDAO();
             ExamPapersDAO epd = new ExamPapersDAO();
             CertificateDAO cd = new CertificateDAO();
             // URL param
@@ -63,7 +58,7 @@ public class ExamController extends HttpServlet {
             Exam exam = ed.getExamByID(examId);
             int courseId = exam.getCourseID();
             // Load Navbar
-            List<Exam> exams = examDAO.getExams(courseId);
+            List<Exam> exams = ed.getExams(courseId);
             List<Chapter> chapters = chapterDAO.getCourseChapters(courseId);
             if (chapters.isEmpty()) {
                 request.getRequestDispatcher("/notFound.jsp").forward(request, response);
@@ -118,7 +113,7 @@ public class ExamController extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
+    
     /**
      * Handles the HTTP <code>POST</code> method.
      *

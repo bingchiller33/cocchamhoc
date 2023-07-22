@@ -62,16 +62,31 @@
                         <input type="text" id="course-lecturer" name="courseLecturer" value="${course.lecturer}" required/>
                         <label for="course-img-url">Banner Image</label>
                         <input type="text" id="course-img-url" name="courseImgUrl" value="${course.imgUrl}" required/>
+                        <label for="new-ver-id">New Version ID</label>
+                        <select id="new-ver-id" name="newVersionId">
+                            <option value="-1">None</option>
+                            <c:forEach var="item" items="${nextCourses}">
+                                <option value="${item.id}" ${item.id == course.newVersionId ? 'selected' : ''}>${item.id}: ${item.title}</option>
+                            </c:forEach>
+                        </select>
                         <label for="course-desc">Description</label>
                         <textarea height="300px" id="course-desc" name="courseDesc" required>${course.description}</textarea>
                     </div>
+                    <p style="color: red">${status}</p>
                     <div class="action-container">
-                        <input type="submit" name="action" value="Delete" class="btn-del"/>
+                        <c:if test="${course.publishDate == null}">
+                            <input type="submit" name="action" value="Delete" class="btn-del"/>
+                        </c:if>
                         <input type="submit" name="action" value="Save" class="btn-save"/>
                         <p>${session.getAttribute('user').role}</p>
                         <c:if test="${admin}">
                             <c:if test="${course.publishDate != null}">
-                                <input type="submit" name="action" value="Unpublish" class="btn-save"/>
+                                <c:if test="${course.isDiscontinued == true}">
+                                    <input type="submit" name="action" value="Recontinue" class="btn-save"/>
+                                </c:if>
+                                <c:if test="${course.isDiscontinued == false}">
+                                    <input type="submit" name="action" value="Discontinue" class="btn-save"/>
+                                </c:if>
                             </c:if>
                             <c:if test="${course.publishDate == null}">
                                 <input type="submit" name="action" value="Publish" class="btn-save"/>
@@ -89,6 +104,10 @@
 
             .course-editor-main {
                 padding: 2rem;
+            }
+
+            .action-container input:first-child {
+                margin-left: auto;
             }
         </style>
         <script src="../assets/js/course.js"></script>

@@ -38,12 +38,14 @@ CREATE TABLE Courses
     [CourseDescription] NTEXT NOT NULL,
     PublishDate DATE
         DEFAULT NULL,
+    IsDiscontinued BIT DEFAULT 0,
     Lecturer NVARCHAR(69) NOT NULL,
     DurationInSeconds INT NOT NULL,
     LevelID INT
         FOREIGN KEY REFERENCES dbo.Levels (LevelID),
     CategoryID INT
         FOREIGN KEY REFERENCES dbo.Categories (CategoryID),
+    NewVersionID INT FOREIGN KEY REFERENCES Courses(CourseID),
 );
 GO
 CREATE TABLE Chapters
@@ -109,6 +111,9 @@ CREATE TABLE [Users]
     DOB DATE,
     Gender BIT,
     PhoneNumber VARCHAR(69),
+
+    RestrictedUntil DATETIME DEFAULT '2000-01-01 00:00:00',
+    RestrictedReason NVARCHAR(420) NULL,
 );
 GO
 
@@ -129,6 +134,7 @@ CREATE TABLE [UsersEnroll]
         FOREIGN KEY REFERENCES dbo.Courses (CourseID),
     Status VARCHAR(100) CHECK (Status IN ( 'Learning', 'Complete' ))
         DEFAULT 'Learning',
+	Progress INT,
     PRIMARY KEY (
                     UserId,
                     CourseID
@@ -168,10 +174,15 @@ CREATE TABLE Certificates
         FOREIGN KEY REFERENCES dbo.Users (UserID) ON DELETE CASCADE,
     CourseID INT
         FOREIGN KEY REFERENCES dbo.Courses (CourseID) ON DELETE CASCADE,
-    IssueDate DATE NOT NULL,
+    IssueDate DATE NOT NULL, 
+    Status VARCHAR(100) CHECK (Status IN ( 'Normal', 'Revoke' ))
+        DEFAULT 'Normal',
 );
+GO
 CREATE TABLE Ratings
 (
+    RatingID INT IDENTITY(1, 1),
+
     UserID INT
         FOREIGN KEY REFERENCES dbo.Users (UserID) ON DELETE CASCADE,
     CourseID INT
@@ -182,11 +193,21 @@ CREATE TABLE Ratings
     RateTime DATETIME
         DEFAULT GETDATE(),
     Review NTEXT,
+	IsReported BIT DEFAULT 0,
     PRIMARY KEY (
-                    UserID,
+         UserID,
                     CourseID
                 )
 );
+GO
+CREATE TABLE CourseAssignment (
+  UserId INT,
+  CourseId INT,
+  PRIMARY KEY (UserId, CourseId),
+  FOREIGN KEY (UserId) REFERENCES Users(UserID) ON DELETE CASCADE,
+  FOREIGN KEY (CourseId) REFERENCES Courses(CourseID)ON DELETE CASCADE,
+);
+
 GO
 INSERT [dbo].[Categories] ([CategoryDescription]) VALUES (N'Programing')
 INSERT [dbo].[Categories] ([CategoryDescription]) VALUES (N'Design')
@@ -261,6 +282,14 @@ values ('devdesigner', 'designer@gmail.com', '6a5aeb1ea832832a9969a562357994ba',
 
 insert into Users(Username, Email, Password, Role)
 values ('devuser', 'user@gmail.com', '6a5aeb1ea832832a9969a562357994ba', 1)
+
+insert into UsersEnroll(UserID, CourseID, Status) values 
+(3, 1, 'Learning'),
+(3, 2, 'Learning'),
+(3, 3, 'Learning'),
+(3, 4, 'Learning'),
+(3, 5, 'Learning')
+
 
 INSERT INTO dbo.Exams(ExamName, CourseID, Duration)VALUES( N'Module 1 Exam', 1, '00:30:00')
 

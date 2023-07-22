@@ -91,8 +91,8 @@ public class HomeController extends HttpServlet {
         LevelDAO levelDao = new LevelDAO();
         try {
             List<Course> sliderList = courseDao.getNewestCoursesInfo(5);
-            List<Course> list = courseDao.searchCourses(search, category, level, low, high, sortName, sortDuration, sortPublishDate, page, pageSize);
-            int listCount = courseDao.searchCoursesCount(search, category, level, low, high);
+            List<Course> list = courseDao.searchCourses(search, category, level, low, high, false, sortName, sortDuration, sortPublishDate, page, pageSize);
+            int listCount = courseDao.searchCoursesCount(search, category, level, low, high, false);
             int pageCount = (int) Math.ceil(listCount / (float) pageSize);
 
             request.setAttribute("sliderList", sliderList);

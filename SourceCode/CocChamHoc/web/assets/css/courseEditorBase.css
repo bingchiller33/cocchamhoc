@@ -79,6 +79,7 @@ form .action-container {
     margin: 0.2rem;
     margin-left: auto;
     border-radius: 4px;
+    cursor: pointer;
 }
 
 .btn-save {
