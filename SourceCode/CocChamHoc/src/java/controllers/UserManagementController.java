@@ -39,7 +39,7 @@ public class UserManagementController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         try {
-            int size = 10;
+            int size = 5;
             int page = ParseUtils.parseIntWithDefault(request.getParameter("page"), 1) - 1;
             int role = ParseUtils.parseIntWithDefault(request.getParameter("role"), -1);
             String userSearch = ParseUtils.defaultIfEmpty(request.getParameter("search"), "");

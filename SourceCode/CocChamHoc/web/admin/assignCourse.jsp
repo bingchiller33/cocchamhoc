@@ -20,7 +20,7 @@
             <div class="course-editor-header">
                 <%@include file="/components/headerEditCourse.jspf" %>
             </div>
-            <div id="course-editor-nav" class="course-editor-nav">
+            <div id="course-editor-nav" class="course-editor-nav" style="width: 350px; font-size: 19px">
                 <%@include file="/components/assignCourseNavbar.jspf" %>
             </div>
             <div class="course-editor-title-bar">
@@ -31,54 +31,72 @@
             </div>
             <main class="course-editor-main">
                 <div class="form-container">
+                    <div class="form-header">
+                        <h2>Assign Designers</h2>
+                         <p class="course-name">*Assign Course to Designer*</p>
+                    </div>
+                   <%@include file="/components/searchBarAssignCourse.jspf" %>
                     <form action="/admin/assign-course" method="post" id="assignForm">
-                        <div class="form-header">
-                            <h2>Assign Designers</h2>
-                        </div>
                         <div class="form-group">
-                            <label for="designerIds">Select Designer(s):</label>
-                            <c:if test="${not empty unassignedList}">
-                                <select name="designerIds" id="designerIds" multiple>
-                                    <c:forEach items="${unassignedList}" var="designer">
-                                        <option value="${designer.userID}">${designer.fullName}</option>
-                                    </c:forEach>
-                                </select>
-                            </c:if>
+                            <table>
+                                <tr>
+                                    <th class="content-center">ID</th>
+                                    <th>Full Name</th>
+                                    <th class="content-center">Action</th>
+                                </tr>
+                                <c:forEach items="${unassignedList}" var="designer">
+                                    <tr>
+                                        <td class="content-center">${designer.userID}</td>
+                                        <td><a class="link-hover" href="/admin/userDetail?id=${designer.userID}">${designer.fullName}</a></td>
+                                        <td class="content-center">
+                                            <button class="btn-assign" type="submit" name="designerIds" value="${designer.userID}">Assign</button>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </table>
                             <c:if test="${empty unassignedList}">
                                 <p>No designers available.</p>
                             </c:if>
                         </div>
                         <input type="hidden" name="courseId" value="${courseId}" />
-                        <div class="form-group">
-                            <input type="submit" value="Assign">
-                        </div>
                     </form>
+                    <c:if test="${!empty unassignedList}">
+                        <%@include file="/components/unassignedListingPagination.jspf" %>
+                    </c:if>
                 </div>
                 <div class="form-container">
-                    <form action="/admin/assigned-course" method="get">
-                        <div class="form-header">
-                            <h2>Assigned Designers</h2>
-                        </div>
-                        <div class="table-container">
-                            <c:if test="${not empty assignedList}">
-                                <table>
+                    <div class="form-header">
+                        <h2>Assigned Designers</h2>
+                        <p class="course-name">*Unassign Course to Designer*</p>
+                    </div>
+                    <%@include file="/components/searchBarUnassignCourse.jspf" %>
+                    <form action="/admin/unassign-course" method="post" id="unassignForm">
+                        <div class="form-group">
+                            <table class="content-center">
+                                <tr>
+                                    <th class="content-center">ID</th>
+                                    <th>Full Name</th>
+                                    <th class="content-center">Action</th>
+                                </tr>
+                                <c:forEach items="${assignedList}" var="designer">
                                     <tr>
-                                        <th>Designer ID</th>
-                                        <th>Full Name</th>
+                                        <td class="content-center">${designer.userID}</td>
+                                        <td><a class="link-hover" href="/admin/userDetail?id=${designer.userID}">${designer.fullName}</a></td>
+                                        <td class="content-center">
+                                            <button class="btn-unassign" type="submit" name="designerIds" value="${designer.userID}">Unassign</button>
+                                        </td>
                                     </tr>
-                                    <c:forEach items="${assignedList}" var="designer">
-                                        <tr>
-                                            <td>${designer.userID}</td>
-                                            <td>${designer.fullName}</td>
-                                        </tr>
-                                    </c:forEach>
-                                </table>
-                            </c:if>
+                                </c:forEach>
+                            </table>
                             <c:if test="${empty assignedList}">
                                 <p>No designers assigned to this course.</p>
                             </c:if>
                         </div>
+                        <input type="hidden" name="courseId" value="${courseId}" />
                     </form>
+                    <c:if test="${!empty assignedList}">
+                        <%@include file="/components/assignedListingPagination.jspf" %>
+                    </c:if>
                 </div>
             </main>
         </div>

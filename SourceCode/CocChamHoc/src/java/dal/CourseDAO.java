@@ -323,7 +323,26 @@ public class CourseDAO extends MyDAO {
 
     public boolean assignCourseToDesigner(int courseId, int designerId) {
         boolean result = false;
-        xSql = "INSERT INTO CourseAssignment (UserId, CourseId) VALUES (?, ?)";
+        xSql = "INSERT INTO CourseAssignment (UserId, CourseId) "
+                + "VALUES (?, ?)";
+        try {
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, designerId);
+            ps.setInt(2, courseId);
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                result = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public boolean unassignDesignerFromCourse(int designerId, int courseId) {
+        boolean result = false;
+        xSql = "DELETE FROM CourseAssignment "
+                + "WHERE UserId = ? AND CourseId = ?";
         try {
             ps = con.prepareStatement(xSql);
             ps.setInt(1, designerId);
