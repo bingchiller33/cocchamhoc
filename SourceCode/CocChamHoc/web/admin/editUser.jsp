@@ -69,11 +69,11 @@
                                         <th>
                                             <c:if test="${statusMap[x.id]=='Complete'}" >
                                                 <c:forEach var="s" items="${statusCer}">   
-                                                    <c:if test="${s.status=='Revork'&& s.courseId == x.id }">
-                                                        <span onclick="handleClick(event)" class="btn-del">Revorked</span> 
+                                                    <c:if test="${s.status=='Revoke'&& s.courseId == x.id }">
+                                                        <span onclick="handleClick(event)" class="btn-del">UnRevoke</span> 
                                                     </c:if>
                                                     <c:if test="${s.status=='Normal'&& s.courseId == x.id }">
-                                                        <span onclick="handleClick(event)" class="btn-del">Revork</span> 
+                                                        <span onclick="handleClick(event)" class="btn-del">Revoke</span> 
                                                     </c:if>
                                                 </c:forEach>
                                             </c:if>
@@ -83,6 +83,7 @@
                             </tbody>
                         </table>
                         <input type="hidden" value="" class="cId" name="cId"/>
+                        <input type="hidden" value="" class="status" name="status"/>
                         <input type="hidden" value="${id}" class="id" name="id"/> 
                         <input type="hidden" name="uId" value="${userd.userID}"/>
                     </form>

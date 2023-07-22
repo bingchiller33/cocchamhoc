@@ -160,7 +160,9 @@ CREATE TABLE Certificates
         FOREIGN KEY REFERENCES dbo.Users (UserID) ON DELETE CASCADE,
     CourseID INT
         FOREIGN KEY REFERENCES dbo.Courses (CourseID) ON DELETE CASCADE,
-    IssueDate DATE NOT NULL,
+    IssueDate DATE NOT NULL, 
+    Status VARCHAR(100) CHECK (Status IN ( 'Normal', 'Revoke' ))
+        DEFAULT 'Normal',
 );
 GO
 CREATE TABLE Ratings

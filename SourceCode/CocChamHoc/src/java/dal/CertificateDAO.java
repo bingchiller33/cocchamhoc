@@ -27,7 +27,7 @@ public class CertificateDAO extends MyDAO {
                 + "FROM dbo.Courses JOIN dbo.Levels ON Levels.LevelID = Courses.LevelID \n"
                 + "JOIN dbo.Categories ON Categories.CategoryID = Courses.CategoryID \n"
                 + "JOIN dbo.[Certificates] ON Courses.CourseID = [Certificates].CourseID "
-                + "where [Certificates].UserID = ?";
+                + "where [Certificates].UserID = ? and Certificates.Status = 'Normal' ";
         try {
             ps = con.prepareStatement(xSql);
             ps.setInt(1, uId);
@@ -43,11 +43,11 @@ public class CertificateDAO extends MyDAO {
 
     public String getTitle(int uId, int cId) {
         try {
-            xSql = "select c.Title\n"
+            xSql = "select c.title\n"
                     + "from [Certificates] cf join [Users] u \n"
-                    + "on cf.UserID = u.UserID join [Courses] c\n"
-                    + "on u.UserID = c.CourseID \n"
-                    + "where cf.UserID = ? and cf.CourseID = ?";
+                    + "on cf.UserID = u.UserID join [Courses] c \n"
+                    + "on cf.CourseID = c.CourseID\n"
+                    + "where cf.UserID = ? and cf.CourseID = ? and cf.Status = 'Normal'";
             ps = con.prepareStatement(xSql);
             ps.setInt(1, uId);
             ps.setInt(2, cId);
@@ -65,9 +65,9 @@ public class CertificateDAO extends MyDAO {
         try {
             xSql = "select cf.IssueDate\n"
                     + "from [Certificates] cf join [Users] u \n"
-                    + "on cf.UserID = u.UserID join [Courses] c\n"
-                    + "on u.UserID = c.CourseID \n"
-                    + "where cf.UserID = ? and cf.CourseID = ?";
+                    + "on cf.UserID = u.UserID join [Courses] c \n"
+                    + "on cf.CourseID = c.CourseID\n"
+                    + "where cf.UserID = ? and cf.CourseID = ? and cf.Status = 'Normal'";
             ps = con.prepareStatement(xSql);
             ps.setInt(1, uId);
             ps.setInt(2, cId);
@@ -81,9 +81,10 @@ public class CertificateDAO extends MyDAO {
         return null;
     }
 
-    public boolean isEligibleForCertificate(int passAttemptCount, int totalExamCount){
-        if(passAttemptCount == totalExamCount)
+    public boolean isEligibleForCertificate(int passAttemptCount, int totalExamCount) {
+        if (passAttemptCount == totalExamCount) {
             return true;
+        }
         return false;
     }
 
@@ -113,27 +114,29 @@ public class CertificateDAO extends MyDAO {
         ps.setInt(2, courseId);
         ps.executeUpdate();
     }
-    public void UpdateStatusCer(int uId, int cId){
-        xSql = "update Certificates set Status='Revork' where CourseID = ? and UserID = ?";
+
+    public void UpdateStatusCer(int uId, int cId, String status) {
+        xSql = "update Certificates set Status=? where CourseID = ? and UserID = ?";
         try {
             ps = con.prepareStatement(xSql);
-            ps.setInt(1, cId);
-            ps.setInt(2, uId);
+            ps.setInt(2, cId);
+            ps.setInt(3, uId);
+            ps.setString(1, status);
             ps.execute();
             ps.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    public List<Certificates> getStatusCer(int uId){
+
+    public List<Certificates> getStatusCer(int uId) {
         List<Certificates> list = new ArrayList<>();
         xSql = "select * from Certificates where UserID = ?";
         try {
-            ps = con.prepareStatement(xSql); 
+            ps = con.prepareStatement(xSql);
             ps.setInt(1, uId);
             rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 list.add(new Certificates(rs.getInt(1),
                         rs.getInt(2),
                         rs.getDate(3),
