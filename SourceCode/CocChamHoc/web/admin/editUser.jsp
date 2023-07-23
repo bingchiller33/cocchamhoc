@@ -18,8 +18,7 @@
     </head>
     <body>
         <%@include file="/components/header.jspf" %>
-        <div class="article">
-            <div class="row">
+            <div class="grid">
                 <%@include file="/components/adminNavBar.jspf" %>
                 <div class="admin-content" style="padding: 1rem">
                     <h1>User Details</h1>
@@ -121,9 +120,8 @@
                     </form>
                 </div>
             </div>
-        </div>
         <%@include file="/components/footer.jspf" %>
-        <<script src="../assets/js/revork.js"></script>
+        <script src="../assets/js/revork.js"></script>
     </body>
     <style>
         #user-table {

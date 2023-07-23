@@ -18,8 +18,7 @@
     </head>
     <body>
         <%@include file="/components/header.jspf" %>
-        <div class="article">
-            <div class="row">
+            <div class="grid">
                 <%@include file="/components/adminNavBar.jspf" %>
                 <div class="admin-content">
                     <h1>User management</h1>
@@ -66,7 +65,6 @@
                     <%@include file="/components/courseListingPagination.jspf" %>
                 </div>
             </div>
-        </div>
         <%@include file="/components/footer.jspf" %>
     </body>
     <style>
