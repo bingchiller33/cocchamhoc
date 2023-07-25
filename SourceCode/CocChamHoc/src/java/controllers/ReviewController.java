@@ -9,6 +9,7 @@ import dal.ExamDAO;
 import dal.ExamPapersDAO;
 import dal.QuestionDAO;
 import dal.UserAnswerDAO;
+import dal.UserEnrollDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -51,6 +52,7 @@ public class ReviewController extends HttpServlet {
             UserAnswerDAO uad = new UserAnswerDAO();
             QuestionDAO qd = new QuestionDAO();
             CertificateDAO cd = new CertificateDAO();
+            UserEnrollDAO ued = new UserEnrollDAO();
             // Load questions and user's answers
             int attemptId = ParseUtils.parseIntWithDefault(request.getParameter("attemptId"), -1);          
             ExamPapers exampaper = epd.getExamPaperByID(attemptId);
@@ -65,6 +67,7 @@ public class ReviewController extends HttpServlet {
             int courseID = exam.getCourseID();
             if(!cd.hasCertificate(userID, courseID)){
                 if(cd.isEligibleForCertificate(ed.getPassAttempt(userID, courseID), ed.getExamCount(courseID))){
+                    ued.completeCourse(userID, courseID);
                     cd.issueCertificate(user.getUserID(), courseID);
                 }
             }

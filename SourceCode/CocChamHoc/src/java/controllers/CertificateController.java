@@ -30,9 +30,6 @@ public class CertificateController extends HttpServlet {
             response.sendRedirect("/login");
         } else {
             String cid = (String) request.getSession().getAttribute("id");
-            if (!"".endsWith(cid)) {
-                id = Integer.parseInt(cid);
-            }
             request.setAttribute("title", certificateDAO.getTitle(user.getUserID(), id));
             request.setAttribute("issueDate", certificateDAO.getDate(user.getUserID(), id));
             request.setAttribute("userName", user.getFullName());
