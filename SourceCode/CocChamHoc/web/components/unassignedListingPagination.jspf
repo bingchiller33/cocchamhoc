@@ -4,7 +4,7 @@
 <%@page import="utils.*" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <form class="course-pagination">
-    <p>Page: ${param.unassignedPage} </p>
+    <p>Page: </p>
     <c:set var="unassignedPage" value="${empty param.unassignedPage ? 1 : param.unassignedPage}"></c:set>
     <c:set var="unassignedPages" value="${PaginationUtils.getWindow(unassignedPage, unassignedPageCount, 5)}"></c:set>
     <c:if test="${!PaginationUtils.contains(unassignedPages, 1)}">
