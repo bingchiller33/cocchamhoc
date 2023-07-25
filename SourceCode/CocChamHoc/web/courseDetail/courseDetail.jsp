@@ -209,7 +209,8 @@
                                                         <p class="body-content">${item.review}</p>
                                                     </div>
                                                     <div>
-                                                        <input type="hidden" value="" name='reviewUpdate' class="reviewUpdate" id="reviewUpdate"/>
+                                                        <input type="hidden" value="" name='reviewUpdate' class="reviewUpdate" id="reviewUpdate"/>                                                         <input type="hidden" value="" name='reviewUpdate' class="reviewUpdate" id="reviewUpdate"/> 
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -222,7 +223,7 @@
                             <p>No review available</p>
                         </c:if> 
                         <c:if test="${!review.isEmpty()}">
-                            <div class="course-pagination">
+                            <div class="course-pagination course-pagination_space">
                                 <p>Page: </p> 
                                 <c:set var="page" value="${empty review ? 0 : pagination}"></c:set>
                                 <c:set var="pages" value="${PaginationUtils.getWindow(page, pageCount, 5)}"></c:set>
