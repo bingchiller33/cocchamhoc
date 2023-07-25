@@ -56,7 +56,7 @@
                         <input type="text" list="level-list" id="course-level" name="courseLevel" value="${course.level.description}" required/>
                         <c:if test="${admin}">
                             <label for="course-publish-date">Publish Date</label>
-                            <input type="date" id="course-publish-date" name="coursePublishDate" value="${course.publishDate}" required/>
+                            <input type="date" id="course-publish-date" name="coursePublishDate" value="${course.publishDate}" disabled/>
                         </c:if>
                         <label for="course-lecturer">Lecturer</label>
                         <input type="text" id="course-lecturer" name="courseLecturer" value="${course.lecturer}" required/>

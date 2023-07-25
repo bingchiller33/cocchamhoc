@@ -117,55 +117,56 @@
     }
 </style>   
 <div class="container_certificate">
-    <c:if test="${!listCourse.isEmpty()}">
-        <form method="POST" action="/certificate" class="form_certificates_list">
-            <c:forEach var="item" items="${listCourse}">
-                <div class="item_certificate">  
-                    <div class="certificate_head">
-                        <div onclick="handleClickView(event, ${item.id})" class="certificate_img"> 
+    <c:if test="${!listCourse.isEmpty()}"> 
+        <c:forEach var="item" items="${listCourse}">
+            <div class="item_certificate">  
+                <div class="certificate_head">
+                    <div onclick="handleClickView(event, ${item.id})" class="certificate_img"> 
+                        <a href="/certificate?id=${item.id}">
                             <img class="img_link" src="https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://d2j5ihb19pt1hq.cloudfront.net/certificates/cert-specialization.png?auto=format%2Ccompress&dpr=1&w=&h=72" alt="">
-                        </div>
-                        <div class="certificate_name">
-                            <div> 
+                        </a>
+                    </div>
+                    <div class="certificate_name">
+                        <div> 
+                            <a href="/certificate?id=${item.id}">
                                 <p onclick="handleClickView(event, ${item.id})" class="name_course">${item.title}</p> 
-                                <p class="name_teacher">${item.lecturer}</p>
-                            </div>
+                            </a>
+                            <p class="name_teacher">${item.lecturer}</p>
                         </div>
                     </div>
-                    <div class="certificate_body">
-                        <p class="certificate_ins">Instructions</p>
-                        <table> 
-                            <tbody>
-                                <tr>
-                                    <td class="title_name">Name:</td>
-                                    <td class="name_desc">${item.title}</td>
-                                </tr>
-                                <tr>
-                                    <td class="title_name">Issuing Organization:</td>
-                                    <td class="name_desc">COK cham hoc</td>
-                                </tr>
-                                <tr>
-                                    <td class="title_name">Durations:</td>
-                                    <td class="name_desc">${item.durationInSeconds}s</td>
-                                </tr>
-                                <tr>
-                                    <td class="title_name">Level:</td>
-                                    <td class="name_desc">${item.level.description}</td>
-                                </tr>
-                                <tr>
-                                    <td class="title_name">Category:</td>
-                                    <td class="name_desc">${item.category.description}</td>
-                                </tr> 
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="certificate_footer">
-                        <button class="btn_link-item" onclick="handleClick(event)">Infomation <i class="fa-solid fa-angle-down"></i></button>
-                    </div>
-                </div>  
-                <input type="hidden" value="" name ="cid" id="cId" />
-            </c:forEach> 
-        </form> 
+                </div>
+                <div class="certificate_body">
+                    <p class="certificate_ins">Instructions</p>
+                    <table> 
+                        <tbody>
+                            <tr>
+                                <td class="title_name">Name:</td>
+                                <td class="name_desc">${item.title}</td>
+                            </tr>
+                            <tr>
+                                <td class="title_name">Issuing Organization:</td>
+                                <td class="name_desc">COK cham hoc</td>
+                            </tr>
+                            <tr>
+                                <td class="title_name">Durations:</td>
+                                <td class="name_desc">${item.durationInSeconds}s</td>
+                            </tr>
+                            <tr>
+                                <td class="title_name">Level:</td>
+                                <td class="name_desc">${item.level.description}</td>
+                            </tr>
+                            <tr>
+                                <td class="title_name">Category:</td>
+                                <td class="name_desc">${item.category.description}</td>
+                            </tr> 
+                        </tbody>
+                    </table>
+                </div>
+                <div class="certificate_footer">
+                    <button class="btn_link-item" onclick="handleClick(event)">Infomation <i class="fa-solid fa-angle-down"></i></button>
+                </div>
+            </div>   
+        </c:forEach>  
     </c:if>
     <c:if test="${listCourse.isEmpty()}">
         <div class="course_list_not_found">

@@ -66,7 +66,7 @@
                                         <th>${x.publishDate}</th>
                                         <th>${statusMap[x.id]}</th>
                                         <th>
-                                            <c:if test="${statusMap[x.id]=='Complete'}" >
+                                            <%--<c:if test="${statusMap[x.id]=='Complete'}" >--%>
                                                 <c:forEach var="s" items="${statusCer}">   
                                                     <c:if test="${s.status=='Revoke'&& s.courseId == x.id }">
                                                         <span onclick="handleClick(event)" class="btn-del">UnRevoke</span> 
@@ -75,7 +75,7 @@
                                                         <span onclick="handleClick(event)" class="btn-del">Revoke</span> 
                                                     </c:if>
                                                 </c:forEach>
-                                            </c:if>
+                                            <%--</c:if>--%>
                                         </th>
                                     </tr> 
                                 </c:forEach>

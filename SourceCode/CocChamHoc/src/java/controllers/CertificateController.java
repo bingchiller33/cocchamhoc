@@ -25,14 +25,10 @@ public class CertificateController extends HttpServlet {
             throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute("user");
         CertificateDAO certificateDAO = new CertificateDAO();
-        int id = -1;
+        int id = Integer.parseInt(request.getParameter("id")); 
         if (user == null) {
             response.sendRedirect("/login");
         } else {
-            String cid = (String) request.getSession().getAttribute("id");
-            if (!"".endsWith(cid)) {
-                id = Integer.parseInt(cid);
-            }
             request.setAttribute("title", certificateDAO.getTitle(user.getUserID(), id));
             request.setAttribute("issueDate", certificateDAO.getDate(user.getUserID(), id));
             request.setAttribute("userName", user.getFullName());

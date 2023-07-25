@@ -80,7 +80,7 @@ public class AdminController extends HttpServlet {
             String filterValue = request.getParameter("filterValue");
             
             // Admin courses data
-            List<Course> list = cd.searchCourses(search, category, level, low, high, false, sortName, sortDuration, sortPublishDate, page, pageSize);
+            List<Course> list = cd.searchCourses(search, category, level, low, high, true, sortName, sortDuration, sortPublishDate, page, pageSize);
             int listCount = cd.searchCoursesCount(search, category, level, low, high, false);
             int pageCount = (int) Math.ceil(listCount / (float) pageSize);
 

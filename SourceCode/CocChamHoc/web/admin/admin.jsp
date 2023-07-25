@@ -109,9 +109,8 @@
                                         </td>
                                         <td>
                                             <div class="options">
-                                                <a href="/admin/edit-course?courseId=${i.id}">Edit</a>
-                                                <a href="/admin/edit-course?courseId=${i.id}&action=Delete">Delete</a>
-                                                <a style="background-color: beige" href="/admin/assign-course?courseId=${i.id}">Assign</a>
+                                                <a href="/admin/edit-course?courseId=${i.id}"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                                                <a style="background-color: beige" href="/admin/assign-course?courseId=${i.id}"><i class="fa-solid fa-user-pen"></i> Assign</a>
                                             </div>
                                         </td>
                                     </tr>
@@ -138,7 +137,6 @@
                                     <h1>All Courses</h1>
                                 </c:otherwise>
                             </c:choose>
-                            <a href="/admin/create-course"><i class="fa fa-plus-circle" aria-hidden="true"></i> New Course</a>
                         </div>
                         <div class="filter-btn">
                             <button name="filterValue" value="all" onclick="selectFilter(event)" class="filter-button">All Courses</button>

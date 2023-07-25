@@ -81,6 +81,7 @@ public class CourseDAO extends MyDAO {
         }
         return results;
     }
+    
 
     private String getSortQuery(String sortName, String sortDuration, String sortPublishDate) {
         List<String> sorter = new ArrayList<String>();
