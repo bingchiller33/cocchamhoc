@@ -34,7 +34,7 @@
                     <div class="gotoCert">
                         <h2>Congratulations! You have passed all exams in this course</h2>
                         <div class="link-special">
-                        <a href="${toCert}">Go To Your Certificate</a>
+                            <a href="${toCert}">Go To Your Certificate</a>
                         </div>
                     </div>
                     <hr>
@@ -109,12 +109,11 @@
                                     <th class="cel-2">State</th>
                                     <th class="cel-3">Grade</th>
                                     <th class="cel-4">Marks out of ${questionCount}</th>
-                                    <th class="cel-5">Review</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <c:forEach items="${examPapers}" var="paper" varStatus="paperID">
-                                    <tr>
+                                    <tr class="clickable-row" data-href="gotoAttempt?attemptId=${paper.paperID}&state=2">
                                         <td>${paperID.index+1}</td>
                                         <td>
                                             <p>${paper.state == 2 ? "Finshed":"In Progress"}</p>
@@ -123,9 +122,6 @@
                                         <td>${Math.ceil((paper.score/questionCount)*100)}%</td>
                                         <td>
                                             <p>${paper.score}/${questionCount}</p>
-                                        </td>
-                                        <td>
-                                            <a href="gotoAttempt?attemptId=${paper.paperID}&state=2">Review</a>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -136,5 +132,23 @@
             </main>
         </div>
         <script src="/assets/js/base.js"></script>
+        <script>
+                // Wait for the document to be ready
+                document.addEventListener("DOMContentLoaded", function () {
+                    // Get all elements with class "clickable-row"
+                    const clickableRows = document.querySelectorAll(".clickable-row");
+
+                    // Add click event listeners to each clickable row
+                    clickableRows.forEach(row => {
+                        row.addEventListener("click", function () {
+                            // Get the URL from the "data-href" attribute of the clicked row
+                            const url = row.dataset.href;
+
+                            // Redirect to the specified URL
+                            window.location.href = url;
+                        });
+                    });
+                });
+        </script>
     </body>
 </html>

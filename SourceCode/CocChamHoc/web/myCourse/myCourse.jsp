@@ -15,6 +15,30 @@
         <link rel="stylesheet" href="../assets/css/notFound.css">
         <link rel="stylesheet" href="../assets/css/base.css">
     </head>
+    <style>
+        .progress {
+            margin-top: 5px;
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 20px;
+            background-color: rgb(230, 230, 230);
+            overflow: hidden;
+            height: 12px;
+        }
+        
+        .progress .progress__bar {
+            height: 100%;
+            border-radius: 20px;
+            background: repeating-linear-gradient(
+                135deg,
+                #036ffc,
+                #036ffc 20px,
+                #1163cf 20px,
+                #1163cf 40px
+                );
+        }
+    </style>
     <body>
         <%  
             User user = (User) request.getSession().getAttribute("user");
@@ -44,7 +68,21 @@
                                 <div class="course_item-desc">
                                     <div>
                                         <p class="item_desc-title">${item.title}</p>
-                                        <span class="item_desc-detail">${item.description}</span>
+                                        <c:if test="${counts.get(item)==0}">
+                                            <p>Progress: 0%</p>
+                                        </c:if>
+                                        <c:if test="${counts.get(item)!=0}">
+                                            <p>Progress: ${progress.get(item)*100/counts.get(item)}%</p>
+                                        </c:if>
+                                        
+                                    </div>
+                                    <div class="progress"> 
+                                        <c:if test="${counts.get(item)==0}">
+                                            <div class="progress__bar" style="width: 0%;"></div>
+                                        </c:if>
+                                        <c:if test="${counts.get(item)!=0}">
+                                            <div class="progress__bar" style="width: ${progress.get(item)*100/counts.get(item)}%;"></div>
+                                        </c:if>
                                     </div>
                                     <div>
                                         <p class="item_desc-lecturer">
@@ -54,7 +92,6 @@
                                     </div>
                                 </div>
                                 <div class="btn_link_course">
-                                    <p class="btn_course-duration"> <span>Duration</span> <span>${TimeUtils.intToTime(item.durationInSeconds)}</span></p>
                                     <a href="/gotoLearn?courseId=${item.id}" class="btn_course-link">Resume</a>
                                 </div>
                             </div>

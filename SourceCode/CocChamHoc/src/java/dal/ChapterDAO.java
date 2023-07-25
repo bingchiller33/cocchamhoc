@@ -30,7 +30,7 @@ public class ChapterDAO extends MyDAO {
         rs = ps.executeQuery();
         return fromResultSetMultiple(rs);
     }
-
+    
     public Chapter findChapterById(List<Chapter> chapters, int id) {
         for (Chapter c : chapters) {
             if (c.getId() == id) {

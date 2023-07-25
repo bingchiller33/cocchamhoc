@@ -10,63 +10,86 @@
     -o-box-sizing: border-box;
     box-sizing: border-box;
 }
-body{
-    background-color: #F4F6FC;
+
+
+.grid{
+    display: grid;
+    grid-template: "nav content" 1fr;
+    grid-template-columns: 20% 80%; 
 }
-.article{
-    flex:1;
-}
-.row{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
+
 .admin-sidebar{
-    align-self: flex-start;
-    flex-basis: 20%;
-    margin: 0;
-    padding: 0;
-    width: 20%;
-    overflow: auto;
+    grid-area: nav;    
+    background-color: #F4F6FC;
 }
 .admin-sidebar a{
     display: block;
     color: black;
-    padding: 16px;
-    margin: 20px 0;
+    padding: 2rem;
     text-decoration: none;
+    font-size: 20px;
+}
+.admin-sidebar a:hover{
+    background-color: #FCD980;
 }
 
+
 .admin-content{
+    grid-area: content;
     background-color: white;
     min-width: 720px;
-    flex-basis: 80%;
-    padding: 1% 0%;
 }
 .form-container{
-    margin: 0 10%;
+    padding: 1rem;
 }
+
 .title {
     display: flex;
-    width: inherit;
+    align-content: flex-start;
+    align-items: center;
+    justify-content: space-between;
 }
+.title a{
+    padding: 10px 20px;
+    border-radius: 4px;
+    background-color: #99ff66;
+}
+
+.filters{
+    margin: 1rem 0;
+    display: flex;
+    align-content: flex-start;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .form-container img{
     width: 100px;
     border-radius: 5px;
     margin-right: 10px;
 }
-.form-container th{
-    font-size: 20px;
-    color: #B5B7C0;
-    text-align: left;
-    padding: 5px;
-    font-weight: normal;
+table{
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 1rem;
 }
-.form-container tr:first-of-type{
-    border-bottom: 2px solid black;
+table thead{
+    background-color: #1C1E53;
+    color: white;
 }
-.form-container td{
-    padding-bottom: 1em;
+.cel-1{
+    width: 70%;
+}
+.cel-2{
+    width: 30%;
+}
+table th{   
+    padding: 1rem;
+    border: 1px solid #ddd;
+}
+table td{
+    padding: 1rem;
+    border: 1px solid #ddd;
 }
 .course-inf{
     display: flex;
@@ -75,19 +98,16 @@ body{
 .course-inf small{
     color: #B5B7C0;
 }
-.inf{
-    margin-right: 40px;
+.options{
+    display: flex;
+    justify-content: space-between;
 }
-.form-container a{
-    margin-right: 20px;
+.options a{
     padding: 10px 20px;
     background-color: #FCD980;
     border-radius: 4px;
 }
-.form-container tr a:nth-child(2){
+.options a:nth-child(2){
     background-color: #ff8080;
 }
-.title a{
-    margin-left: 35%;
-    background-color: #99ff66;
-}
+
