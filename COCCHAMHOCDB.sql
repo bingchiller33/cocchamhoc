@@ -354,7 +354,3 @@ INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(10, N'b. 1.
 INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(10, N'c. 1.52', 0)
 INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(10, N'd. 3.16', 1)
 
-
-USE COC_CHAM_HOC
-
-SELECT COUNT(*) FROM dbo.Lessons WHERE ChapterID IN (SELECT ChapterID FROM dbo.Chapters WHERE CourseID = 1)

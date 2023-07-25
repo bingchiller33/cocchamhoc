@@ -50,10 +50,10 @@ public class ExamDAO extends MyDAO{
                 + "          AND a.UserID = ?\n"
                 + "    GROUP BY a.Score,\n"
                 + "             b.ExamID\n"
-                + "    HAVING CEILING(   a.Score /\n"
+                + "    HAVING CEILING(   a.Score * 100 /\n"
                 + "                      (\n"
                 + "                          SELECT COUNT(*) FROM dbo.Questions WHERE ExamID = b.ExamID\n"
-                + "                      ) * 100\n"
+                + "                      ) \n"
                 + "                  ) >= 80\n"
                 + ") AS c;";
         ps = con.prepareStatement(xSql);

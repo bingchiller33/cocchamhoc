@@ -341,7 +341,7 @@ public class RateDAO extends MyDAO {
         }
         return 0;
     }
-
+    
     public int getQuantity2(int cId) {
         xSql = "select Count(*) from Ratings where Rating = 2 and CourseID = ?";
         try {

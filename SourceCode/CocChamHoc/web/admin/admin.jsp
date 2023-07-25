@@ -110,7 +110,7 @@
                                         <td>
                                             <div class="options">
                                                 <a href="/admin/edit-course?courseId=${i.id}">Edit</a>
-                                                <a href="/admin/edit-course?courseId=${i.id}&action=Delete">Delete</a>
+                                                <a href="/admin/edit-course?courseId=${i.id}&action=Delete">Discontinue</a>
                                                 <a style="background-color: beige" href="/admin/assign-course?courseId=${i.id}">Assign</a>
                                             </div>
                                         </td>

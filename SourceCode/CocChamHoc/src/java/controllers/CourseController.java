@@ -67,6 +67,7 @@ public class CourseController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         int courseID = Integer.parseInt(request.getParameter("id"));
         String f = (String) request.getSession().getAttribute("filterRate");
         String p = (String) request.getSession().getAttribute("pagination");
@@ -97,9 +98,13 @@ public class CourseController extends HttpServlet {
         if (user == null) {
             request.setAttribute("isEnroll", false);
         } else {
-            request.setAttribute("isEnroll", ued.isEnroll(user.getUserID(), courseID));
-            request.setAttribute("userRateNo", rateDAO.getUserRateNo(courseID, user.getUserID()));
-            request.setAttribute("userId", user.getUserID());
+            try {
+                request.setAttribute("status", ued.getStatus(user.getUserID(), courseID));
+                request.setAttribute("isEnroll", ued.isEnroll(user.getUserID(), courseID));
+                request.setAttribute("userRateNo", rateDAO.getUserRateNo(courseID, user.getUserID()));
+                request.setAttribute("userId", user.getUserID());
+            } catch (Exception e) {
+            }
         }
         request.setAttribute("review", list);
         request.setAttribute("five", rateDAO.getQuantity5(courseID));

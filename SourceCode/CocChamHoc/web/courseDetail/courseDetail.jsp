@@ -27,8 +27,8 @@
                 padding: 10px 30px;
                 background-color: #FCD980;
                 border-radius: 6px;
-                marigin-left: 20px;
-            }
+                margin-left: 20px;
+            }            
             .courseDetail-container .row:nth-of-type(2){
                 justify-content: center;
                 margin-bottom: 2%;
@@ -96,7 +96,9 @@
                     </div>
                 </div>
                 <c:if test="${isEnroll == true}">
+                    <div class="row">
                         <div><a href="/gotoLearn?courseId=${courseID}">Go To Course</a></div>
+                    </div>
                 </c:if>
                 <c:if test="${isEnroll == false}">
                     <div>
