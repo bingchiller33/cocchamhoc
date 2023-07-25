@@ -79,7 +79,7 @@ public class ExamController extends HttpServlet {
             User user = (User)request.getSession().getAttribute("user");
             List<ExamPapers> examPapers = epd.getExamPapers(examId, user.getUserID());
             ExamPapers bestAttempt = epd.getBestAttempt(user.getUserID(), examId);   
-            Map<Chapter, Map<Lesson, Boolean>> allProgress = progressDAO.getAllLessonsProgress(lessonMap, courseId);
+            Map<Chapter, Map<Lesson, Boolean>> allProgress = progressDAO.getAllLessonsProgress(lessonMap, user.getUserID());
             // Set Navbar data
             request.setAttribute("allProgress", allProgress);
             request.setAttribute("backUrl", "/course?id=" + courseId);
