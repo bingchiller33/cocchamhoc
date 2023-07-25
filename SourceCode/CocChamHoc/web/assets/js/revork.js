@@ -15,6 +15,13 @@ const getParentElement = (element, parent) => {
 const handleClick = (e) => {
     let courseId = getParentElement(e.target, '.courseRow').querySelector('.course_id');
     let cid = getParentElement(e.target, '#formRevork').querySelector('.cId');
-    cid.value = courseId.innerText; 
+    let status = getParentElement(e.target, '#formRevork').querySelector('.status');
+    cid.value = courseId.innerText;  
+    if(e.target.innerText==='UnRevoke'){
+        status.value = 'Normal';
+    }
+    if (e.target.innerText === 'Revoke'){
+        status.value = 'Revoke';
+    }
     document.querySelector('#formRevork').submit();
 };

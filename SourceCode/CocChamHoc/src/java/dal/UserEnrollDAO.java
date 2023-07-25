@@ -6,7 +6,9 @@ package dal;
 
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import model.Course;
 
 /**
  *
@@ -33,6 +35,7 @@ public class UserEnrollDAO extends MyDAO {
             e.printStackTrace();
         }
     }
+    
     public boolean isEnroll(int userID, int id){
         xSql = "SELECT * FROM dbo.UsersEnroll WHERE UserId = ? AND CourseID = ?";
         try {
@@ -61,5 +64,42 @@ public class UserEnrollDAO extends MyDAO {
         }
         
         return res;
+    }
+    
+    public Map<Course, Integer> getAllProgress(List<Course> courses, int userId) throws SQLException{
+        Map<Course, Integer> map = new HashMap<>();
+        for(Course c : courses){
+            map.put(c, getProgress(userId, c.getId()));
+        }
+        return map;
+    }
+    
+    public int getProgress(int userID, int id) throws SQLException{
+        xSql = "SELECT Progress FROM dbo.UsersEnroll WHERE UserId = ? AND CourseID = ?";
+        ps = con.prepareStatement(xSql);
+        ps.setInt(1, userID);
+        ps.setInt(2, id);
+        rs = ps.executeQuery();
+        if(rs.next()){
+            return rs.getInt(1);
+        }
+        return 0;
+    }
+    
+    public void trackProgress(int userID, int id) throws SQLException{
+        xSql = "SELECT Progress FROM dbo.UsersEnroll WHERE UserId = ? AND CourseID = ?";
+        ps = con.prepareStatement(xSql);
+        ps.setInt(1, userID);
+        ps.setInt(2, id);
+        rs = ps.executeQuery();
+        rs.next();
+        int progress = rs.getInt(1);
+        progress++;
+        xSql = "UPDATE dbo.UsersEnroll SET Progress = ? WHERE UserId = ? AND CourseID = ?";
+        ps = con.prepareStatement(xSql);
+        ps.setInt(1, progress);
+        ps.setInt(2, userID);
+        ps.setInt(3, id);
+        ps.executeUpdate();
     }
 }

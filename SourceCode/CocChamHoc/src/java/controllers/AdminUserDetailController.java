@@ -45,8 +45,7 @@ public class AdminUserDetailController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            int id = ParseUtils.parseIntWithDefault(request.getParameter("id"), -1);
-            System.out.println(id);
+            int id = ParseUtils.parseIntWithDefault(request.getParameter("id"), -1); 
             UserDAO userDAO = new UserDAO();
             MyCourseDAO myCourseDAO = new MyCourseDAO();
             UserEnrollDAO userEnrollDAO = new UserEnrollDAO();
@@ -97,9 +96,9 @@ public class AdminUserDetailController extends HttpServlet {
         String action = ParseUtils.defaultIfEmpty(request.getParameter("action"), "");
         int id = ParseUtils.parseIntWithDefault(request.getParameter("id"), -1);
         int cId = ParseUtils.parseIntWithDefault(request.getParameter("cId"), -1);
-        int uId = ParseUtils.parseIntWithDefault(request.getParameter("uId"), -1);
-        System.out.println(cId);
-        certificateDAO.UpdateStatusCer(uId, cId); 
+        int uId = ParseUtils.parseIntWithDefault(request.getParameter("uId"), -1); 
+        String status = request.getParameter("status");
+        certificateDAO.UpdateStatusCer(uId, cId, status); 
         switch (action) {
             case "Restrict":
                 processRestrict(request, response);

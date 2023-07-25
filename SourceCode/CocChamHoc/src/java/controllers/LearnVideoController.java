@@ -8,6 +8,7 @@ import dal.ChapterDAO;
 import dal.CourseDAO;
 import dal.ExamDAO;
 import dal.LessonDAO;
+import dal.ProgressDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -22,6 +23,7 @@ import java.util.logging.Logger;
 import model.Chapter;
 import model.Exam;
 import model.Lesson;
+import model.User;
 import utils.ParseUtils;
 
 /**
@@ -64,7 +66,7 @@ public class LearnVideoController extends HttpServlet {
                 request.getRequestDispatcher("/notFound.jsp").forward(request, response);
                 return;
             }
-            
+
             List<Lesson> lessons = lessonDAO.findLessons(lessonMap, chapterId);
             if (lessons.isEmpty()) {
                 request.getRequestDispatcher("/notFound.jsp").forward(request, response);
@@ -83,15 +85,26 @@ public class LearnVideoController extends HttpServlet {
 
             Lesson nextLesson = lessonDAO.getNextLesson(courseId, chapter.getChapterNumber(), lesson.getLessonNumber());
             Lesson prevLesson = lessonDAO.getPrevLesson(courseId, chapter.getChapterNumber(), lesson.getLessonNumber());
-            
-            if(nextLesson != null) {
+
+            if (nextLesson != null) {
                 nextLessonUrl = "/learn/video?courseId=" + courseId + "&chapterId=" + nextLesson.getChapterId() + "&lessonNumber=" + nextLesson.getLessonNumber();
             }
-            
-            if(prevLesson != null) {
+
+            if (prevLesson != null) {
                 prevLessonUrl = "/learn/video?courseId=" + courseId + "&chapterId=" + prevLesson.getChapterId() + "&lessonNumber=" + prevLesson.getLessonNumber();
             }
 
+            ProgressDAO progressDAO = new ProgressDAO();
+            int chapterId1 = ParseUtils.parseIntWithDefault(request.getParameter("chapterId"), -1);
+            int LessonNumber = ParseUtils.parseIntWithDefault(request.getParameter("lessonNumber"), -1);
+            User u = (User) request.getSession().getAttribute("user");
+                
+            Map<Chapter, Map<Lesson, Boolean>> allProgress = progressDAO.getAllLessonsProgress(lessonMap, courseId);
+            boolean progress = progressDAO.getLessonProgress(chapterId1, LessonNumber, u.getUserID());
+            
+            request.setAttribute("allProgress", allProgress);
+            request.setAttribute("progress", progress);
+            
             request.setAttribute("backUrl", "/course?id=" + courseId);
             request.setAttribute("course", courseDAO.getCourseById(courseId));
             request.setAttribute("chapters", chapters);

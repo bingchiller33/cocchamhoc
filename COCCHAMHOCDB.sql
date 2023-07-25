@@ -57,19 +57,22 @@ CREATE TABLE Chapters
     ChapterName NVARCHAR(69) NOT NULL,
 );
 GO
+
 CREATE TABLE Lessons
 (
     LessonNumber INT NOT NULL,
     ChapterID INT
         FOREIGN KEY REFERENCES dbo.Chapters (ChapterID) ON DELETE CASCADE,
     LessonName NVARCHAR(69) NOT NULL,
-    LessonVideo VARCHAR(512) NOT NULL,
+    LessonVideo VARCHAR(512) NOT NULL,	
     LessonDescription NTEXT,
     PRIMARY KEY (
                     LessonNumber,
                     ChapterID
                 )
 );
+
+
 GO
 CREATE TABLE Exams
 (
@@ -112,6 +115,17 @@ CREATE TABLE [Users]
     RestrictedUntil DATETIME DEFAULT '2000-01-01 00:00:00',
     RestrictedReason NVARCHAR(420) NULL,
 );
+GO
+
+CREATE TABLE Progress(
+	UserID INT FOREIGN KEY REFERENCES dbo.Users(UserID),
+	LessonNumber INT,
+	ChapterID INT FOREIGN KEY REFERENCES dbo.Chapters(ChapterID),
+	[State] BIT,
+	CONSTRAINT Progres FOREIGN KEY (LessonNumber, ChapterID) REFERENCES dbo.Lessons(LessonNumber, ChapterID),
+	PRIMARY KEY(UserID, LessonNumber, ChapterID)
+)
+GO
 CREATE TABLE [UsersEnroll]
 (
     UserId INT
@@ -120,7 +134,7 @@ CREATE TABLE [UsersEnroll]
         FOREIGN KEY REFERENCES dbo.Courses (CourseID),
     Status VARCHAR(100) CHECK (Status IN ( 'Learning', 'Complete' ))
         DEFAULT 'Learning',
-	Progress INT,
+	Progress INT DEFAULT 0,
     PRIMARY KEY (
                     UserId,
                     CourseID
@@ -160,7 +174,9 @@ CREATE TABLE Certificates
         FOREIGN KEY REFERENCES dbo.Users (UserID) ON DELETE CASCADE,
     CourseID INT
         FOREIGN KEY REFERENCES dbo.Courses (CourseID) ON DELETE CASCADE,
-    IssueDate DATE NOT NULL,
+    IssueDate DATE NOT NULL, 
+    Status VARCHAR(100) CHECK (Status IN ( 'Normal', 'Revoke' ))
+        DEFAULT 'Normal',
 );
 GO
 CREATE TABLE Ratings
@@ -228,32 +244,33 @@ INSERT [dbo].[Chapters] ([ChapterNumber], [CourseID], [ChapterName]) VALUES (1, 
 INSERT [dbo].[Chapters] ([ChapterNumber], [CourseID], [ChapterName]) VALUES (2, 1, N'Module 2 - Control Structures')
 INSERT [dbo].[Chapters] ([ChapterNumber], [CourseID], [ChapterName]) VALUES (3, 1, N'Module 3 - Data Flow')
 GO 
-INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo], [LessonDescription]) VALUES (1, 1, N'Java 01. Why learn Java programming?', N'https://www.youtube.com/embed/xfOp0izFnu0', N'')
-INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo], [LessonDescription]) VALUES (1, 2, N'Java 07. How to import data from key sales', N'https://www.youtube.com/embed/ymFKMQSeodQ', N'')
-INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo], [LessonDescription]) VALUES (1, 3, N'Java 13. Conditional Operators in Java', N'https://www.youtube.com/embed/CQDWaJKynqs', N'')
-INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo], [LessonDescription]) VALUES (2, 1, N'Java 02. Install JDK and Eclipse', N'https://www.youtube.com/embed/ayA1Lz2qEZo', N'')
-INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo], [LessonDescription]) VALUES (2, 2, N'Java 08. Basic math operations in Java', N'https://www.youtube.com/embed/-F8_zsyfs2I', N'')
-INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo], [LessonDescription]) VALUES (2, 3, N'Java 14. Conditional statement if…else in Java', N'https://www.youtube.com/embed/HUtHP5Iz0BQ', N'')
-INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo], [LessonDescription]) VALUES (3, 1, N'Java 03. Structure of a Java class', N'https://www.youtube.com/embed/6Gbxt2Sox7k', N'')
-INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo], [LessonDescription]) VALUES (3, 2, N'Java 09. Unary operators in Java programming', N'https://www.youtube.com/embed/AHF2sxWTGR4', N'')
-INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo], [LessonDescription]) VALUES (3, 3, N'Java 15 . Solving quadratic equation ax2 bx c=0 in Java', N'https://www.youtube.com/embed/qUuUJXkeGgk', N'')
-INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo], [LessonDescription]) VALUES (4, 1, N'Java 04. How to declare variables in Java', N'https://www.youtube.com/embed/zEbraQ5vIaU', N'')
-INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo], [LessonDescription]) VALUES (4, 2, N'Java 10. How to assign data in Java', N'https://www.youtube.com/embed/77vlH6uD32E', N'')
-INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo], [LessonDescription]) VALUES (4, 3, N'Java 16 . Switch…case statement in Java programming', N'https://www.youtube.com/embed/kRSD0jWQSGQ', N'')
-INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo], [LessonDescription]) VALUES (5, 1, N'Java 05 . How to take notes in Java', N'https://www.youtube.com/embed/jgzgkUbK35M', N'')
-INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo], [LessonDescription]) VALUES (5, 2, N'Java 11. Comparison and conditional operations in Java', N'https://www.youtube.com/embed/LuPiDFcHWoU', N'')
-INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo], [LessonDescription]) VALUES (5, 3, N'Java 17.  Exercises to check the number of days of the month in Java', N'https://www.youtube.com/embed/XPO2QR4K5Y4', N'')
-INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo], [LessonDescription]) VALUES (6, 1, N'Java 06. How to check and handle compilation errors', N'https://www.youtube.com/embed/2Zu17CS3288', N'')
-INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo], [LessonDescription]) VALUES (6, 2, N'Java 12. Math class and math functions in Java', N'https://www.youtube.com/embed/7FoJA49E0zE', N'')
-INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo], [LessonDescription]) VALUES (6, 3, N'Java 18.  How to use for loop in Java programming', N'https://www.youtube.com/embed/1NyJ0Nk5DAQ', N'')
-INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo], [LessonDescription]) VALUES (7, 3, N'Java 19. Looping to print multiplication table in Java', N'https://www.youtube.com/embed/x0N_89T4dhk', N'')
-INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo], [LessonDescription]) VALUES (8, 3, N'Java 20. How to use while loop in Java programming', N'https://www.youtube.com/embed/LRfESV4rmFE', N'')
-INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo], [LessonDescription]) VALUES (9, 3, N'Java 21. Convert numbers from decimal to binary', N'https://www.youtube.com/embed/V71kcbhNfT8', N'')
-INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo], [LessonDescription]) VALUES (10, 3, N'Java 22. Do while loop in Java iterator', N'https://www.youtube.com/embed/Y8IYMoq4LmE', N'')
-INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo], [LessonDescription]) VALUES (11, 3, N'Java 23. How to use break, continue and return statements in Java', N'https://www.youtube.com/embed/-9TwINgJOUM', N'')
-INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo], [LessonDescription]) VALUES (12, 3, N'Java 24 . How to catch exceptions with try catch in Java programming', N'https://www.youtube.com/embed/nQXE89sy8QQ', N'')
-INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo], [LessonDescription]) VALUES (13, 3, N'Java 25. Introduction to arrays in Java programming', N'https://www.youtube.com/embed/ph_RfyQP5cE', N'')
+INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo] , [LessonDescription])VALUES (1, 1, N'Java 01. Why learn Java programming?', N'https://www.youtube.com/embed/xfOp0izFnu0', N'')
+INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo],[LessonDescription]) VALUES (1, 2, N'Java 07. How to import data from key sales', N'https://www.youtube.com/embed/ymFKMQSeodQ', N'')
+INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo],[LessonDescription]) VALUES (1, 3, N'Java 13. Conditional Operators in Java', N'https://www.youtube.com/embed/CQDWaJKynqs', N'')
+INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo] ,[LessonDescription]) VALUES (2, 1, N'Java 02. Install JDK and Eclipse', N'https://www.youtube.com/embed/ayA1Lz2qEZo', N'')
+INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo] ,[LessonDescription]) VALUES (2, 2, N'Java 08. Basic math operations in Java', N'https://www.youtube.com/embed/-F8_zsyfs2I', N'')
+INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo] ,[LessonDescription]) VALUES (2, 3, N'Java 14. Conditional statement if…else in Java', N'https://www.youtube.com/embed/HUtHP5Iz0BQ', N'')
+INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo],[LessonDescription]) VALUES (3, 1, N'Java 03. Structure of a Java class', N'https://www.youtube.com/embed/6Gbxt2Sox7k', N'')
+INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo] ,[LessonDescription]) VALUES (3, 2, N'Java 09. Unary operators in Java programming', N'https://www.youtube.com/embed/AHF2sxWTGR4', N'')
+INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo] ,[LessonDescription]) VALUES (3, 3, N'Java 15 . Solving quadratic equation ax2 bx c=0 in Java', N'https://www.youtube.com/embed/qUuUJXkeGgk', N'')
+INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo] ,[LessonDescription]) VALUES (4, 1, N'Java 04. How to declare variables in Java', N'https://www.youtube.com/embed/zEbraQ5vIaU', N'')
+INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo] ,[LessonDescription]) VALUES (4, 2, N'Java 10. How to assign data in Java', N'https://www.youtube.com/embed/77vlH6uD32E', N'')
+INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo] ,[LessonDescription]) VALUES (4, 3, N'Java 16 . Switch…case statement in Java programming', N'https://www.youtube.com/embed/kRSD0jWQSGQ', N'')
+INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo] ,[LessonDescription]) VALUES (5, 1, N'Java 05 . How to take notes in Java', N'https://www.youtube.com/embed/jgzgkUbK35M', N'')
+INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo] ,[LessonDescription]) VALUES (5, 2, N'Java 11. Comparison and conditional operations in Java', N'https://www.youtube.com/embed/LuPiDFcHWoU', N'')
+INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo] ,[LessonDescription]) VALUES (5, 3, N'Java 17.  Exercises to check the number of days of the month in Java', N'https://www.youtube.com/embed/XPO2QR4K5Y4', N'')
+INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo],[LessonDescription]) VALUES (6, 1, N'Java 06. How to check and handle compilation errors', N'https://www.youtube.com/embed/2Zu17CS3288', N'')
+INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo],[LessonDescription]) VALUES (6, 2, N'Java 12. Math class and math functions in Java', N'https://www.youtube.com/embed/7FoJA49E0zE', N'')
+INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo] ,[LessonDescription]) VALUES (6, 3, N'Java 18.  How to use for loop in Java programming', N'https://www.youtube.com/embed/1NyJ0Nk5DAQ', N'')
+INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo] ,[LessonDescription]) VALUES (7, 3, N'Java 19. Looping to print multiplication table in Java', N'https://www.youtube.com/embed/x0N_89T4dhk', N'')
+INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo],[LessonDescription]) VALUES (8, 3, N'Java 20. How to use while loop in Java programming', N'https://www.youtube.com/embed/LRfESV4rmFE', N'')
+INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo] ,[LessonDescription]) VALUES (9, 3, N'Java 21. Convert numbers from decimal to binary', N'https://www.youtube.com/embed/V71kcbhNfT8', N'')
+INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo],[LessonDescription]) VALUES (10, 3, N'Java 22. Do while loop in Java iterator', N'https://www.youtube.com/embed/Y8IYMoq4LmE', N'')
+INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo] ,[LessonDescription]) VALUES (11, 3, N'Java 23. How to use break, continue and return statements in Java', N'https://www.youtube.com/embed/-9TwINgJOUM', N'')
+INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo] ,[LessonDescription]) VALUES (12, 3, N'Java 24 . How to catch exceptions with try catch in Java programming', N'https://www.youtube.com/embed/nQXE89sy8QQ', N'')
+INSERT [dbo].[Lessons] ([LessonNumber], [ChapterID], [LessonName], [LessonVideo] ,[LessonDescription]) VALUES (13, 3, N'Java 25. Introduction to arrays in Java programming', N'https://www.youtube.com/embed/ph_RfyQP5cE', N'')
 GO
+
 
 -- Generate default accounts
 -- Pass: 12345678
@@ -336,3 +353,8 @@ INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(10, N'a. 3.
 INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(10, N'b. 1.77', 0)
 INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(10, N'c. 1.52', 0)
 INSERT INTO dbo.Choices(QuestionID, Description, IsTrueAnswer)VALUES(10, N'd. 3.16', 1)
+
+
+USE COC_CHAM_HOC
+
+SELECT COUNT(*) FROM dbo.Lessons WHERE ChapterID IN (SELECT ChapterID FROM dbo.Chapters WHERE CourseID = 1)

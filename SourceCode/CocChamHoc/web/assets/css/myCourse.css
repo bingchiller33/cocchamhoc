@@ -65,34 +65,31 @@ html {
 
 .course_component {
     display: flex;
-    justify-content: center;
-    width: 52%;
+    justify-content: space-between;
+    width: 60%;
     box-shadow: 0.2px 0px 5px rgb(162, 162, 161);
-    height: 96px;
+    padding: 1rem;
 }
 
 .course_item-img {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 18%;
+    width: 30%;
+    
 }
 
 .item_img-detail {
-    margin: 0 14px 0 8px;
-    width: 132px;
+    object-fit: contain;
 }
 
 .course_item-desc {
-    width: 54%;
-    margin-left: 18px;
+    width: 50%;
 }
 
 .item_desc-title {
-    margin-top: 16px;
     font-size: 16px;
     margin-bottom: 4px;
-    max-width: 78%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -110,7 +107,7 @@ html {
 }
 
 .item_desc-lecturer {
-    margin-top: 12px;
+    margin-top: 10px;
 }
 
 .desc_lecturer-title {
@@ -125,6 +122,7 @@ html {
 }
 
 .btn_link_course {
+    width: 10%;
     text-align: center;
     margin: auto 0;
     font-size: 12px;
@@ -143,6 +141,7 @@ html {
     background-color: rgb(52, 62, 179);
     padding: 8px 14px;
     border-radius: 4px;
+    
 }
 @media (max-width: 575px) {
     .course_header {
@@ -305,6 +304,6 @@ html {
 }
 @media (min-width: 993px) {
     .item_img-detail {
-        width: 122px;
+        width: 200px;
     }
 }

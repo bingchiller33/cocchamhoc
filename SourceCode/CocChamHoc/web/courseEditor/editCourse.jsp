@@ -56,7 +56,7 @@
                         <input type="text" list="level-list" id="course-level" name="courseLevel" value="${course.level.description}" required/>
                         <c:if test="${admin}">
                             <label for="course-publish-date">Publish Date</label>
-                            <input type="date" id="course-publish-date" name="coursePublishDate" value="${course.publishDate}"/>
+                            <input type="date" id="course-publish-date" name="coursePublishDate" value="${course.publishDate}" required/>
                         </c:if>
                         <label for="course-lecturer">Lecturer</label>
                         <input type="text" id="course-lecturer" name="courseLecturer" value="${course.lecturer}" required/>
@@ -70,7 +70,7 @@
                             </c:forEach>
                         </select>
                         <label for="course-desc">Description</label>
-                        <textarea height="300px" id="course-desc" name="courseDesc">${course.description}</textarea>
+                        <textarea height="300px" id="course-desc" name="courseDesc" required>${course.description}</textarea>
                     </div>
                     <p style="color: red">${status}</p>
                     <div class="action-container">

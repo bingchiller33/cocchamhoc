@@ -9,6 +9,7 @@ import dal.ChapterDAO;
 import dal.CourseDAO;
 import dal.ExamDAO;
 import dal.ExamPapersDAO;
+import dal.ProgressDAO;
 import dal.QuestionDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -53,6 +54,7 @@ public class ExamController extends HttpServlet {
             ChapterDAO chapterDAO = new ChapterDAO();
             ExamPapersDAO epd = new ExamPapersDAO();
             CertificateDAO cd = new CertificateDAO();
+            ProgressDAO progressDAO = new ProgressDAO();
             // URL param
             int examId = ParseUtils.parseIntWithDefault(request.getParameter("examId"), -1);
             Exam exam = ed.getExamByID(examId);
@@ -76,8 +78,10 @@ public class ExamController extends HttpServlet {
             }
             User user = (User)request.getSession().getAttribute("user");
             List<ExamPapers> examPapers = epd.getExamPapers(examId, user.getUserID());
-            ExamPapers bestAttempt = epd.getBestAttempt(user.getUserID(), examId);            
+            ExamPapers bestAttempt = epd.getBestAttempt(user.getUserID(), examId);   
+            Map<Chapter, Map<Lesson, Boolean>> allProgress = progressDAO.getAllLessonsProgress(lessonMap, courseId);
             // Set Navbar data
+            request.setAttribute("allProgress", allProgress);
             request.setAttribute("backUrl", "/course?id=" + courseId);
             request.setAttribute("course", courseDAO.getCourseById(courseId));
             request.setAttribute("chapters", chapters);

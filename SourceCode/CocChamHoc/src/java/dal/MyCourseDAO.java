@@ -30,8 +30,7 @@ public class MyCourseDAO extends MyDAO {
                 + "        ON Categories.CategoryID = Courses.CategoryID\n"
                 + "    JOIN dbo.Levels\n"
                 + "        ON Levels.LevelID = Courses.LevelID\n"
-                + "WHERE UserId = ?\n"
-                + "      AND Status = 'Learning'";
+                + "WHERE UserId = ?";
         try {
             ps = con.prepareStatement(xSql);
             ps.setInt(1, uId);
