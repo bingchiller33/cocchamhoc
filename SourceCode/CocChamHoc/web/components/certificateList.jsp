@@ -16,6 +16,7 @@
 
     .certificate_img {
         height: 54px;
+        cursor: pointer;
     }
 
     .img_link {
@@ -52,6 +53,7 @@
         color: #2262a6;
         margin: 0 0 8px 0;
         text-decoration: none;
+        cursor: pointer;
     }
     .name_course:hover, img_link:hover {
         opacity: 0.8;
@@ -102,6 +104,9 @@
         min-width: 180px;
         color: rgb(72, 72, 72);
     }
+    .form_certificates_list {
+        width: 100%;
+    }
     .name_desc {
         font-size: 14px;
         color: rgb(72, 72, 72);
@@ -112,19 +117,19 @@
     }
 </style>   
 <div class="container_certificate">
-    <c:if test="${!listCourse.isEmpty()}">
+    <c:if test="${!listCourse.isEmpty()}"> 
         <c:forEach var="item" items="${listCourse}">
-            <div class="item_certificate">
+            <div class="item_certificate">  
                 <div class="certificate_head">
-                    <div class="certificate_img">
+                    <div onclick="handleClickView(event, ${item.id})" class="certificate_img"> 
                         <a href="/certificate?id=${item.id}">
                             <img class="img_link" src="https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://d2j5ihb19pt1hq.cloudfront.net/certificates/cert-specialization.png?auto=format%2Ccompress&dpr=1&w=&h=72" alt="">
                         </a>
                     </div>
                     <div class="certificate_name">
-                        <div>
-                            <a href="/certificate?id=${item.id}" class="name_link">
-                                <p class="name_course">${item.title}</p>
+                        <div> 
+                            <a href="/certificate?id=${item.id}">
+                                <p onclick="handleClickView(event, ${item.id})" class="name_course">${item.title}</p> 
                             </a>
                             <p class="name_teacher">${item.lecturer}</p>
                         </div>
@@ -160,8 +165,8 @@
                 <div class="certificate_footer">
                     <button class="btn_link-item" onclick="handleClick(event)">Infomation <i class="fa-solid fa-angle-down"></i></button>
                 </div>
-            </div>
-        </c:forEach>
+            </div>   
+        </c:forEach>  
     </c:if>
     <c:if test="${listCourse.isEmpty()}">
         <div class="course_list_not_found">
@@ -195,6 +200,7 @@
         }
     }
     function handleClick(event) {
+        event.preventDefault();
         var parentElement = getParentElement(event.target, '.item_certificate');
         var btn = event.target;
         var btnParent = getParentElement(event.target, '.certificate_footer');
@@ -204,5 +210,12 @@
         parentElement.querySelector('.certificate_body').style.display
                 = getComputedStyle(parentElement.querySelector('.certificate_body')).display
                 === 'none' ? 'block' : 'none';
+    }
+    const handleClickView = (e, id) => {
+        const parentElemt = getParentElement(e.target, '.container_certificate');
+        const inputCid = parentElemt.querySelector("#cId");
+        inputCid.value = id;
+        console.log(inputCid.value)
+        parentElemt.querySelector('.form_certificates_list').submit();
     }
 </script>  

@@ -8,10 +8,18 @@
                 <li class="course-nav-header">
                     <a href="/learn/video?courseId=${course.id}&chapterId=${chapter.id}">${chapter.name}</a>
                     <ul>
+                        <c:set var="prog" value="${allProgress.get(chapter)}"></c:set>
                         <c:forEach var="lesson" items="${lessonMap.get(chapter)}">
-                            <li class="nav-item">
-                                <a href="/learn/video?courseId=${course.id}&chapterId=${chapter.id}&lessonNumber=${lesson.lessonNumber}" class="nav-item-flex"> <i class="fa-regular fa-circle-play"></i> ${lesson.name}</a>
-                            </li>
+                            <c:if test="${prog.get(lesson) == true}">
+                                <li class="nav-item">
+                                    <a href="/learn/video?courseId=${course.id}&chapterId=${chapter.id}&lessonNumber=${lesson.lessonNumber}" class="nav-item-flex"> <i class="fa-solid fa-circle-check" style="color: #005eff;"></i> ${lesson.name}</a>
+                                </li>
+                            </c:if>
+                            <c:if test="${prog.get(lesson) == false}">
+                                <li class="nav-item">
+                                    <a href="/learn/video?courseId=${course.id}&chapterId=${chapter.id}&lessonNumber=${lesson.lessonNumber}" class="nav-item-flex"> <i class="fa-regular fa-circle-play"></i> ${lesson.name}</a>
+                                </li>
+                            </c:if>
                         </c:forEach>
                     </ul>
                 </li>

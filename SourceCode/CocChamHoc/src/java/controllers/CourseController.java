@@ -67,18 +67,19 @@ public class CourseController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         int courseID = Integer.parseInt(request.getParameter("id"));
         String f = (String) request.getSession().getAttribute("filterRate");
         String p = (String) request.getSession().getAttribute("pagination");
         int filterRate = -1;
         int pagination = 1;
         int pageSize = 5;
-        if (!"".equals(f) && f != null) {
+        if (!"".equals(f) && f != null && f.equals("all")) { 
             filterRate = Integer.parseInt(f);
         }
         if (!"".equals(p) && p != null) {
             pagination = Integer.parseInt(p);
-        }
+        } 
         RateDAO rateDAO = new RateDAO();
         CourseDAO cd = new CourseDAO();
         UserEnrollDAO ued = new UserEnrollDAO();
@@ -97,9 +98,13 @@ public class CourseController extends HttpServlet {
         if (user == null) {
             request.setAttribute("isEnroll", false);
         } else {
-            request.setAttribute("isEnroll", ued.isEnroll(user.getUserID(), courseID));
-            request.setAttribute("userRateNo", rateDAO.getUserRateNo(courseID, user.getUserID()));
-            request.setAttribute("userId", user.getUserID());
+            try {
+                request.setAttribute("status", ued.getStatus(user.getUserID(), courseID));
+                request.setAttribute("isEnroll", ued.isEnroll(user.getUserID(), courseID));
+                request.setAttribute("userRateNo", rateDAO.getUserRateNo(courseID, user.getUserID()));
+                request.setAttribute("userId", user.getUserID());
+            } catch (Exception e) {
+            }
         }
         request.setAttribute("review", list);
         request.setAttribute("five", rateDAO.getQuantity5(courseID));
@@ -142,7 +147,7 @@ public class CourseController extends HttpServlet {
         String review = request.getParameter("review");
         String status = request.getParameter("status");
         String reviewUpdate = "";
-        String filterRate = request.getParameter("filterRate");
+        String filterRate = request.getParameter("filterRate"); 
         String pagination = request.getParameter("pagination");
         request.getSession().setAttribute("filterRate", filterRate);
         request.getSession().setAttribute("pagination", pagination);
@@ -191,6 +196,8 @@ public class CourseController extends HttpServlet {
             response.sendRedirect("/login");
         } else if (user != null && status != null) {
             rateDAO.updateReport(courseID, rId);
+            response.sendRedirect("/course?id=" + courseID);
+        } else if (filterRate != null) { 
             response.sendRedirect("/course?id=" + courseID);
         }
     }

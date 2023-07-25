@@ -18,8 +18,7 @@
     </head>
     <body>
         <%@include file="/components/header.jspf" %>
-        <div class="article">
-            <div class="row">
+            <div class="grid">
                 <%@include file="/components/adminNavBar.jspf" %>
                 <div class="admin-content" style="padding: 1rem">
                     <h1>User Details</h1>
@@ -67,22 +66,23 @@
                                         <th>${x.publishDate}</th>
                                         <th>${statusMap[x.id]}</th>
                                         <th>
-                                            <c:if test="${statusMap[x.id]=='Complete'}" >
+                                            <%--<c:if test="${statusMap[x.id]=='Complete'}" >--%>
                                                 <c:forEach var="s" items="${statusCer}">   
-                                                    <c:if test="${s.status=='Revork'&& s.courseId == x.id }">
-                                                        <span onclick="handleClick(event)" class="btn-del">Revorked</span> 
+                                                    <c:if test="${s.status=='Revoke'&& s.courseId == x.id }">
+                                                        <span onclick="handleClick(event)" class="btn-del">UnRevoke</span> 
                                                     </c:if>
                                                     <c:if test="${s.status=='Normal'&& s.courseId == x.id }">
-                                                        <span onclick="handleClick(event)" class="btn-del">Revork</span> 
+                                                        <span onclick="handleClick(event)" class="btn-del">Revoke</span> 
                                                     </c:if>
                                                 </c:forEach>
-                                            </c:if>
+                                            <%--</c:if>--%>
                                         </th>
                                     </tr> 
                                 </c:forEach>
                             </tbody>
                         </table>
                         <input type="hidden" value="" class="cId" name="cId"/>
+                        <input type="hidden" value="" class="status" name="status"/>
                         <input type="hidden" value="${id}" class="id" name="id"/> 
                         <input type="hidden" name="uId" value="${userd.userID}"/>
                     </form>
@@ -120,9 +120,8 @@
                     </form>
                 </div>
             </div>
-        </div>
         <%@include file="/components/footer.jspf" %>
-        <<script src="../assets/js/revork.js"></script>
+        <script src="../assets/js/revork.js"></script>
     </body>
     <style>
         #user-table {

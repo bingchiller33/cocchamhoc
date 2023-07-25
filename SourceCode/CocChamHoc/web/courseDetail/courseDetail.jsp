@@ -9,6 +9,9 @@
         <%@include file="/components/headCommon.jspf" %>
         <link rel="stylesheet" href="/assets/css/rating.css"/>
         <style>
+            .star_item_active {
+                font-weight: bold;
+            }
             .courseDetail-container{
                 padding: 50px 0 ;
                 width: 70vw;
@@ -24,7 +27,8 @@
                 padding: 10px 30px;
                 background-color: #FCD980;
                 border-radius: 6px;
-            }
+                margin-left: 20px;
+            }            
             .courseDetail-container .row:nth-of-type(2){
                 justify-content: center;
                 margin-bottom: 2%;
@@ -92,7 +96,9 @@
                     </div>
                 </div>
                 <c:if test="${isEnroll == true}">
-                    <div><a href="/gotoLearn?courseId=${courseID}">Go To Course</a></div>
+                    <div class="row">
+                        <div><a href="/gotoLearn?courseId=${courseID}">Go To Course</a></div>
+                    </div>
                 </c:if>
                 <c:if test="${isEnroll == false}">
                     <div>
@@ -137,12 +143,12 @@
                         <div>
                             <div class="search_rate_star">
                                 <ul class="search_rate_star_list">
-                                    <li class="search_rate_star_item"><span onclick="hanleFilterStar(event)" class="rate_star_item">All</span>(${all})</li>                                  
-                                    <li class="search_rate_star_item"><span onclick="hanleFilterStar(event)" class="rate_star_item">5 Star</span>(${five})</li>
-                                    <li class="search_rate_star_item"><span onclick="hanleFilterStar(event)" class="rate_star_item">4 Star</span>(${four})</li>
-                                    <li class="search_rate_star_item"><span onclick="hanleFilterStar(event)" class="rate_star_item">3 Star</span>(${three})</li>
-                                    <li class="search_rate_star_item"><span onclick="hanleFilterStar(event)" class="rate_star_item">2 Star</span>(${two})</li>
-                                    <li class="search_rate_star_item search_rate_star_item1"><span onclick="hanleFilterStar(event)" class="rate_star_item">1 Star</span>(${one})</li>
+                                    <li class="search_rate_star_item"><span onclick="hanleFilterStar(event)" class="rate_star_item ${-1==filterRate?"star_item_active":''}">All</span>(${all})</li>                                  
+                                    <li class="search_rate_star_item"><span onclick="hanleFilterStar(event)" class="rate_star_item ${5==filterRate?"star_item_active":''}">5 Star</span>(${five})</li>
+                                    <li class="search_rate_star_item "><span onclick="hanleFilterStar(event)" class="rate_star_item ${4==filterRate?"star_item_active":''}">4 Star</span>(${four})</li>
+                                    <li class="search_rate_star_item "><span onclick="hanleFilterStar(event)" class="rate_star_item ${3==filterRate?"star_item_active":''}">3 Star</span>(${three})</li>
+                                    <li class="search_rate_star_item "><span onclick="hanleFilterStar(event)" class="rate_star_item ${2==filterRate?"star_item_active":''}">2 Star</span>(${two})</li>
+                                    <li class="search_rate_star_item  search_rate_star_item1"><span onclick="hanleFilterStar(event)" class="rate_star_item ${1==filterRate?"star_item_active":''}">1 Star</span>(${one})</li>
                                     <input type="hidden" value="" name="filterRate" class="filterRate"/>
                                 </ul>
                             </div>
@@ -209,7 +215,8 @@
                                                         <p class="body-content">${item.review}</p>
                                                     </div>
                                                     <div>
-                                                        <input type="hidden" value="" name='reviewUpdate' class="reviewUpdate" id="reviewUpdate"/>
+                                                        <input type="hidden" value="" name='reviewUpdate' class="reviewUpdate" id="reviewUpdate"/>                                                         <input type="hidden" value="" name='reviewUpdate' class="reviewUpdate" id="reviewUpdate"/> 
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -222,7 +229,7 @@
                             <p>No review available</p>
                         </c:if> 
                         <c:if test="${!review.isEmpty()}">
-                            <div class="course-pagination">
+                            <div class="course-pagination course-pagination_space">
                                 <p>Page: </p> 
                                 <c:set var="page" value="${empty review ? 0 : pagination}"></c:set>
                                 <c:set var="pages" value="${PaginationUtils.getWindow(page, pageCount, 5)}"></c:set>

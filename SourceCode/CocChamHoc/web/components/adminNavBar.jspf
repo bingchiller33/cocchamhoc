@@ -1,10 +1,9 @@
 <%-- any content can be specified here e.g.: --%>
 <%@ page pageEncoding="UTF-8" %>
 <div class="admin-sidebar">
-    <a href="/admin"><i class="fa-solid fa-book-open"></i> Course Management</a>
+    <a href="/admin"><i class="fa-solid fa-book-open"></i> Manage Courses</a>
     <c:if test="${user.role == '3'}">
-        <a href="/admin/users"><i class="fa-solid fa-users"></i>  User Management</a>
-        <a href="/admin/reviews"><i class="fa-solid fa-users"></i>  Review Management</a>
-        <a href="/admin/certificates"><i class="fa-solid fa-certificate"></i>  Certificate Management</a>
+        <a href="/admin/users"><i class="fa-solid fa-users"></i> Manage Users</a>
+        <a href="/admin/reviews"><i class="fa-solid fa-star"></i> Manage Reviews </a>
     </c:if>
 </div>

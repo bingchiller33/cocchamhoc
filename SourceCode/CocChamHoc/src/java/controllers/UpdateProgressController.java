@@ -4,35 +4,27 @@
  */
 package controllers;
 
-import dal.CertificateDAO;
-import dal.ExamDAO;
-import dal.ExamPapersDAO;
-import dal.QuestionDAO;
-import dal.UserAnswerDAO;
+import dal.ProgressDAO;
 import dal.UserEnrollDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.Exam;
-import model.ExamPapers;
-import model.Question;
 import model.User;
 import utils.ParseUtils;
 
 /**
  *
- * @author Viet
+ * @author PC
  */
-@WebServlet(name = "ReviewController", urlPatterns = {"/learn/review"})
-public class ReviewController extends HttpServlet {
+@WebServlet(name = "UpdateProgressController", urlPatterns = {"/update-progress"})
+public class UpdateProgressController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,43 +37,25 @@ public class ReviewController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            //Database Access Object
-            ExamDAO ed = new ExamDAO();
-            ExamPapersDAO epd = new ExamPapersDAO();
-            UserAnswerDAO uad = new UserAnswerDAO();
-            QuestionDAO qd = new QuestionDAO();
-            CertificateDAO cd = new CertificateDAO();
+   
+       try {
+            response.setContentType("text/html;charset=UTF-8");
+            int courseId = ParseUtils.parseIntWithDefault(request.getParameter("courseId"), -1);
+            int chapterId = ParseUtils.parseIntWithDefault(request.getParameter("chapterId"), -1);
+            int lessonNumber = ParseUtils.parseIntWithDefault(request.getParameter("lessonNumber"), -1);
+            ProgressDAO progressDAO = new ProgressDAO();
             UserEnrollDAO ued = new UserEnrollDAO();
-            // Load questions and user's answers
-            int attemptId = ParseUtils.parseIntWithDefault(request.getParameter("attemptId"), -1);          
-            ExamPapers exampaper = epd.getExamPaperByID(attemptId);
-            int examId = exampaper.getExamID();
-            Exam exam = ed.getExamByID(examId);
-            List<Question> questionList = qd.getQuestions(examId);
-            Map<Question, Integer> userAnswers = uad.getUserAnswers(questionList, attemptId);
+            User u = (User) request.getSession().getAttribute("user");
             
-            // Check if the user can get certficate
-            User user = (User)request.getSession().getAttribute("user");
-            int userID = user.getUserID();
-            int courseID = exam.getCourseID();
-            if(!cd.hasCertificate(userID, courseID)){
-                if(cd.isEligibleForCertificate(ed.getPassAttempt(userID, courseID), ed.getExamCount(courseID))){
-                    ued.completeCourse(userID, courseID);
-                    cd.issueCertificate(user.getUserID(), courseID);
-                }
-            }
-            request.setAttribute("backUrl", "/learn/exam?examId="+examId);
-            request.setAttribute("state", 2);
-            request.setAttribute("exam", exam);
-            request.setAttribute("paper", exampaper);
-            request.setAttribute("questions", questionList);
-            request.setAttribute("questionCount", questionList.size());
-            request.setAttribute("userAnswers", userAnswers);
-            request.getRequestDispatcher("/exam/review.jsp").forward(request, response);
+            progressDAO.setLessonProgress(chapterId, lessonNumber, u.getUserID(), true);
+            ued.trackProgress(u.getUserID(), courseId);
+            String redirect = "/learn/video?courseId=" + courseId + "&chapterId=" + chapterId + "&lessonNumber=" + lessonNumber;
+            
+            response.sendRedirect(redirect);
         } catch (SQLException ex) {
-            Logger.getLogger(ExamController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UpdateProgressController.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -96,7 +70,7 @@ public class ReviewController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+               processRequest(request, response);
     }
 
     /**

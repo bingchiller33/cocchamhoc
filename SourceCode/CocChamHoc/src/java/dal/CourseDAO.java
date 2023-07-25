@@ -9,7 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import model.Category;
 import model.Course;
 import model.LessonLocation;
@@ -357,4 +359,21 @@ public class CourseDAO extends MyDAO {
         return result;
     }
 
+    public Map<Course, Integer> getChaptersCount(List<Course> courses) throws SQLException{
+        Map<Course, Integer> map = new HashMap<>();
+        for(Course c : courses){
+            xSql = "SELECT COUNT(*) FROM dbo.Lessons WHERE ChapterID IN (SELECT ChapterID  FROM dbo.Chapters WHERE CourseID = ?)";
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, c.getId());
+            rs = ps.executeQuery();
+            if(rs.next()){
+                map.put(c, rs.getInt(1));
+            }
+            else{
+                map.put(c, 0);
+            }
+        }
+        return map;
+    }
+    
 }

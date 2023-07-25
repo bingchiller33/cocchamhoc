@@ -5,13 +5,13 @@
 package controllers;
 
 import dal.CertificateDAO;
-import java.io.IOException; 
+import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse; 
-import model.User; 
+import jakarta.servlet.http.HttpServletResponse;
+import model.User;
 
 /**
  *
@@ -25,10 +25,10 @@ public class CertificateController extends HttpServlet {
             throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute("user");
         CertificateDAO certificateDAO = new CertificateDAO();
+        int id = Integer.parseInt(request.getParameter("id")); 
         if (user == null) {
             response.sendRedirect("/login");
         } else {
-            int id = Integer.parseInt(request.getParameter("id"));
             request.setAttribute("title", certificateDAO.getTitle(user.getUserID(), id));
             request.setAttribute("issueDate", certificateDAO.getDate(user.getUserID(), id));
             request.setAttribute("userName", user.getFullName());
@@ -39,6 +39,9 @@ public class CertificateController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("cid"));
+        request.getSession().setAttribute("id", request.getParameter("cid"));
+        response.sendRedirect("/certificate");
     }
 
 }
