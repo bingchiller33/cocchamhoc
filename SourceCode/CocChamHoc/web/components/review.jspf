@@ -24,7 +24,6 @@
 
             <input type="radio" class="rate" id="star1-1" name="rating_1" value="1" />
             <label class="full" id="label-5" for="star1-1" title="Sucks big time - 1 star"></label>
-            <!--<input type="hidden" id="id" name="id" value="${id}">-->
         </div>
         <br />
         <textarea placeholder="Write your review (optional)" class="review-area" id="review" name="review" rows="5" cols="76"></textarea>

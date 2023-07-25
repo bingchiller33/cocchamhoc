@@ -26,10 +26,15 @@ ratingRadios.forEach(radio => {
         }
     });
 });
-
-document.querySelector('#rating').addEventListener('click', () => {
+const formRate = document.querySelector('#rating');
+formRate.addEventListener('click', () => {
+    let querySelector = formRate.querySelector('#status_complete').value; 
+    if(parseInt(querySelector)===1){
     const cancel = document.querySelector('.containerRate');
     cancel.style.display = 'block';
+    }else {
+        alert("Please complete this course if you want to rate!");
+    }
 });
 
 document.querySelector('.cancel').addEventListener('click', (e) => {
