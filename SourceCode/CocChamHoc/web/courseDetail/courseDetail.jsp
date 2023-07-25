@@ -9,6 +9,9 @@
         <%@include file="/components/headCommon.jspf" %>
         <link rel="stylesheet" href="/assets/css/rating.css"/>
         <style>
+            .star_item_active {
+                font-weight: bold;
+            }
             .courseDetail-container{
                 padding: 50px 0 ;
                 width: 70vw;
@@ -138,12 +141,12 @@
                         <div>
                             <div class="search_rate_star">
                                 <ul class="search_rate_star_list">
-                                    <li class="search_rate_star_item"><span onclick="hanleFilterStar(event)" class="rate_star_item">All</span>(${all})</li>                                  
-                                    <li class="search_rate_star_item"><span onclick="hanleFilterStar(event)" class="rate_star_item">5 Star</span>(${five})</li>
-                                    <li class="search_rate_star_item"><span onclick="hanleFilterStar(event)" class="rate_star_item">4 Star</span>(${four})</li>
-                                    <li class="search_rate_star_item"><span onclick="hanleFilterStar(event)" class="rate_star_item">3 Star</span>(${three})</li>
-                                    <li class="search_rate_star_item"><span onclick="hanleFilterStar(event)" class="rate_star_item">2 Star</span>(${two})</li>
-                                    <li class="search_rate_star_item search_rate_star_item1"><span onclick="hanleFilterStar(event)" class="rate_star_item">1 Star</span>(${one})</li>
+                                    <li class="search_rate_star_item"><span onclick="hanleFilterStar(event)" class="rate_star_item ${-1==filterRate?"star_item_active":''}">All</span>(${all})</li>                                  
+                                    <li class="search_rate_star_item"><span onclick="hanleFilterStar(event)" class="rate_star_item ${5==filterRate?"star_item_active":''}">5 Star</span>(${five})</li>
+                                    <li class="search_rate_star_item "><span onclick="hanleFilterStar(event)" class="rate_star_item ${4==filterRate?"star_item_active":''}">4 Star</span>(${four})</li>
+                                    <li class="search_rate_star_item "><span onclick="hanleFilterStar(event)" class="rate_star_item ${3==filterRate?"star_item_active":''}">3 Star</span>(${three})</li>
+                                    <li class="search_rate_star_item "><span onclick="hanleFilterStar(event)" class="rate_star_item ${2==filterRate?"star_item_active":''}">2 Star</span>(${two})</li>
+                                    <li class="search_rate_star_item  search_rate_star_item1"><span onclick="hanleFilterStar(event)" class="rate_star_item ${1==filterRate?"star_item_active":''}">1 Star</span>(${one})</li>
                                     <input type="hidden" value="" name="filterRate" class="filterRate"/>
                                 </ul>
                             </div>
