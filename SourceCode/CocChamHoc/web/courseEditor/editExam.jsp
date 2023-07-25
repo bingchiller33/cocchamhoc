@@ -41,12 +41,17 @@
                         <input type="text" id="exam-duration" name="ExamDuration" value="${exam.durationInSecond}"  required/>
 
                         <div style="border:#ccc 1px solid; padding:10px">
-                            
+
                             <ul>
                                 <c:forEach var="question" items="${questions}" varStatus="questionStatus">
                                     <li style="border:#ccc 1px solid; padding:10px; margin: 10px">
                                         <label for="exam-question">Question: ${questionStatus.count}</label>
-                                        <input type="text" id="exam-question" name="ExamQuestionDetail${questionStatus.index}" value="${question.questionDetail}"  required/>
+
+                                        <div class="question">
+                                            <input type="text" id="exam-question" name="ExamQuestionDetail${questionStatus.index}" value="${question.questionDetail}"  required/>
+                                            <a class="btn-delete" href="/admin/delete-exam?courseId=${param.courseId}&examId=${param.examId}&questionId=${question.questionId}"><i class="gg-trash"></i></a>
+                                        </div>
+
                                         <input type="hidden" name="QuestionId${questionStatus.index}" value="${question.questionId}"/>
                                         <a href="/admin/create-choice?courseId=${param.courseId}&examId=${param.examId}&questionId=${question.questionId}">Add new Answer</a>
                                         <div style="margin: 10px">
@@ -54,27 +59,31 @@
                                                 <c:forEach var="choice" items="${choiceMap.get(question)}" varStatus="choiceStatus">
                                                     <li style="margin: 10px">
                                                         <label for="choice-description">${choiceStatus.count}</label>
-                                                        <input type="text" id="choice-description" name="QuestionChoiceDetail${questionStatus.index}-${choiceStatus.index}" value="${choice.description}"  required/>
-                                                        <input type="checkbox" name="IsTrueAnswer${questionStatus.index}-${choiceStatus.index}" ${choice.isTrueAnswer ? "checked":""} value="true"/>
+                                                        <div class="choice">
+                                                            <input type="text" id="choice-description" name="QuestionChoiceDetail${questionStatus.index}-${choiceStatus.index}" value="${choice.description}"  required/>
+                                                            <a class="btn-delete" href="/admin/delete-choice?courseId=${param.courseId}&examId=${param.examId}&choiceId=${choice.choiceId}"><i class="gg-trash"></i></a>
+                                                        </div>
+                                                            <input type="checkbox" name="IsTrueAnswer${questionStatus.index}-${choiceStatus.index}" ${choice.isTrueAnswer ? "checked":""} value="true" id="choice-radio"+""/>
+                                                            <label for="choice-radio">True answer</label>
                                                         <input type="hidden" name="ChoiceId${questionStatus.index}-${choiceStatus.index}" value="${choice.choiceId}"/>
                                                     </li> 
-                                             
+
                                                 </c:forEach>
                                             </ul>
                                         </div>
                                     </li>    
                                 </c:forEach>
                             </ul>
-                            
+
                             <a  href="/admin/create-question?courseId=${param.courseId}&examId=${param.examId}">Add new Question</a>
                         </div>
                     </div>
-                    
-                    
+
+
                     <div class="action-container">
                         <input type="submit" name="action" value="Save" class="btn-save"/>
                         <input type="submit" name="action" value="Delete" class="btn-del"/>
-                        
+
                     </div>
                     <div>
 
@@ -83,6 +92,17 @@
             </main>
         </div>
         <style>
+            .question{
+                display: flex;
+                align-items: center;
+            }
+            .choice{
+                display: flex;
+                align-items: center;
+            }
+            .btn-delete{
+                margin: 10px
+            }
             body {
                 background: #F4F6FC;
             }
@@ -111,5 +131,6 @@
 
         </style>
         <script src="/assets/js/base.js"></script>
+        <link href='https://unpkg.com/css.gg@2.0.0/icons/css/trash.css' rel='stylesheet'>
     </body>
 </html>
