@@ -99,7 +99,7 @@ public class LearnVideoController extends HttpServlet {
             int LessonNumber = ParseUtils.parseIntWithDefault(request.getParameter("lessonNumber"), -1);
             User u = (User) request.getSession().getAttribute("user");
                 
-            Map<Chapter, Map<Lesson, Boolean>> allProgress = progressDAO.getAllLessonsProgress(lessonMap, courseId);
+            Map<Chapter, Map<Lesson, Boolean>> allProgress = progressDAO.getAllLessonsProgress(lessonMap, u.getUserID());
             boolean progress = progressDAO.getLessonProgress(chapterId1, LessonNumber, u.getUserID());
             
             request.setAttribute("allProgress", allProgress);

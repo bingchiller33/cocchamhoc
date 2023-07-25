@@ -52,7 +52,7 @@ public class EditChapterController extends HttpServlet {
             LessonDAO lessonDAO = new LessonDAO();
             List<Chapter> chapters = chapterDAO.getCourseChapters(courseId);
             if (chapters.isEmpty()) {
-                response.sendRedirect("/admin/courses");
+                response.sendRedirect("/admin");
                 return;
             }
             Map<Chapter, List<Lesson>> lessonMap = chapterDAO.getGroupedLesson(chapters);
