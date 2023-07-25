@@ -46,4 +46,14 @@ public class ChoiceDAO extends MyDAO {
         ps.setInt(4, choiceId);
         ps.executeUpdate();
     }
+    public void deleteChoice (int choiceId) throws SQLException{
+        xSql ="delete from Choices where ChoiceID = ?";
+        ps = con.prepareStatement(xSql);
+        ps.setInt(1, choiceId);
+        ps.executeUpdate();
+    }
+    public static void main(String[] args) throws SQLException {
+        ChoiceDAO cdao = new ChoiceDAO();
+        cdao.deleteChoice(50);
+    }
 }

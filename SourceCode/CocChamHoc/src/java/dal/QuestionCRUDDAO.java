@@ -34,7 +34,7 @@ public class QuestionCRUDDAO extends MyDAO {
     public void createDefaultQuestion(int examId) throws SQLException {
         xSql = "Insert into Questions (QuestionDetail, ExamID) values (?,?)";
         ps = con.prepareStatement(xSql);
-        ps.setString(1, "Default tsad Questions");
+        ps.setString(1, "Default Questions");
         ps.setInt(2, examId);
         ps.executeUpdate();
     }
@@ -56,5 +56,14 @@ public class QuestionCRUDDAO extends MyDAO {
         }
         return kv;
     }
-
+    public void deleteQuestion(int questionId) throws SQLException{
+        xSql = "delete from Questions where QuestionID = ?";
+        ps = con.prepareStatement(xSql);
+        ps.setInt(1, questionId);
+        ps.executeUpdate();
+    }
+    public static void main(String[] args) throws SQLException {
+        QuestionCRUDDAO qdao = new QuestionCRUDDAO();
+        qdao.deleteQuestion(14);
+    }
 }
