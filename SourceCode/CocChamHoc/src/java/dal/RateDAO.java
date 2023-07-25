@@ -298,7 +298,7 @@ public class RateDAO extends MyDAO {
     }
 
     public int getQuantity5(int cId) {
-        xSql = "select Count(*) from Ratings where Rating = 5 and CourseID = ?";
+        xSql = "select Count(*) from Ratings where Rating = 5 and CourseID = ? and Review is not null";
         try {
             ps = con.prepareStatement(xSql);
             ps.setInt(1, cId);
@@ -313,7 +313,7 @@ public class RateDAO extends MyDAO {
     }
 
     public int getQuantity4(int cId) {
-        xSql = "select Count(*) from Ratings where Rating = 4 and CourseID = ?";
+        xSql = "select Count(*) from Ratings where Rating = 4 and CourseID = ? and Review is not null";
         try {
             ps = con.prepareStatement(xSql);
             ps.setInt(1, cId);
@@ -328,7 +328,7 @@ public class RateDAO extends MyDAO {
     }
 
     public int getQuantity3(int cId) {
-        xSql = "select Count(*) from Ratings where Rating = 3 and CourseID = ?";
+        xSql = "select Count(*) from Ratings where Rating = 3 and CourseID = ? and Review is not null";
         try {
             ps = con.prepareStatement(xSql);
             ps.setInt(1, cId);
@@ -343,7 +343,7 @@ public class RateDAO extends MyDAO {
     }
     
     public int getQuantity2(int cId) {
-        xSql = "select Count(*) from Ratings where Rating = 2 and CourseID = ?";
+        xSql = "select Count(*) from Ratings where Rating = 2 and CourseID = ? and Review is not null";
         try {
             ps = con.prepareStatement(xSql);
             ps.setInt(1, cId);
@@ -358,7 +358,7 @@ public class RateDAO extends MyDAO {
     }
 
     public int getQuantity1(int cId) {
-        xSql = "select Count(*) from Ratings where Rating = 1 and CourseID = ?";
+        xSql = "select Count(*) from Ratings where Rating = 1 and CourseID = ? and Review is not null";
         try {
             ps = con.prepareStatement(xSql);
             ps.setInt(1, cId);
@@ -373,7 +373,7 @@ public class RateDAO extends MyDAO {
     }
 
     public int getQuantityAll(int cId) {
-        xSql = "select Count(*) from Ratings where CourseID = ?";
+        xSql = "select Count(*) from Ratings where CourseID = ? and Review is not null";
         try {
             ps = con.prepareStatement(xSql);
             ps.setInt(1, cId);
