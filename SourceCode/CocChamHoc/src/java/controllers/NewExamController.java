@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.ExamCRUD;
 import utils.ParseUtils;
 
 /**
@@ -42,7 +43,8 @@ public class NewExamController extends HttpServlet {
             int examId = ParseUtils.parseIntWithDefault(request.getParameter("examId"), -1);
             ExamCRUDDAO examDAO = new ExamCRUDDAO();
             examDAO.createDefaultExam(courseId);
-            response.sendRedirect("/admin/edit-exam?courseId=" + courseId + "&examId=" + examId);
+            ExamCRUD newexam = examDAO.getNewExam();
+            response.sendRedirect("/admin/edit-exam?courseId=" + courseId + "&examId=" + newexam.getId());
         } catch (SQLException ex) {
             Logger.getLogger(NewChapterController.class.getName()).log(Level.SEVERE, null, ex);
         }

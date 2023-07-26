@@ -64,7 +64,7 @@
                                                             <a class="btn-delete" href="/admin/delete-choice?courseId=${param.courseId}&examId=${param.examId}&choiceId=${choice.choiceId}"><i class="gg-trash"></i></a>
                                                         </div>
                                                             <input type="checkbox" name="IsTrueAnswer${questionStatus.index}-${choiceStatus.index}" ${choice.isTrueAnswer ? "checked":""} value="true" id="choice-radio"+""/>
-                                                            <label for="choice-radio">True answer</label>
+                                                            <label>True answer</label>
                                                         <input type="hidden" name="ChoiceId${questionStatus.index}-${choiceStatus.index}" value="${choice.choiceId}"/>
                                                     </li> 
 

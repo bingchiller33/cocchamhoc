@@ -6,6 +6,7 @@ package controllers;
 
 import dal.ChapterDAO;
 import dal.CourseDAO;
+import dal.ExamCRUDDAO;
 import dal.LessonDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -20,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Chapter;
 import model.Course;
+import model.ExamCRUD;
 import model.Lesson;
 import utils.ParseUtils;
 
@@ -45,7 +47,7 @@ public class EditLessonController extends HttpServlet {
             int courseId = ParseUtils.parseIntWithDefault(request.getParameter("courseId"), -1);
             int chapterId = ParseUtils.parseIntWithDefault(request.getParameter("chapterId"), -1);
             int lessonNumber = ParseUtils.parseIntWithDefault(request.getParameter("lessonNumber"), -1);
-
+            ExamCRUDDAO examDAO = new ExamCRUDDAO();
             CourseDAO courseDAO = new CourseDAO();
             ChapterDAO chapterDAO = new ChapterDAO();
             LessonDAO lessonDAO = new LessonDAO();
@@ -75,13 +77,16 @@ public class EditLessonController extends HttpServlet {
 
             Lesson prevLesson = lessonDAO.findPrevLesson(lessons, lesson);
             Course course = courseDAO.getCourseById(courseId);
-
+            
+            List<ExamCRUD> exams = examDAO.getExam(courseId);
+            
             request.setAttribute("backUrl", "/admin");
             request.setAttribute("course", course);
             request.setAttribute("chapters", chapters);
             request.setAttribute("lessonMap", lessonMap);
             request.setAttribute("lessons", lessons);
             request.setAttribute("lesson", lesson);
+            request.setAttribute("exams", exams);
             request.setAttribute("prev", prevLesson);
             request.setAttribute("showAdd", course.getPublishDate() == null);
 
