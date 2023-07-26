@@ -6,6 +6,7 @@ package controllers;
 
 import dal.ChapterDAO;
 import dal.CourseDAO;
+import dal.ExamCRUDDAO;
 import dal.LessonDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Chapter;
 import model.Course;
+import model.ExamCRUD;
 import model.Lesson;
 import utils.ParseUtils;
 
@@ -50,6 +52,7 @@ public class EditChapterController extends HttpServlet {
             CourseDAO courseDAO = new CourseDAO();
             ChapterDAO chapterDAO = new ChapterDAO();
             LessonDAO lessonDAO = new LessonDAO();
+            ExamCRUDDAO examDAO = new ExamCRUDDAO();
             List<Chapter> chapters = chapterDAO.getCourseChapters(courseId);
             if (chapters.isEmpty()) {
                 response.sendRedirect("/admin");
@@ -59,6 +62,9 @@ public class EditChapterController extends HttpServlet {
 
             List<Lesson> lessons = lessonDAO.findLessons(lessonMap, chapterId);
             Course course = courseDAO.getCourseById(courseId);
+            
+            List<ExamCRUD> exams = examDAO.getExam(courseId);
+            
 
             Chapter chapter = chapterDAO.getChapterByID(courseId, chapterNumber);
             request.setAttribute("backUrl", "/admin");
@@ -67,6 +73,7 @@ public class EditChapterController extends HttpServlet {
             request.setAttribute("chapter", chapter);
             request.setAttribute("lessonMap", lessonMap);
             request.setAttribute("lessons", lessons);
+            request.setAttribute("exams", exams);
             request.setAttribute("showAdd", course.getPublishDate() == null);
             request.getRequestDispatcher("/courseEditor/editChapter.jsp").include(request, response);
         } catch (SQLException ex) {
